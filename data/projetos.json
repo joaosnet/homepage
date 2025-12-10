@@ -1,0 +1,67 @@
+{
+    "projetos": [
+        {
+            "titulo": "DMóvel: ferramenta móvel para fomento à autonomia de PcDs",
+            "periodo": "2020 - atual",
+            "parceiro": "Abrigo Especial Calabriano, LAMIC, LED, CoAcess-UFPA",
+            "financiador": "UFPA (Bolsa)",
+            "imagem": "assets/img/laps-proj08.png"
+        },
+        {
+            "titulo": "Visão computacional baseada em aprendizagem profunda para reconhecimento de atividades humanas",
+            "periodo": "2020 - atual",
+            "parceiro": "LAMIC",
+            "financiador": "PAEPE-PROPESP-UFPA",
+            "imagem": "assets/img/laps-proj09.png"
+        },
+        {
+            "titulo": "Modelos matemáticos de transmissão de doenças infecciosas",
+            "periodo": "2020 - atual",
+            "parceiro": "",
+            "financiador": "-",
+            "imagem": "assets/img/laps-proj02.jpeg"
+        },
+        {
+            "titulo": "Sistemas de biofeedback para tratamento de transtornos neuropsicológicos",
+            "periodo": "2019 - atual",
+            "parceiro": "",
+            "financiador": "CAPES (bolsa)",
+            "imagem": "assets/img/laps-proj01.jpeg"
+        },
+        {
+            "titulo": "Sistemas e tecnologias assistivas e de apoio à reabilitação: implementação de sistemas para análise de marcha",
+            "periodo": "2018 - atual",
+            "parceiro": "Abrigo Especial Calabriano",
+            "financiador": "UFPA (Bolsa)",
+            "imagem": "assets/img/laps-proj07.png"
+        },
+        {
+            "titulo": "Neurociências da leitura",
+            "periodo": "2018 - atual",
+            "parceiro": "",
+            "financiador": "CNPq (Bolsas)",
+            "imagem": "assets/img/laps-proj04.jpeg"
+        },
+        {
+            "titulo": "Ansiedade social na universidade",
+            "periodo": "2018 - atual",
+            "parceiro": "",
+            "financiador": "CNPq (Bolsas)",
+            "imagem": "assets/img/laps-proj05-novo.png"
+        },
+        {
+            "titulo": "Treinamento com neurofeedback baseado em EEG",
+            "periodo": "2018 - atual",
+            "parceiro": "Rede Epilepsia Norte",
+            "financiador": "CNPq (Bolsas)",
+            "imagem": "assets/img/laps-proj06-novo.png"
+        },
+        {
+            "titulo": "Redes neuronais em pacientes com epilepsia",
+            "periodo": "2017 - atual",
+            "parceiro": "Rede Epilepsia Norte",
+            "financiador": "CNPq (Bolsas)",
+            "imagem": "assets/img/laps-proj03.jpeg"
+        }
+    ]
+}

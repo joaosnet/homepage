@@ -1,0 +1,45 @@
+{
+    "professores": [
+        {
+            "nome": "Ana Carolina Q. Siravenha",
+            "foto": "assets/img/foto_ana_carol.jpg",
+            "lattes": "http://lattes.cnpq.br/4383482501456728",
+            "email": "siravenha@ufpa.br",
+            "orcid": "https://orcid.org/0000-0001-6664-9847",
+            "scholar": "https://scholar.google.com.br/citations?hl=pt-BR&user=KoBWIccAAAAJ",
+            "bio": "Possui graduação em Engenharia da Computação pela Universidade Federal do Pará (2008), mestrado e doutorado em Engenharia Elétrica pela Universidade Federal do Pará (2010 e em 2017, respectivamente). Tem experiência nas áreas de reconhecimento de padrões, processamento de imagens e aprendizado de máquina. Atualmente tem se dedicado à identificação de padrões neurais a partir de dados de eletroencefalografia. Desde 2021 é professora adjunto da Faculdade de Engenharia Elétrica e Biomédica da Universidade Federal do Pará.",
+            "linhasPesquisa": "Processamento de imagem. Visão computacional."
+        },
+        {
+            "nome": "Antônio Pereira Júnior",
+            "foto": "assets/img/foto_apereira.jpeg",
+            "lattes": "http://lattes.cnpq.br/1402289786010170",
+            "email": "apereira@ufpa.br",
+            "orcid": "https://orcid.org/0000-0002-0808-1058",
+            "scholar": "https://scholar.google.com/citations?hl=en&user=ukaUa2sAAAAJ",
+            "bio": "Possui Mestrado (1994) e Doutorado em Ciências Biológicas (Biofísica) pela Universidade Federal do Rio de Janeiro (1997) e Pós-Doutorado no Departamento de Neurobiologia da Duke University (2003-2005). Atualmente é professor associado da Faculdade de Engenharia Elétrica e Biomédica da Universidade Federal do Pará.",
+            "linhasPesquisa": "Análise de sinais bioelétricos. Sistemas de Neurofeedback e Neuroengenharia."
+        },
+        {
+            "nome": "Francisco Carlos Bentes Frey Müller",
+            "foto": "assets/img/foto_muller.jpeg",
+            "lattes": "http://lattes.cnpq.br/4883158238383471",
+            "email": "fmuller@ufpa.br",
+            "orcid": "https://orcid.org/0000-0003-4186-617X",
+            "scholar": "https://scholar.google.com.br/citations?user=_wh6MdMAAAAJ&hl",
+            "bio": "Possui graduação em Engenharia Elétrica pela Universidade Federal do Pará (2002), mestrado em Engenharia Elétrica pela Universidade Federal do Pará (2005) e doutorado em Engenharia Elétrica pela Universidade Federal do Pará (2010), com estágio de doutorando de um ano na Virginia Tech (EUA). Tem experiência na área de Engenharia Elétrica, com ênfase em Telecomunicações, atuando principalmente nos seguintes temas: comunicações digitais, classificação automática de modulação e sistemas DSL. Desde 2011, é professor da Faculdade de Engenharia da Computação da Universidade Federal do Pará.",
+            "linhasPesquisa": "Sistemas de comunicação."
+        },
+        {
+            "nome": "Ronaldo de Freitas Zampolo",
+            "foto": "assets/img/zampolo.png",
+            "lattes": "http://lattes.cnpq.br/9088524620828017",
+            "email": "zampolo@ufpa.br",
+            "orcid": "https://orcid.org/0000-0002-2460-3135",
+            "scholar": "https://scholar.google.com.br/citations?user=4nf5cfoAAAAJ&hl=pt-BR&authuser=2",
+            "bio": "É graduado em Engenharia Elétrica pela Universidade Federal do Pará (1995), obteve os títulos de mestre e doutor em Engenharia Elétrica na Universidade Federal de Santa Catarina (1998 e 2003, respectivamente), e realizou estágio de pós-doutoramento na Polytech Nantes (Escola de Engenharia da Universidade de Nantes, França, 2016). Atualmente é professor associado da Universidade Federal do Pará, onde faz parte do corpo docente da Faculdade de Engenharia da Computação e Telecomunicações. Seus interesses e estudos recentes concentram-se, principalmente, nos temas: avaliação de qualidade visual, modelos de atenção visual, sistemas de rastreamento ocular, e análise de vídeo.",
+            "linhasPesquisa": "Processamento de imagem. Visão computacional."
+        }
+    ],
+    "alunos": []
+}
