@@ -1936,73 +1936,82 @@ section {
 /*--------------------------------------------------------------
 # Hero Carousel Controls
 --------------------------------------------------------------*/
+#heroCarousel {
+  position: relative;
+  padding-bottom: 60px;
+  /* Espaço para os controles */
+}
+
 #heroCarousel .carousel-control-prev,
 #heroCarousel .carousel-control-next {
-  width: 60px;
-  height: 60px;
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(10px);
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(135deg, #5846f9 0%, #7b27d8 100%);
   border-radius: 50%;
-  top: 50%;
-  transform: translateY(-50%);
-  opacity: 0.9;
+  top: auto;
+  bottom: 0;
+  opacity: 1;
   transition: all 0.3s ease;
-  border: 2px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 15px rgba(88, 70, 249, 0.4);
 }
 
 #heroCarousel .carousel-control-prev {
-  left: 20px;
+  left: calc(50% - 70px);
 }
 
 #heroCarousel .carousel-control-next {
-  right: 20px;
+  right: calc(50% - 70px);
 }
 
 #heroCarousel .carousel-control-prev:hover,
 #heroCarousel .carousel-control-next:hover {
-  background: rgba(255, 255, 255, 0.3);
-  border-color: rgba(255, 255, 255, 0.6);
-  transform: translateY(-50%) scale(1.1);
+  background: linear-gradient(135deg, #7b27d8 0%, #5846f9 100%);
+  transform: scale(1.1);
+  box-shadow: 0 6px 20px rgba(88, 70, 249, 0.6);
 }
 
 #heroCarousel .carousel-control-prev-icon,
 #heroCarousel .carousel-control-next-icon {
-  width: 24px;
-  height: 24px;
+  width: 20px;
+  height: 20px;
 }
 
 #heroCarousel .carousel-indicators {
-  bottom: 20px;
+  bottom: 18px;
+  margin-bottom: 0;
 }
 
 #heroCarousel .carousel-indicators li {
-  width: 12px;
-  height: 12px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.5);
-  border: 2px solid rgba(255, 255, 255, 0.8);
-  margin: 0 6px;
+  background: rgba(88, 70, 249, 0.4);
+  border: 2px solid #5846f9;
+  margin: 0 5px;
   transition: all 0.3s ease;
 }
 
 #heroCarousel .carousel-indicators li.active {
-  background: #fff;
+  background: #5846f9;
   transform: scale(1.2);
 }
 
 @media (max-width: 768px) {
+  #heroCarousel {
+    padding-bottom: 50px;
+  }
 
   #heroCarousel .carousel-control-prev,
   #heroCarousel .carousel-control-next {
-    width: 45px;
-    height: 45px;
+    width: 40px;
+    height: 40px;
   }
 
   #heroCarousel .carousel-control-prev {
-    left: 10px;
+    left: calc(50% - 55px);
   }
 
   #heroCarousel .carousel-control-next {
-    right: 10px;
+    right: calc(50% - 55px);
   }
 }
