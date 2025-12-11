@@ -30,8 +30,8 @@ h6 {
 .back-to-top {
   position: fixed;
   display: none;
-  right: 15px;
-  bottom: 15px;
+  right: 20px;
+  bottom: 20px;
   z-index: 99999;
 }
 
@@ -39,19 +39,23 @@ h6 {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 24px;
-  width: 40px;
-  height: 40px;
-  border-radius: 4px;
-  background: #5846f9;
+  font-size: 28px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #5846f9 0%, #7b27d8 100%);
   color: #fff;
-  transition: all 0.4s;
+  transition: all 0.4s ease;
+  box-shadow: 0 4px 15px rgba(88, 70, 249, 0.4);
 }
 
 .back-to-top i:hover {
-  background: #7b27d8;
+  background: linear-gradient(135deg, #7b27d8 0%, #5846f9 100%);
   color: #fff;
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(88, 70, 249, 0.6);
 }
+
 
 /*--------------------------------------------------------------
 # Preloader
@@ -1926,5 +1930,79 @@ section {
     left: -15px;
     right: auto;
     border-color: transparent #fff transparent transparent;
+  }
+}
+
+/*--------------------------------------------------------------
+# Hero Carousel Controls
+--------------------------------------------------------------*/
+#heroCarousel .carousel-control-prev,
+#heroCarousel .carousel-control-next {
+  width: 60px;
+  height: 60px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border-radius: 50%;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 0.9;
+  transition: all 0.3s ease;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+#heroCarousel .carousel-control-prev {
+  left: 20px;
+}
+
+#heroCarousel .carousel-control-next {
+  right: 20px;
+}
+
+#heroCarousel .carousel-control-prev:hover,
+#heroCarousel .carousel-control-next:hover {
+  background: rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.6);
+  transform: translateY(-50%) scale(1.1);
+}
+
+#heroCarousel .carousel-control-prev-icon,
+#heroCarousel .carousel-control-next-icon {
+  width: 24px;
+  height: 24px;
+}
+
+#heroCarousel .carousel-indicators {
+  bottom: 20px;
+}
+
+#heroCarousel .carousel-indicators li {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  margin: 0 6px;
+  transition: all 0.3s ease;
+}
+
+#heroCarousel .carousel-indicators li.active {
+  background: #fff;
+  transform: scale(1.2);
+}
+
+@media (max-width: 768px) {
+
+  #heroCarousel .carousel-control-prev,
+  #heroCarousel .carousel-control-next {
+    width: 45px;
+    height: 45px;
+  }
+
+  #heroCarousel .carousel-control-prev {
+    left: 10px;
+  }
+
+  #heroCarousel .carousel-control-next {
+    right: 10px;
   }
 }
