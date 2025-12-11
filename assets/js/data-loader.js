@@ -99,23 +99,24 @@
       html += `
         <div class="col-lg-6 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="${index * 100}">
           <div class="project-card">
-            <div class="project-header">
-              <h4>${projeto.titulo}</h4>
+            ${projeto.imagem ? `
+            <div class="project-image">
+              <a href="${projeto.imagem}" data-gall="portfolioGallery" class="venobox">
+                <img src="${projeto.imagem}" alt="${projeto.titulo}" />
+                <div class="project-overlay">
+                  <i class="bx bx-zoom-in"></i>
+                </div>
+              </a>
             </div>
-            <div class="project-body">
+            ` : ''}
+            <div class="project-content">
+              <h4>${projeto.titulo}</h4>
               <div class="project-info">
                 <span class="project-badge periodo"><i class="bx bx-calendar"></i> ${projeto.periodo}</span>
                 ${projeto.parceiro ? `<span class="project-badge parceiro"><i class="bx bx-group"></i> ${projeto.parceiro}</span>` : ''}
                 <span class="project-badge financiador"><i class="bx bx-money"></i> ${projeto.financiador}</span>
               </div>
             </div>
-            ${projeto.imagem ? `
-            <div class="project-footer">
-              <a href="${projeto.imagem}" data-gall="portfolioGallery" class="venobox project-image-link">
-                <i class="bx bx-image"></i> Ver Imagem
-              </a>
-            </div>
-            ` : ''}
           </div>
         </div>
       `;
@@ -138,37 +139,71 @@
     const container = document.getElementById('producao-container');
     if (!container || !data) return;
 
-    let html = '<div class="timeline-production">';
+    const ITEMS_PER_PAGE = 6;
+    let allItems = [];
     let itemIndex = 0;
 
     data.producoes.forEach((producao) => {
-      // Badge do ano
-      html += `
-        <div class="timeline-year-badge" data-aos="zoom-in">
-          <span>${producao.ano}</span>
-        </div>
-      `;
-
-      // Cada trabalho como um ponto na timeline
-      producao.trabalhos.forEach((trabalho, idx) => {
-        const isLeft = itemIndex % 2 === 0;
-        const position = isLeft ? 'left' : 'right';
-
-        html += `
-          <div class="timeline-point ${position}" data-aos="fade-${isLeft ? 'right' : 'left'}" data-aos-delay="${idx * 50}">
-            <div class="timeline-dot"></div>
-            <div class="timeline-card">
-              <p>${trabalho}</p>
-            </div>
-          </div>
-        `;
+      allItems.push({ type: 'year', ano: producao.ano });
+      producao.trabalhos.forEach((trabalho) => {
+        allItems.push({ type: 'trabalho', trabalho, index: itemIndex });
         itemIndex++;
       });
     });
 
+    let html = '<div class="timeline-production">';
+    let visibleCount = 0;
+
+    allItems.forEach((item) => {
+      const isHidden = visibleCount >= ITEMS_PER_PAGE && item.type === 'trabalho';
+      const hiddenClass = isHidden ? 'timeline-hidden' : '';
+
+      if (item.type === 'year') {
+        html += `
+          <div class="timeline-year-badge ${hiddenClass}" data-aos="zoom-in">
+            <span>${item.ano}</span>
+          </div>
+        `;
+      } else {
+        const isLeft = item.index % 2 === 0;
+        const position = isLeft ? 'left' : 'right';
+
+        html += `
+          <div class="timeline-point ${position} ${hiddenClass}" data-aos="fade-${isLeft ? 'right' : 'left'}">
+            <div class="timeline-dot"></div>
+            <div class="timeline-card">
+              <p>${item.trabalho}</p>
+            </div>
+          </div>
+        `;
+        visibleCount++;
+      }
+    });
+
     html += '</div>';
+
+    if (allItems.filter(i => i.type === 'trabalho').length > ITEMS_PER_PAGE) {
+      html += `
+        <div class="text-center mt-4">
+          <button class="btn-ver-mais" id="btn-ver-mais-producao">
+            <i class="bx bx-chevron-down"></i> Ver mais produções
+          </button>
+        </div>
+      `;
+    }
+
     container.innerHTML = html;
+
+    const btn = document.getElementById('btn-ver-mais-producao');
+    if (btn) {
+      btn.addEventListener('click', function () {
+        document.querySelectorAll('.timeline-hidden').forEach(item => item.classList.remove('timeline-hidden'));
+        this.style.display = 'none';
+        if (typeof AOS !== 'undefined') AOS.refresh();
+      });
+    }
   }
+
 
 
   /**
