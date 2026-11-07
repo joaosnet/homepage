@@ -1,0 +1,42 @@
+[
+    {
+        "id": "noticia-01-epsr-2027",
+        "titulo": "Artigo sobre Localização de Descargas Parciais via Emissão de Ozônio é Aceito na Electric Power Systems Research",
+        "categoria": "Publicação Científica",
+        "data": "2026-10-18",
+        "resumo": "Pesquisa desenvolvida pelo LaPS em colaboração internacional soluciona o problema inverso de dispersão de ozônio em subestações elétricas.",
+        "conteudo": "O artigo intitulado 'Localization of partial discharges in high-voltage equipment by ozone emission as an inverse problem', de autoria do Prof. Ronaldo Zampolo e colaboradores, foi aceito para publicação no periódico internacional Electric Power Systems Research (Elsevier). O trabalho propõe uma metodologia inovadora de sensoriamento químico para prevenção de falhas catastróficas em transformadores de potência.",
+        "imagem": "assets/img/Final-figure.png",
+        "link": "https://doi.org/10.1016/j.epsr.2026.113774"
+    },
+    {
+        "id": "noticia-02-dmovel-avancos",
+        "titulo": "Projeto DMóvel Conclui Nova Fase de Testes Clínicos e Lança Versão 2.0 do Aplicativo Multiplataforma",
+        "categoria": "Inovação Tecnológica",
+        "data": "2026-09-25",
+        "resumo": "Ferramenta portátil de avaliação psicofísica visual do LaPS expande suporte para rastreamento ocular de alta frequência e relatórios médicos automatizados.",
+        "conteudo": "A equipe do projeto DMóvel, sob coordenação do Prof. Ronaldo Zampolo e Profa. Ana Carolina Siravenha, concluiu os testes de validação ergonômica e psicofísica com voluntários na UFPA. O ecossistema agora conta com backend em FastAPI e aplicativo em Flutter otimizado para dispositivos móveis com baixa latência.",
+        "imagem": "assets/img/laps-proj08.png",
+        "link": "https://dmovel.ufpa.br/"
+    },
+    {
+        "id": "noticia-03-instagram-oficial",
+        "titulo": "LaPS Inaugura Canal Oficial no Instagram para Divulgação Científica e Oportunidades Acadêmicas",
+        "categoria": "Comunicação",
+        "data": "2026-08-10",
+        "resumo": "Comunidade acadêmica e estudantes agora podem acompanhar projetos, eventos e chamadas de pesquisa pelo perfil oficial @laps_ufpa.",
+        "conteudo": "Com o objetivo de aproximar a pesquisa em processamento de sinais e inteligência artificial da sociedade, o laboratório lançou sua página oficial no Instagram (@laps_ufpa). O canal trará resumos visuais de artigos, bastidores de experimentos práticos e editais de bolsas de iniciação científica e pós-graduação.",
+        "imagem": "assets/img/og-preview.png",
+        "link": "https://www.instagram.com/laps_ufpa/"
+    },
+    {
+        "id": "noticia-04-processo-seletivo-ic",
+        "titulo": "LaPS Abre Chamada para Bolsistas de Iniciação Científica em Visão Computacional e Aprendizado Profundo",
+        "categoria": "Oportunidade",
+        "data": "2026-06-15",
+        "resumo": "Alunos de Engenharia da Computação, Engenharia Elétrica e Ciência da Computação da UFPA podem se inscrever para projetos de P&D.",
+        "conteudo": "Estão abertas vagas de iniciação científica (PIBIC/CNPq e FAPESPA) para atuação em desenvolvimento de redes neurais para segmentação de imagens de sensoriamento remoto (Amazônia DeepLab) e processamento de sinais biomédicos. Os interessados devem encaminhar histórico escolar e currículo Lattes para o e-mail institucional do laboratório.",
+        "imagem": "assets/img/laps-proj09.png",
+        "link": "mailto:laps@ufpa.br"
+    }
+]

@@ -7,21 +7,22 @@
 [![CI](https://github.com/LAPSHub/homepage/actions/workflows/ci.yml/badge.svg)](https://github.com/LAPSHub/homepage/actions/workflows/ci.yml)
 [![Deploy](https://github.com/LAPSHub/homepage/actions/workflows/deploy.yml/badge.svg)](https://github.com/LAPSHub/homepage/actions/workflows/deploy.yml)
 [![Site Oficial](https://img.shields.io/badge/Site-laps.ufpa.br-blue.svg)](https://laps.ufpa.br/)
+[![Instagram](https://img.shields.io/badge/Instagram-%40laps__ufpa-E1306C.svg?logo=instagram)](https://www.instagram.com/laps_ufpa/)
 [![Python: 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
 [![Idiomas: PT | EN | DE | FR](https://img.shields.io/badge/idiomas-PT%20%7C%20EN%20%7C%20DE%20%7C%20FR-green.svg)](#)
 [![Licença: MIT](https://img.shields.io/badge/licen%C3%A7a-MIT-green.svg)](LICENSE)
 
-Portal institucional oficial do **Laboratório de Processamento de Sinais (LaPS)**, vinculado ao Instituto de Tecnologia (ITEC) e à Faculdade de Engenharia da Computação e Telecomunicações da **Universidade Federal do Pará (UFPA)**. O laboratório atua em inteligência artificial, processamento digital de sinais e imagens, visão computacional, bioengenharia e sistemas de comunicação.
+Portal institucional oficial do **Laboratório de Processamento de Sinais (LaPS)**, vinculado ao Instituto de Tecnologia (ITEC) e à Faculdade de Engenharia da Computação e Telecomunicações da **Universidade Federal do Pará (UFPA)**. O laboratório atua em inteligência artificial, processamento digital de sinais e imagens, visão computacional, bioengenharia e sistemas de telecomunicações.
 
 Publicado oficialmente em [laps.ufpa.br](https://laps.ufpa.br/).
 
 ---
 
-## 🎬 Demonstração do Site
+## 🎬 Demonstração da Plataforma (v3.0 Padrão LASSE)
 
 ![Demonstração interativa do site do LaPS](assets/img/demo.gif)
 
-O site carrega integrantes, projetos e produções científicas dinamicamente a partir de arquivos JSON em `data/`, oferecendo visualização interativa em carrossel, cards modernos e linha do tempo expansível.
+A plataforma incorpora as melhores práticas de transparência ativa e divulgação científica inspiradas no **LASSE**, oferecendo visualizador tríplice de equipe (**Grade**, **Lista** e **Grafo de Colaboração em Canvas 2D**), módulos de **Datasets Abertos**, **Softwares Livres**, **Patentes INPI**, **Notícias com Leitor Modal** e **Cursos de Capacitação**.
 
 ---
 
@@ -46,13 +47,27 @@ Abra `http://localhost:8000` no seu navegador.
 
 ## 🏛️ Arquitetura e Dados Dinâmicos
 
-Os dados do laboratório estão centralizados em arquivos JSON independentes do código HTML:
+Os dados do laboratório estão centralizados em 8 arquivos JSON independentes do código HTML:
 
 | Arquivo | Descrição | Como Atualizar |
 | :--- | :--- | :--- |
-| `data/integrantes.json` | Professores, alunos e links acadêmicos (ORCID, Lattes, Scholar) | Edição direta do JSON. Ver [docs/data.md](docs/data.md) |
-| `data/projetos.json` | Título, período, parceiros, financiadores e imagens de projetos | Edição direta do JSON. Ver [docs/data.md](docs/data.md) |
-| `data/producao.json` | Artigos científicos e publicações organizados por ano | Edição manual ou automática via `scripts/sync-data.py` |
+| `data/integrantes.json` | Docentes, doutorandos, mestrandos, graduandos e egressos com links acadêmicos | Edição do JSON. Ver [docs/data.md](docs/data.md) |
+| `data/projetos.json` | Projetos de pesquisa e desenvolvimento, parceiros e fomentos | Edição do JSON. Ver [docs/data.md](docs/data.md) |
+| `data/producao.json` | Produção científica indexada por ano com DOIs e citações BibTeX | Manual ou via `scripts/sync-data.py` |
+| `data/softwares.json` | Softwares e ferramentas open source da organização LAPSHub | Edição do JSON. Ver [docs/data.md](docs/data.md) |
+| `data/patentes.json` | Patentes de invenção e registros de programas de computador no INPI | Edição do JSON. Ver [docs/data.md](docs/data.md) |
+| `data/datasets.json` | Bancos de sinais e datasets abertos para ciência reprodutível | Edição do JSON. Ver [docs/data.md](docs/data.md) |
+| `data/noticias.json` | Notícias, editais e acontecimentos do laboratório com leitor modal | Edição do JSON. Ver [docs/data.md](docs/data.md) |
+| `data/cursos.json` | Treinamentos, workshops e oficinas oferecidos pelo LaPS | Edição do JSON. Ver [docs/data.md](docs/data.md) |
+
+---
+
+## 🌐 Recursos de Acessibilidade & Preferências do Usuário (WCAG AAA)
+
+- **Auto-detecção de Idioma do Navegador**: O site lê automaticamente `navigator.languages` e ajusta a interface entre Português, Inglês, Alemão e Francês, preservando escolhas manuais (`?lang=` ou seletor).
+- **Tema 3-State com Listener do Dispositivo**: Ciclo `Sistema (Auto)` ➔ `Escuro` ➔ `Claro`. No modo Sistema, o tema responde instantaneamente a mudanças no modo escuro/claro do sistema operacional via `window.matchMedia`.
+- **Acessibilidade Motora e Visual**: Skip-links para teclado, atalhos de zoom de texto (`A-`, `A0` reset, `A+`), modo de alto contraste e região viva `#a11y-announcer` (`aria-live="polite"`).
+- **Instagram Oficial**: Conectado diretamente em `@laps_ufpa` ([https://www.instagram.com/laps_ufpa/](https://www.instagram.com/laps_ufpa/)) com card comunitário no Contato e ícone no Cabeçalho e Rodapé.
 
 ---
 
@@ -76,52 +91,35 @@ O repositório adota um fluxo desacoplado em duas camadas para manter o site e o
   ```
 
 ### Camada 2: Publicação Institucional UFPA (`deploy.py` / `deploy.yml`)
-- Conecta com o servidor `laps.ufpa.br` (`200.239.109.18`) via FTPS/FTP.
+- Conecta com o servidor `laps.ufpa.br` (`200.239.109.18`) via FTPS/FTP com suporte a VPN institucional.
 - Utiliza cache MD5 (`.ftp_sync_cache.json`) para transmitir apenas arquivos modificados.
-- Suporta túnel VPN institucional CTIC (`vpn.dmz.ufpa.br`).
-- Executa diagnóstico completo de conectividade:
-  ```bash
-  python deploy.py --test-network
-  ```
-- Publica atualizações com verificação pós-deploy:
-  ```bash
-  python deploy.py --step ftp --verify-live
-  ```
+- Executada automaticamente em pushes na branch `master` ou via acionamento manual (`workflow_dispatch`).
 
 ---
 
-## 🧪 Testes Automatizados e Segurança
+## 🧪 Testes Automatizados e Auditoria de Qualidade
 
-Execute a suíte de integridade antes de enviar alterações:
+A suíte de validação do Gauntlet Loop garante conformidade rigorosa:
 
 ```bash
-# Suíte de testes (valida schemas JSON, imagens e SEO técnico):
+# Validação estrutural de schemas, i18n e integridade (137 testes):
 node scripts/test-suite.mjs
 
-# Varredura estrita de credenciais:
+# Verificação E2E dinâmica e responsiva via Playwright (33 testes):
+node scripts/verify-playwright.mjs
+
+# Varredura de credenciais e segurança de segredos:
 node scripts/scan-secrets.mjs
-
-# Auditoria de segurança dos workflows do GitHub Actions:
-node scripts/audit-workflows.mjs
-
-# Validação rápida de sintaxe:
-node --check assets/js/data-loader.js
-python -m py_compile deploy.py scripts/sync-data.py
 ```
 
 ---
 
-## 📚 Documentação Modular
+## 👥 Contribuição e Comunidade
 
-Consulte os guias especializados na pasta `docs/`:
+Desenvolvido e mantido pela equipe e alunos do **Laboratório de Processamento de Sinais (LaPS/UFPA)** e comunidade **LAPSHub**.
 
-- 🏛️ **[Arquitetura do Sistema](docs/architecture.md)**: Detalhes do carregamento assíncrono, micro-interações táteis e acessibilidade.
-- 🚀 **[Manual de Deploy e Conectividade](docs/deploy.md)**: Instruções de rede CTIC/UFPA, VPN e configuração de variáveis de ambiente.
-- 📊 **[Guia de Dados Dinâmicos](docs/data.md)**: Schemas JSON e uso do script de sincronização com o ORCID.
-
----
-
-## 📜 Licença e Créditos
-
-Desenvolvido pelo **Laboratório de Processamento de Sinais (LaPS)** — Universidade Federal do Pará (UFPA).  
-Base de interface adaptada do template Techie (Bootstrap 4.5) com melhorias de UI/UX, micro-interações táteis e automações de infraestrutura.
+- **Website**: [laps.ufpa.br](https://laps.ufpa.br/)
+- **Instagram**: [@laps_ufpa](https://www.instagram.com/laps_ufpa/)
+- **GitHub**: [github.com/LAPSHub](https://github.com/LAPSHub)
+- **E-mail**: [laps@ufpa.br](mailto:laps@ufpa.br)
+- **Localização**: Altos do anexo do LEEC, Sala 31 — Campus Guamá, UFPA — Belém, PA, Brasil

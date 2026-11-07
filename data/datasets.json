@@ -1,0 +1,46 @@
+[
+    {
+        "id": "ds-eeg-neurofeedback",
+        "titulo": "LaPS-EEG: Banco de Sinais Eletroencefalográficos Multicanal em Tarefas de Atenção e Neurofeedback",
+        "categoria": "Sinais Biomédicos",
+        "formato": "EDF / CSV / HDF5",
+        "amostras": "64 canais, 1000 Hz, 48 participantes",
+        "licenca": "CC BY-NC 4.0",
+        "descricao": "Sinais brutos e pré-filtrados de eletroencefalografia coletados em voluntários durante protocolos de neurofeedback, leitura sob estresse e testes de ansiedade.",
+        "link": "https://github.com/LAPSHub/dmovel-site",
+        "ano": 2024
+    },
+    {
+        "id": "ds-zoomies-imu",
+        "titulo": "Zoomies Inertial & Multimodal Dataset (LSM6DSOX IMU)",
+        "categoria": "Sinais Inerciais & IoT",
+        "formato": "CSV / NumPy / Parquet",
+        "amostras": "120h de telemetria acelerométrica e giroscópica contínua",
+        "licenca": "Open Academic Use",
+        "descricao": "Telemetria inercial de alta frequência capturada por sensores MEMS LSM6DSOX para classificação de padrões cinemáticos e aprendizado de máquina embarcado.",
+        "link": "https://github.com/LAPSHub/zoomies-data",
+        "ano": 2025
+    },
+    {
+        "id": "ds-o3-dispersion",
+        "titulo": "Ozone Emission & Partial Discharge Radiator Surface Grid",
+        "categoria": "Engenharia de Alta Tensão",
+        "formato": "MATLAB .mat / CSV",
+        "amostras": "Grades bidimensionais com 10.000 pontos de concentração",
+        "licenca": "CC BY 4.0",
+        "descricao": "Medições experimentais e simulações físicas de difusão de ozônio em subestação elétrica para validação de algoritmos de resolução de problemas inversos.",
+        "link": "https://github.com/LAPSHub/o3source_location",
+        "ano": 2026
+    },
+    {
+        "id": "ds-eye-tracking-iqa",
+        "titulo": "LaPS Eye-Tracking & Visual Saliency Benchmark for Quality Assessment",
+        "categoria": "Visão Computacional",
+        "formato": "HDF5 / PNG Maps / CSV Gaze Points",
+        "amostras": "240 vídeos e imagens UHD com rastreamento a 120 Hz",
+        "licenca": "CC BY 4.0",
+        "descricao": "Mapas de densidade de fixação ocular e trajetórias de saccades humanas durante visualização de sequências de vídeo com diferentes níveis de distorção de compressão.",
+        "link": "https://github.com/LAPSHub/dmovel_web_app",
+        "ano": 2023
+    }
+]

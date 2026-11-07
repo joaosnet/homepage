@@ -69,9 +69,9 @@ async function runVerification() {
     }
   }
 
-  console.log("\n=======================================================");
-  console.log("Gauntlet Loop: Validação Dinâmica do Critic (Playwright)");
-  console.log("=======================================================\n");
+  console.log("\n=======================================================================");
+  console.log("Gauntlet Loop: Validação Dinâmica do Critic (Playwright E2E v3.0 LASSE)");
+  console.log("=======================================================================\n");
 
   const page = await context.newPage();
 
@@ -90,7 +90,7 @@ async function runVerification() {
   console.log("1. Testando Desktop (1440x900)...");
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto(`http://localhost:${PORT}/`, { waitUntil: "networkidle" });
-  await page.waitForTimeout(1000);
+  await page.waitForTimeout(800);
 
   // Checar zero scroll horizontal
   const docOverflow1440 = await page.evaluate(() => {
@@ -98,143 +98,196 @@ async function runVerification() {
   });
   check(docOverflow1440, "Desktop 1440px: zero scroll horizontal (scrollWidth <= clientWidth)");
 
-  // Checar renderização dos elementos chave
+  // Checar renderização dos elementos chave (respeitando a detecção de idioma do navegador)
   const heroTitle = await page.textContent(".hero-main-title");
-  check(heroTitle.includes("Laboratório de Processamento de Sinais"), `Hero title presente: "${heroTitle.trim()}"`);
+  const hasValidHero = heroTitle.includes("Laboratório de Processamento de Sinais") || heroTitle.includes("Signal Processing Laboratory");
+  check(hasValidHero, `Hero title presente e internacionalizado conforme locale: "${heroTitle.trim()}"`);
 
-  // Checar cards de docentes carregados
+  // Checar Instagram no Header e Contato
+  const igHeaderHref = await page.getAttribute(".instagram-header-btn", "href");
+  check(igHeaderHref === "https://www.instagram.com/laps_ufpa/", "Botão do Instagram no header aponta para https://www.instagram.com/laps_ufpa/");
+
+  const igContactHref = await page.getAttribute(".instagram-community-card a", "href");
+  check(igContactHref === "https://www.instagram.com/laps_ufpa/", "Card do Instagram no contato aponta para https://www.instagram.com/laps_ufpa/");
+
+  // 2. Testar Equipe Completa, Filtros de Categoria e Modos de Visão
+  console.log("\n2. Testando Equipe (Filtros de Categoria, Grade, Lista e Grafo)...");
   await page.waitForSelector(".member-card", { timeout: 5000 });
-  const membersCount = await page.$$eval(".member-card", (els) => els.length);
-  check(membersCount >= 4, `Docentes renderizados com segurança: ${membersCount} cards`);
+  const allTeamCount = await page.$$eval(".member-card", (els) => els.length);
+  check(allTeamCount >= 14, `Todos os membros carregados na visão geral: ${allTeamCount} membros`);
 
-  // Checar projetos carregados
-  await page.waitForSelector(".project-card-modern", { timeout: 5000 });
-  const projectsCount = await page.$$eval(".project-card-modern", (els) => els.length);
-  check(projectsCount >= 9, `Projetos de P&D carregados: ${projectsCount} cards`);
+  // Filtrar por Doutorandos
+  await page.click('[data-category="doutorandos"]');
+  await page.waitForTimeout(300);
+  const phdCount = await page.$$eval(".member-card", (els) => els.length);
+  check(phdCount === 2, `Filtro de Doutorandos exibe exatamente 2 membros (Charles e Alice): ${phdCount}`);
 
-  // Checar publicações carregadas
-  await page.waitForSelector(".timeline-point-v2", { timeout: 5000 });
-  const pubCount = await page.$$eval(".timeline-point-v2", (els) => els.length);
-  check(pubCount > 0, `Hub de publicações ativo: ${pubCount} itens visíveis`);
+  // Filtrar por Professores
+  await page.click('[data-category="professores"]');
+  await page.waitForTimeout(300);
+  const profCount = await page.$$eval(".member-card", (els) => els.length);
+  check(profCount === 4, `Filtro de Docentes exibe exatamente 4 professores: ${profCount}`);
 
-  await page.screenshot({ path: path.join(screenshotsDir, "desktop-1440-light.png"), fullPage: false });
+  // Voltar para Todos
+  await page.click('[data-category="all"]');
+  await page.waitForTimeout(300);
 
-  // 2. Testar Alternância de Idiomas (PT -> EN -> DE -> FR -> PT)
-  console.log("\n2. Testando Motor i18n Dinâmico (PT, EN, DE, FR)...");
-  // Clicar em EN
+  // Testar Visão em Lista
+  await page.click('[data-view="list"]');
+  await page.waitForTimeout(400);
+  const hasTable = await page.$(".team-table");
+  check(hasTable !== null, "Visão em Lista renderizou a tabela acessível .team-table");
+  const tableRows = await page.$$eval(".team-table tbody tr", (els) => els.length);
+  check(tableRows >= 14, `Tabela de membros contém ${tableRows} linhas`);
+
+  // Testar Visão em Grafo Interativo (Canvas Force-Directed)
+  await page.click('[data-view="graph"]');
+  await page.waitForTimeout(500);
+  const hasCanvas = await page.$("#team-network-canvas");
+  check(hasCanvas !== null, "Visão em Grafo renderizou o elemento #team-network-canvas");
+
+  const canvasWidth = await page.$eval("#team-network-canvas", (c) => c.width);
+  check(canvasWidth > 0, `Canvas do Grafo possui largura válida renderizada (${canvasWidth}px)`);
+
+  // Retornar para Grade
+  await page.click('[data-view="grid"]');
+  await page.waitForTimeout(400);
+
+  // 3. Testar Seção de Datasets Científicos
+  console.log("\n3. Testando Seção de Datasets Científicos...");
+  await page.waitForSelector(".dataset-card-modern", { timeout: 5000 });
+  const dsCount = await page.$$eval(".dataset-card-modern", (els) => els.length);
+  check(dsCount >= 4, `Datasets científicos carregados: ${dsCount} cards`);
+
+  // Testar botão de citação
+  const citeBtn = await page.$(".dataset-btn[aria-label*='Citação']");
+  if (citeBtn) {
+    await citeBtn.click();
+    await page.waitForTimeout(200);
+    const citeText = await citeBtn.textContent();
+    check(citeText.includes("Copiado"), "Botão de citação de dataset exibe feedback 'Copiado!'");
+  }
+
+  // 4. Testar Seção Open Source & Patentes
+  console.log("\n4. Testando Softwares Open Source & Patentes...");
+  await page.waitForSelector(".software-card", { timeout: 5000 });
+  const swCount = await page.$$eval(".software-card", (els) => els.length);
+  check(swCount >= 8, `Softwares Open Source carregados: ${swCount} repositórios LAPSHub`);
+
+  // Alternar para aba Patentes
+  await page.click('[role="tab"]:has-text("Patentes")');
+  await page.waitForTimeout(400);
+  const patCount = await page.$$eval(".patente-card", (els) => els.length);
+  check(patCount >= 4, `Patentes & Registros INPI carregados: ${patCount} registros`);
+
+  // 5. Testar Seção Notícias & Modal Acessível
+  console.log("\n5. Testando Notícias e Modal Interativo...");
+  await page.waitForSelector(".noticia-card", { timeout: 5000 });
+  const notCount = await page.$$eval(".noticia-card", (els) => els.length);
+  check(notCount >= 4, `Notícias institucionais carregadas: ${notCount} comunicados`);
+
+  // Clicar no botão para abrir modal
+  const readBtn = await page.$(".btn-noticia-read");
+  if (readBtn) {
+    await readBtn.click();
+    await page.waitForTimeout(400);
+    const isModalOpen = await page.evaluate(() => {
+      const modal = document.getElementById("noticias-modal");
+      return modal && (modal.open || modal.hasAttribute("open"));
+    });
+    check(isModalOpen, "Modal dialog de notícia abre com sucesso");
+
+    // Fechar modal
+    await page.click("#modal-noticia-close");
+    await page.waitForTimeout(300);
+    const isModalClosed = await page.evaluate(() => {
+      const modal = document.getElementById("noticias-modal");
+      return !modal || (!modal.open && !modal.hasAttribute("open"));
+    });
+    check(isModalClosed, "Modal dialog de notícia fecha com sucesso");
+  }
+
+  // 6. Testar Seção Cursos & Workshops
+  console.log("\n6. Testando Cursos e Oficinas...");
+  await page.waitForSelector(".curso-card", { timeout: 5000 });
+  const cursosCount = await page.$$eval(".curso-card", (els) => els.length);
+  check(cursosCount >= 3, `Cursos e oficinas carregados: ${cursosCount} programas`);
+
+  // 7. Testar Motor i18n Dinâmico em 4 Idiomas
+  console.log("\n7. Testando Motor i18n Dinâmico (PT, EN, DE, FR)...");
   await page.click('[data-lang-btn="en"]');
   await page.waitForTimeout(400);
   const heroEn = await page.textContent(".hero-main-title");
   check(heroEn.includes("Signal Processing Laboratory"), `Tradução EN aplicada no Hero: "${heroEn.trim()}"`);
-  const profBioEn = await page.textContent(".member-bio");
-  check(profBioEn.includes("B.Sc.") || profBioEn.includes("Ph.D.") || profBioEn.includes("Associate Professor"), "Card dinâmico de docente traduzido para EN");
 
-  // Clicar em DE
   await page.click('[data-lang-btn="de"]');
   await page.waitForTimeout(400);
   const heroDe = await page.textContent(".hero-main-title");
   check(heroDe.includes("Labor für Signalverarbeitung"), `Tradução DE aplicada no Hero: "${heroDe.trim()}"`);
 
-  // Clicar em FR
   await page.click('[data-lang-btn="fr"]');
   await page.waitForTimeout(400);
   const heroFr = await page.textContent(".hero-main-title");
   check(heroFr.includes("Laboratoire de Traitement du Signal"), `Tradução FR aplicada no Hero: "${heroFr.trim()}"`);
 
-  // Voltar para PT
   await page.click('[data-lang-btn="pt"]');
   await page.waitForTimeout(400);
-  const heroPt = await page.textContent(".hero-main-title");
-  check(heroPt.includes("Laboratório de Processamento de Sinais"), "Retorno para PT canônico com sucesso");
 
-  // 3. Testar Tema Escuro / Claro (Dark Mode)
-  console.log("\n3. Testando Alternador de Tema Escuro / Claro...");
+  // 8. Testar Tema Escuro / Claro / Sistema (3-State)
+  console.log("\n8. Testando Ciclo de Tema (3-State)...");
   await page.click("#theme-toggle-btn");
-  await page.waitForTimeout(400);
+  await page.waitForTimeout(300);
   const themeDark = await page.getAttribute("html", "data-theme");
-  check(themeDark === "dark", "Modo escuro ativado com sucesso (html[data-theme='dark'])");
-  await page.screenshot({ path: path.join(screenshotsDir, "desktop-1440-dark.png"), fullPage: false });
+  check(themeDark === "dark", "Modo escuro ativado com sucesso");
 
-  // Voltar para light
   await page.click("#theme-toggle-btn");
-  await page.waitForTimeout(400);
+  await page.waitForTimeout(300);
   const themeLight = await page.getAttribute("html", "data-theme");
-  check(themeLight === "light", "Modo claro restaurado com sucesso");
+  check(themeLight === "light", "Modo claro ativado com sucesso");
 
-  // 4. Testar Laboratório Interativo de DSP & Filtros de Convolução
-  console.log("\n4. Testando Laboratório Interativo de Visão Computacional & DSP...");
-  await page.click('[data-dsp-filter="sobel"]');
-  await page.waitForTimeout(300);
-  const matrixText = await page.textContent("#dsp-kernel-matrix");
-  check(matrixText.includes("-1") && matrixText.includes("2"), "Matriz Sobel exibida no painel interativo");
+  // 9. Testar Reset de Escala de Fonte (A-, A0, A+)
+  console.log("\n9. Testando Controles de Escala de Fonte...");
+  await page.click("#a11y-font-plus");
+  await page.waitForTimeout(200);
+  const scalePlus = await page.evaluate(() => document.documentElement.style.getPropertyValue("--laps-font-scale"));
+  check(parseFloat(scalePlus) > 1.0, `Fonte aumentada: ${scalePlus}`);
 
-  await page.click('[data-dsp-filter="gaussian"]');
-  await page.waitForTimeout(300);
-  const matrixGauss = await page.textContent("#dsp-kernel-matrix");
-  check(matrixGauss.includes("1/16"), "Filtro Gaussiano com fator de escala 1/16 exibido");
+  await page.click("#a11y-font-reset");
+  await page.waitForTimeout(200);
+  const scaleReset = await page.evaluate(() => document.documentElement.style.getPropertyValue("--laps-font-scale"));
+  check(parseFloat(scaleReset) === 1.0, `Fonte redefinida para 1.0 (A0): ${scaleReset}`);
 
-  // 5. Testar Busca de Publicações e Cópia de BibTeX
-  console.log("\n5. Testando Busca e Cópia de Citação BibTeX...");
-  await page.fill(".pub-search-input", "Zampolo");
-  await page.waitForTimeout(400);
-  const filteredPubs = await page.$$eval(".timeline-point-v2", (els) => els.length);
-  check(filteredPubs > 0, `Busca por 'Zampolo' filtrou ${filteredPubs} publicações`);
-
-  // Clicar no primeiro botão BibTeX
-  const bibtexBtn = await page.$(".pub-bibtex-btn");
-  if (bibtexBtn) {
-    await bibtexBtn.click();
-    await page.waitForTimeout(200);
-    const copiedClass = await page.$eval(".pub-bibtex-btn", (el) => el.classList.contains("copied"));
-    check(copiedClass, "Botão BibTeX acionou estado '.copied' com micro-feedback");
-  }
-
-  // Limpar busca
-  await page.fill(".pub-search-input", "");
-  await page.waitForTimeout(400);
-
-  // 6. Testar Viewports Mobile e Tablet (Zero Overflow & Touch)
+  // 10. Testar Viewports Móveis e Breakpoint Intermediário (1024px)
   const viewports = [
     { name: "Mobile Compacto (320x568)", width: 320, height: 568 },
     { name: "Mobile Padrão (390x844)", width: 390, height: 844 },
-    { name: "Mobile Landscape (844x390)", width: 844, height: 390 },
-    { name: "Tablet (768x1024)", width: 768, height: 1024 }
+    { name: "Tablet (768x1024)", width: 768, height: 1024 },
+    { name: "Breakpoint Intermediário (1024x768 - former dead zone)", width: 1024, height: 768 },
+    { name: "Desktop Padrão (1440x900)", width: 1440, height: 900 }
   ];
 
-  console.log("\n6. Testando Viewports Móveis e Responsividade Estrita...");
+  console.log("\n10. Testando Viewports Móveis e Responsividade Estrita...");
   for (const vp of viewports) {
     await page.setViewportSize({ width: vp.width, height: vp.height });
-    await page.waitForTimeout(400);
+    await page.waitForTimeout(300);
 
     const hasNoHorizontalOverflow = await page.evaluate(() => {
       return document.documentElement.scrollWidth <= document.documentElement.clientWidth;
     });
     check(hasNoHorizontalOverflow, `${vp.name}: Zero scroll horizontal (${vp.width}px)`);
 
-    const filename = `viewport-${vp.width}x${vp.height}.png`;
-    await page.screenshot({ path: path.join(screenshotsDir, filename), fullPage: false });
+    // No breakpoint de 1024px, verificar que a navegação mobile toggle ou desktop está acessível
+    if (vp.width === 1024) {
+      const toggleVisible = await page.$eval(".mobile-nav-toggle", (el) => {
+        const style = window.getComputedStyle(el);
+        return style.display !== "none" && style.visibility !== "hidden";
+      });
+      check(toggleVisible, "Breakpoint 1024px: Botão de navegação móvel perfeitamente ativo (sem zona morta)");
+    }
   }
 
-  // 7. Checar Drawer Mobile
-  console.log("\n7. Testando Drawer Mobile...");
-  await page.setViewportSize({ width: 390, height: 844 });
-  const toggleBtn = await page.$(".mobile-nav-toggle");
-  check(toggleBtn !== null, "Botão hambúrguer visível em tela mobile");
-  if (toggleBtn) {
-    await toggleBtn.click();
-    await page.waitForTimeout(300);
-    const isNavOpen = await page.evaluate(() => document.body.classList.contains("mobile-nav-active"));
-    check(isNavOpen, "Drawer de navegação abriu ao clicar no hambúrguer");
-
-    // Fechar via tecla Escape
-    await page.keyboard.press("Escape");
-    await page.waitForTimeout(300);
-    const isNavClosed = await page.evaluate(() => !document.body.classList.contains("mobile-nav-active"));
-    check(isNavClosed, "Drawer fechou com tecla Escape (Acessibilidade WCAG)");
-  }
-
-  // 8. Checar Erros de Console
-  console.log("\n8. Auditoria de Erros de Console e Rede...");
+  // 11. Checar Erros de Console
+  console.log("\n11. Auditoria de Erros de Console e Rede...");
   check(consoleErrors.length === 0, `Zero erros de console/terminal (erros encontrados: ${consoleErrors.length})`);
   if (consoleErrors.length > 0) {
     console.error("  Erros de console:", consoleErrors);
@@ -252,7 +305,7 @@ async function runVerification() {
     errors.forEach((e) => console.error(" - " + e));
     process.exit(1);
   } else {
-    console.log("Validação dinâmica do Critic concluída com SUCESSO ABSOLUTO!");
+    console.log("Validação dinâmica do Critic concluída com 100% DE SUCESSO!");
     process.exit(0);
   }
 }

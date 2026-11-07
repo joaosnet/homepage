@@ -1,0 +1,46 @@
+[
+    {
+        "id": "pat-dmovel-registro",
+        "tipo": "Registro de Programa de Computador",
+        "titulo": "DMóvel: Plataforma Computacional Portátil para Avaliação Psicofísica Visual, Triagem Oftalmológica e Rastreamento Ocular",
+        "processo": "BR512024001892-0",
+        "ano": 2024,
+        "instituicao": "INPI / UFPA",
+        "inventores": ["Ronaldo de Freitas Zampolo", "Ana Carolina Q. Siravenha", "João Natividade Silva Neto"],
+        "status": "Concedido",
+        "descricao": "Software embarcado para tablets e smartphones que executa estímulos psicofísicos dinâmicos com calibração automatizada de gaze e feedback instantâneo de precisão acuidade visual."
+    },
+    {
+        "id": "pat-ozone-monitor",
+        "tipo": "Patente de Invenção",
+        "titulo": "Sistema e Método para Localização Espacial de Descargas Parciais em Subestações Elétricas via Modelagem Inversa de Concentração de Ozônio",
+        "processo": "BR102025004128-4",
+        "ano": 2025,
+        "instituicao": "INPI / UFPA",
+        "inventores": ["Ronaldo de Freitas Zampolo", "Victor Dmitriev", "L. Cruz"],
+        "status": "Em Exame",
+        "descricao": "Sistema de sensoriamento multiponto que resolve numericamente a equação de difusão advectiva de ozônio para identificar geometricamente fontes anômalas de arco elétrico em transformadores."
+    },
+    {
+        "id": "pat-neurofeedback-eeg",
+        "tipo": "Registro de Programa de Computador",
+        "titulo": "NeuroFeedback BioSystem: Módulo de Processamento em Tempo Real de Potenciais Evocados e Ritmos Corticais para Treinamento Cognitivo",
+        "processo": "BR512023000845-2",
+        "ano": 2023,
+        "instituicao": "INPI / UFPA",
+        "inventores": ["Antônio Pereira Júnior", "Alice Lobo"],
+        "status": "Concedido",
+        "descricao": "Algoritmo de filtragem adaptativa espacial e decomposição em componentes independentes para extração de ritmos teta/alfa em sessões clínicas de neurofeedback com baixíssima latência."
+    },
+    {
+        "id": "pat-video-quality",
+        "tipo": "Registro de Programa de Computador",
+        "titulo": "IQA-EyeTrack: Sistema Computacional de Métricas de Qualidade de Vídeo Ponderadas por Atenção Visual Foveal",
+        "processo": "BR512022002319-7",
+        "ano": 2022,
+        "instituicao": "INPI / UFPA",
+        "inventores": ["Ronaldo de Freitas Zampolo", "Charles Silveira"],
+        "status": "Concedido",
+        "descricao": "Métrica de avaliação de qualidade de imagem objetiva que integra mapas de saliência visual e dados de eye-tracking para compressão de vídeo ultra-alta definição."
+    }
+]

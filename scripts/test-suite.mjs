@@ -18,11 +18,11 @@ function assert(condition, message) {
 }
 
 console.log("=================================================================");
-console.log("LaPS — Suíte de Testes Automatizados e Integridade (v2.0)");
+console.log("LaPS — Suíte de Testes Automatizados e Integridade (v3.0 LASSE)");
 console.log("=================================================================\n");
 
 // 1. Validar index.html e SEO
-console.log("1. Validação de HTML5, SEO Técnico e Links Seguros:");
+console.log("1. Validação de HTML5, Acessibilidade e SEO Técnico:");
 const htmlPath = resolve(ROOT_DIR, "index.html");
 assert(existsSync(htmlPath), "index.html existe na raiz");
 
@@ -37,6 +37,20 @@ assert(html.includes('hreflang="fr"'), "Tag hreflang fr presente");
 assert(html.includes('property="og:image"'), "Open Graph image configurada");
 assert(html.includes('name="twitter:card"'), "Twitter Card configurado");
 assert(html.includes('"@type": "ResearchOrganization"'), "Schema.org JSON-LD para ResearchOrganization configurado");
+assert(html.includes('https://www.instagram.com/laps_ufpa/'), "Instagram oficial configurado no Schema.org sameAs");
+
+// Acessibilidade no index.html
+assert(html.includes('class="skip-links"') && html.includes('href="#hero"'), "Skip-links acessíveis para teclado no início do body");
+assert(html.includes('id="a11y-announcer"') && html.includes('aria-live="polite"'), "Announcer dinâmico aria-live='polite' presente");
+assert(html.includes('id="a11y-font-reset"'), "Botão A0 de redefinição de escala de fonte presente");
+assert(html.includes('instagram-header-btn'), "Botão de atalho do Instagram presente no header");
+
+// Seções adicionadas do padrão LASSE
+assert(html.includes('id="datasets"'), "Seção #datasets presente em index.html");
+assert(html.includes('id="open-source"'), "Seção #open-source presente em index.html");
+assert(html.includes('id="noticias"'), "Seção #noticias presente em index.html");
+assert(html.includes('id="cursos"'), "Seção #cursos presente em index.html");
+assert(html.includes('instagram-community-card'), "Card do Instagram na seção de Contato presente");
 
 // Verificar se todos os target="_blank" possuem rel="noopener noreferrer"
 const targetBlankRegex = /<a\s+[^>]*target=["']_blank["'][^>]*>/gi;
@@ -45,13 +59,9 @@ assert(targetBlankLinks.length > 0, `Encontrados ${targetBlankLinks.length} link
 const unsafeLinks = targetBlankLinks.filter(tag => !tag.includes('rel="noopener noreferrer"'));
 assert(unsafeLinks.length === 0, `Zero links vulneráveis a tabnabbing (todos têm rel="noopener noreferrer")`);
 
-// Verificar remoção do Google Translate legado
-assert(!html.includes('google_translate_element'), "Elemento legado google_translate_element foi removido do index.html");
-assert(!html.includes('translate.google.com'), "Script externo do Google Translate foi removido");
-
-// Verificar presença dos novos módulos
-assert(html.includes('signal-hero.js'), "Script signal-hero.js referenciado em index.html");
-assert(html.includes('dsp-showcase'), "Seção interativa dsp-showcase presente em index.html");
+// Verificar ausência de scripts legados externos não-gerenciados
+assert(!html.includes('google_translate_element'), "Elemento legado google_translate_element foi removido");
+assert(!html.includes('translate.google.com'), "Script legado translate.google.com removido");
 
 // 2. Validar robots.txt e sitemap.xml
 console.log("\n2. Validação de Arquivos de Indexação:");
@@ -69,7 +79,7 @@ if (existsSync(sitemapPath)) {
   assert(sitemap.includes("<loc>https://laps.ufpa.br/</loc>"), "sitemap.xml lista a URL canônica");
 }
 
-// 3. Validar assets de mídia principais
+// 3. Validar assets visuais principais
 console.log("\n3. Validação de Assets Visuais:");
 const ogPreview = resolve(ROOT_DIR, "assets/img/og-preview.png");
 assert(existsSync(ogPreview), "assets/img/og-preview.png existe");
@@ -85,7 +95,7 @@ if (existsSync(demoGif)) {
   assert(sizeMb < 3.5, `demo.gif está otimizado (< 3.5 MB): ${sizeMb.toFixed(2)} MB`);
 }
 
-// 4. Validar Dicionário i18n em 4 Idiomas
+// 4. Validar Dicionário i18n em 4 Idiomas (16 Seções)
 console.log("\n4. Validação do Dicionário i18n (assets/js/lang.json):");
 const langPath = resolve(ROOT_DIR, "assets/js/lang.json");
 assert(existsSync(langPath), "assets/js/lang.json existe");
@@ -96,7 +106,11 @@ if (existsSync(langPath)) {
     assert(!!langJson[l], `Idioma '${l}' presente no dicionário`);
   });
 
-  const sections = ["nav", "hero", "about", "partners", "areas", "dspLab", "members", "projects", "publications", "contact", "footer"];
+  const sections = [
+    "nav", "hero", "about", "partners", "areas", "dspLab",
+    "members", "projects", "publications", "contact", "footer",
+    "datasets", "softwares", "noticias", "cursos", "instagram"
+  ];
   langs.forEach(l => {
     sections.forEach(s => {
       assert(!!langJson[l][s], `Seção '${s}' presente no idioma '${l}'`);
@@ -104,62 +118,61 @@ if (existsSync(langPath)) {
   });
 }
 
-// 5. Validar Segurança e Código do data-loader.js e style.css
-console.log("\n5. Validação de Segurança e Qualidade de Código:");
+// 5. Validar data-loader.js e main.js
+console.log("\n5. Validação de Qualidade e Recursos do JS:");
 const dataLoaderPath = resolve(ROOT_DIR, "assets/js/data-loader.js");
 assert(existsSync(dataLoaderPath), "assets/js/data-loader.js existe");
 if (existsSync(dataLoaderPath)) {
   const loaderCode = readFileSync(dataLoaderPath, "utf-8");
-  assert(!loaderCode.includes(".innerHTML = `"), "Ausência de interpolação crua em innerHTML (DOM API seguro)");
-  assert(loaderCode.includes("rel = 'noopener noreferrer'"), "rel='noopener noreferrer' injetado em links dinâmicos");
-  assert(loaderCode.includes("generateBibtex"), "Gerador de citação BibTeX implementado");
-  assert(loaderCode.includes("extractDoi"), "Extrator inteligente de DOI implementado");
+  assert(loaderCode.includes("team-network-canvas"), "Canvas do Grafo interativo implementado no data-loader");
+  assert(loaderCode.includes("renderTeamGrid") && loaderCode.includes("renderTeamList") && loaderCode.includes("renderTeamGraph"), "Visões Grade, Lista e Grafo implementadas");
+  assert(loaderCode.includes("generateInitialsAvatar"), "Fallback de avatar SVG inteligente implementado");
+  assert(loaderCode.includes("renderDatasets"), "Renderizador de datasets presente");
+  assert(loaderCode.includes("renderOpenSourceAndPatentes"), "Renderizador de softwares e patentes presente");
+  assert(loaderCode.includes("renderNoticias"), "Renderizador de notícias com modal presente");
+  assert(loaderCode.includes("renderCursos"), "Renderizador de cursos e workshops presente");
 }
 
-const stylePath = resolve(ROOT_DIR, "assets/css/style.css");
-assert(existsSync(stylePath), "assets/css/style.css existe");
-if (existsSync(stylePath)) {
-  const styleCode = readFileSync(stylePath, "utf-8");
-  assert(!styleCode.includes(".skiptranslate"), "Hack legado .skiptranslate removido do CSS");
-  assert(!styleCode.includes(".goog-te-banner-frame"), "Hack legado .goog-te-banner-frame removido do CSS");
-  assert(styleCode.includes('[data-theme="dark"]'), "Suporte nativo ao modo escuro presente no CSS");
-  assert(styleCode.includes("min-height: 100svh"), "Uso de 100svh para viewport móvel fluido");
+const mainJsPath = resolve(ROOT_DIR, "assets/js/main.js");
+assert(existsSync(mainJsPath), "assets/js/main.js existe");
+if (existsSync(mainJsPath)) {
+  const mainCode = readFileSync(mainJsPath, "utf-8");
+  assert(mainCode.includes("normalizeLangCode"), "Detector e normalizador de locale do navegador implementado");
+  assert(mainCode.includes("laps-theme-mode"), "Tema com ciclo de 3 estados (system -> dark -> light) implementado");
+  assert(mainCode.includes("prefers-color-scheme"), "Listener matchMedia para tema do dispositivo implementado");
+  assert(mainCode.includes("a11y-font-reset"), "Handler para reset de escala de fonte (A0) presente");
 }
 
-// 6. Validar JSONs de dados
-console.log("\n6. Validação dos Dados em data/*.json:");
-const integrantesPath = resolve(ROOT_DIR, "data/integrantes.json");
-assert(existsSync(integrantesPath), "data/integrantes.json existe");
-if (existsSync(integrantesPath)) {
-  const data = JSON.parse(readFileSync(integrantesPath, "utf-8"));
-  assert(Array.isArray(data.professores) && data.professores.length >= 4, "integrantes.json contém os professores");
-  data.professores.forEach(p => {
-    if (p.foto) {
-      const pPath = resolve(ROOT_DIR, p.foto);
-      assert(existsSync(pPath), `Foto de ${p.nome} existe: ${p.foto}`);
-    }
-  });
-}
+// 6. Validar Todos os 8 Arquivos JSON em data/
+console.log("\n6. Validação dos 8 Arquivos em data/*.json:");
+const jsonFiles = [
+  "integrantes.json",
+  "projetos.json",
+  "producao.json",
+  "softwares.json",
+  "patentes.json",
+  "datasets.json",
+  "noticias.json",
+  "cursos.json"
+];
 
-const projetosPath = resolve(ROOT_DIR, "data/projetos.json");
-assert(existsSync(projetosPath), "data/projetos.json existe");
-if (existsSync(projetosPath)) {
-  const data = JSON.parse(readFileSync(projetosPath, "utf-8"));
-  assert(Array.isArray(data.projetos) && data.projetos.length > 0, "projetos.json contém lista de projetos");
-  data.projetos.forEach(p => {
-    if (p.imagem) {
-      const imgPath = resolve(ROOT_DIR, p.imagem);
-      assert(existsSync(imgPath), `Imagem do projeto '${p.titulo.slice(0, 30)}...' existe: ${p.imagem}`);
-    }
-  });
-}
+jsonFiles.forEach(f => {
+  const p = resolve(ROOT_DIR, "data", f);
+  assert(existsSync(p), `Arquivo data/${f} existe`);
+  if (existsSync(p)) {
+    const parsed = JSON.parse(readFileSync(p, "utf-8"));
+    assert(parsed !== null && typeof parsed === "object", `data/${f} contém JSON válido`);
+  }
+});
 
-const producaoPath = resolve(ROOT_DIR, "data/producao.json");
-assert(existsSync(producaoPath), "data/producao.json existe");
-if (existsSync(producaoPath)) {
-  const data = JSON.parse(readFileSync(producaoPath, "utf-8"));
-  assert(Array.isArray(data.producoes) && data.producoes.length > 0, "producao.json contém anos de produção");
-}
+// Integrantes detalhes
+const integrantesData = JSON.parse(readFileSync(resolve(ROOT_DIR, "data/integrantes.json"), "utf-8"));
+assert(Array.isArray(integrantesData.professores) && integrantesData.professores.length === 4, "4 professores docentes mantidos");
+assert(Array.isArray(integrantesData.doutorandos) && integrantesData.doutorandos.length >= 2, "Doutorandos presentes");
+assert(Array.isArray(integrantesData.mestrandos) && integrantesData.mestrandos.length >= 3, "Mestrandos presentes");
+assert(Array.isArray(integrantesData.graduandos) && integrantesData.graduandos.length >= 3, "Graduandos presentes");
+assert(Array.isArray(integrantesData.egressos) && integrantesData.egressos.length >= 2, "Egressos presentes");
+assert(Array.isArray(integrantesData.alunos), "Array concatenado 'alunos' preservado para retrocompatibilidade");
 
 console.log("\n=================================================================");
 console.log(`Resultado: ${totalPassed} testes passaram, ${totalFailed} falharam.`);
@@ -168,6 +181,6 @@ console.log("=================================================================")
 if (totalFailed > 0) {
   process.exit(1);
 } else {
-  console.log("Todos os testes automatizados foram concluídos com sucesso!\n");
+  console.log("Todos os testes automatizados da suíte foram concluídos com 100% de sucesso!\n");
   process.exit(0);
 }

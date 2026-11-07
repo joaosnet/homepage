@@ -1,0 +1,35 @@
+[
+    {
+        "id": "curso-dsp-python",
+        "titulo": "Processamento Digital de Sinais & Imagens em Python",
+        "nivel": "Intermediário",
+        "cargaHoraria": "30 horas",
+        "modalidade": "Híbrido (Aulas Práticas no LaPS / Laboratório)",
+        "instrutores": ["Prof. Ronaldo Zampolo", "Profa. Ana Carolina Siravenha"],
+        "descricao": "Curso prático cobrindo transformada discreta de Fourier (DFT/FFT), projeto de filtros FIR/IIR, convolução bidimensional, detecção de bordas e extração de características em imagens com NumPy e OpenCV.",
+        "topicos": ["FFT & Análise Espectral", "Filtros Digitais", "Convolução 2D", "OpenCV & NumPy"],
+        "link": "https://github.com/LAPSHub"
+    },
+    {
+        "id": "curso-flutter-git",
+        "titulo": "Engenharia de Software & Flutter Colaborativo na Prática",
+        "nivel": "Iniciante a Intermediário",
+        "cargaHoraria": "20 horas",
+        "modalidade": "Prático / Repositório Aberto",
+        "instrutores": ["João Natividade Silva Neto", "Diego Lorenzo"],
+        "descricao": "Oficina baseada no repositório flutter-learn-together do LAPSHub com foco em arquitetura limpa, boas práticas de Git/GitHub, testes unitários e desenvolvimento multiplataforma.",
+        "topicos": ["Flutter", "Dart", "Git Flow", "CI/CD com GitHub Actions"],
+        "link": "https://github.com/LAPSHub/flutter-learn-together"
+    },
+    {
+        "id": "curso-eeg-neuroeng",
+        "titulo": "Fundamentos de Eletroencefalografia e Neuroengenharia",
+        "nivel": "Avançado",
+        "cargaHoraria": "24 horas",
+        "modalidade": "Presencial / LaPS",
+        "instrutores": ["Prof. Antônio Pereira Júnior", "Alice Lobo"],
+        "descricao": "Treinamento especializado em aquisição de biopotenciais, remoção de artefatos oculares com ICA, análise de potências de bandas corticais e desenho de experimentos com neurofeedback.",
+        "topicos": ["Sinais Bioelétricos", "ICA & Filtragem", "Ritmos Corticais", "Protocolos Clínicos"],
+        "link": "https://laps.ufpa.br/#contato"
+    }
+]

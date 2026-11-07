@@ -1,0 +1,74 @@
+[
+    {
+        "id": "sw-dmovel-mobile",
+        "nome": "DMóvel Mobile",
+        "linguagem": "Dart / Flutter",
+        "repo": "https://github.com/LAPSHub/dmovel-mobile",
+        "descricao": "Aplicativo multiplataforma em Flutter para testes clínicos e avaliação psicofísica visual com eye-tracking em dispositivos móveis.",
+        "estrelas": 3,
+        "topicos": ["flutter", "dart", "eye-tracking", "assistive-technology", "psicofisica"]
+    },
+    {
+        "id": "sw-dmovel-web",
+        "nome": "DMóvel Web App",
+        "linguagem": "JavaScript / Web",
+        "repo": "https://github.com/LAPSHub/dmovel_web_app",
+        "descricao": "Ambiente web interativo para pesquisadores e clínicos gerenciarem protocolos experimentais e visualizarem dados psicométricos.",
+        "estrelas": 6,
+        "topicos": ["javascript", "web-app", "data-visualization", "canvas"]
+    },
+    {
+        "id": "sw-dmovel-fastapi",
+        "nome": "DMóvel Backend API",
+        "linguagem": "Python / FastAPI",
+        "repo": "https://github.com/LAPSHub/dmovel-fastapi",
+        "descricao": "Microsserviço de alta performance para processamento em tempo real de fluxos telemétricos, autenticação segura e sincronização de dados de rastreamento ocular.",
+        "estrelas": 2,
+        "topicos": ["fastapi", "python", "asyncio", "signal-processing"]
+    },
+    {
+        "id": "sw-dmovel-dash",
+        "nome": "DMóvel Data Analytics Dashboard",
+        "linguagem": "Python / Dash / Plotly",
+        "repo": "https://github.com/LAPSHub/dmovel-dash",
+        "descricao": "Dashboard analítico para exploração estatística, mapas de calor de fixação ocular e trajetórias de gaze em testes de qualidade visual.",
+        "estrelas": 1,
+        "topicos": ["python", "dash", "analytics", "heatmaps", "eye-tracking"]
+    },
+    {
+        "id": "sw-amazonia-deeplab",
+        "nome": "Amazônia DeepLab Semantic Segmentation",
+        "linguagem": "Python / PyTorch",
+        "repo": "https://github.com/LAPSHub/amazonia-deeplab-track2",
+        "descricao": "Modelos de aprendizado profundo baseados em DeepLabv3+ para segmentação semântica de coberturas florestais e monitoramento ambiental da Amazônia.",
+        "estrelas": 0,
+        "topicos": ["deep-learning", "pytorch", "remote-sensing", "computer-vision"]
+    },
+    {
+        "id": "sw-o3source",
+        "nome": "Ozone Source Location (Inverse Problem)",
+        "linguagem": "Python / Jupyter",
+        "repo": "https://github.com/LAPSHub/o3source_location",
+        "descricao": "Algoritmos para localização de descargas parciais em equipamentos elétricos de alta tensão a partir da dispersão de ozônio modelada como problema inverso.",
+        "estrelas": 0,
+        "topicos": ["inverse-problem", "dsp", "high-voltage", "optimization"]
+    },
+    {
+        "id": "sw-mmedia-forgery",
+        "nome": "Multimedia Forgery Detection",
+        "linguagem": "Python / OpenCV",
+        "repo": "https://github.com/LAPSHub/mmedia-forgery-detection",
+        "descricao": "Ferramenta forense digital para detecção automática de adulterações e falsificações em imagens e vídeos baseada em análise de ruído residual de sensores.",
+        "estrelas": 0,
+        "topicos": ["forensics", "image-processing", "forgery-detection", "prnu"]
+    },
+    {
+        "id": "sw-flutter-learn",
+        "nome": "Flutter Learn Together",
+        "linguagem": "Flutter / Git",
+        "repo": "https://github.com/LAPSHub/flutter-learn-together",
+        "descricao": "Repositório colaborativo de capacitação técnica em engenharia de software e Flutter para formação de novos pesquisadores de iniciação científica.",
+        "estrelas": 3,
+        "topicos": ["flutter", "education", "best-practices", "git"]
+    }
+]

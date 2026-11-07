@@ -1,7 +1,10 @@
 {
     "professores": [
         {
+            "id": "prof-ana-carol",
             "nome": "Ana Carolina Q. Siravenha",
+            "categoria": "professor",
+            "titulacao": "Professora Adjunta",
             "foto": "assets/img/foto_ana_carol.jpg",
             "lattes": "http://lattes.cnpq.br/4383482501456728",
             "email": "siravenha@ufpa.br",
@@ -11,7 +14,10 @@
             "linhasPesquisa": "Processamento de imagem. Visão computacional."
         },
         {
+            "id": "prof-antonio-pereira",
             "nome": "Antônio Pereira Júnior",
+            "categoria": "professor",
+            "titulacao": "Professor Associado",
             "foto": "assets/img/foto_apereira.jpeg",
             "lattes": "http://lattes.cnpq.br/1402289786010170",
             "email": "apereira@ufpa.br",
@@ -21,7 +27,10 @@
             "linhasPesquisa": "Análise de sinais bioelétricos. Sistemas de Neurofeedback e Neuroengenharia."
         },
         {
+            "id": "prof-francisco-muller",
             "nome": "Francisco Carlos Bentes Frey Müller",
+            "categoria": "professor",
+            "titulacao": "Professor",
             "foto": "assets/img/foto_muller.jpeg",
             "lattes": "http://lattes.cnpq.br/4883158238383471",
             "email": "fmuller@ufpa.br",
@@ -31,7 +40,10 @@
             "linhasPesquisa": "Sistemas de comunicação."
         },
         {
+            "id": "prof-ronaldo-zampolo",
             "nome": "Ronaldo de Freitas Zampolo",
+            "categoria": "professor",
+            "titulacao": "Professor Associado",
             "foto": "assets/img/zampolo.png",
             "lattes": "http://lattes.cnpq.br/9088524620828017",
             "email": "zampolo@ufpa.br",
@@ -41,5 +53,234 @@
             "linhasPesquisa": "Processamento de imagem. Visão computacional."
         }
     ],
-    "alunos": []
+    "doutorandos": [
+        {
+            "id": "disc-charles-silveira",
+            "nome": "Charles Silveira",
+            "categoria": "doutorado",
+            "programa": "PPGEE / UFPA",
+            "orientador": "Ronaldo de Freitas Zampolo",
+            "linhasPesquisa": "Visão Computacional, Processamento Digital de Sinais e Deep Learning.",
+            "projeto": "Visão computacional baseada em aprendizado profundo",
+            "foto": "https://avatars.githubusercontent.com/u/142239215?v=4",
+            "github": "https://github.com/GS-Kusanagi95",
+            "lattes": "http://lattes.cnpq.br/209557465",
+            "email": "charles.silveira@itec.ufpa.br"
+        },
+        {
+            "id": "disc-alice-lobo",
+            "nome": "Alice Lobo",
+            "categoria": "doutorado",
+            "programa": "PPGEE / UFPA",
+            "orientador": "Antônio Pereira Júnior",
+            "linhasPesquisa": "Análise de Sinais Bioelétricos, Neurofeedback e Eletroencefalografia.",
+            "projeto": "Sistemas de biofeedback para tratamento de transtornos neurológicos",
+            "foto": "https://avatars.githubusercontent.com/u/3321953?v=4",
+            "github": "https://github.com/alice-lobo",
+            "lattes": "http://lattes.cnpq.br/3321953",
+            "email": "alice.lobo@itec.ufpa.br"
+        }
+    ],
+    "mestrandos": [
+        {
+            "id": "disc-joao-natividade",
+            "nome": "João Natividade Silva Neto",
+            "categoria": "mestrado",
+            "programa": "PPGEE / UFPA",
+            "orientador": "Ronaldo de Freitas Zampolo",
+            "linhasPesquisa": "Processamento de Imagens, Tecnologias Móveis Assistivas e Qualidade Visual.",
+            "projeto": "DMóvel: ferramenta móvel para avaliação de qualidade visual e rastreamento ocular",
+            "foto": "https://avatars.githubusercontent.com/u/87316339?v=4",
+            "github": "https://github.com/joaosnet",
+            "linkedin": "https://linkedin.com/in/joaosnet",
+            "lattes": "http://lattes.cnpq.br/87316339",
+            "email": "joao.silva.neto@itec.ufpa.br"
+        },
+        {
+            "id": "disc-carlos-martins",
+            "nome": "Carlos Eduardo Martins",
+            "categoria": "mestrado",
+            "programa": "PPGEE / UFPA",
+            "orientador": "Ana Carolina Q. Siravenha",
+            "linhasPesquisa": "Reconhecimento de Padrões e Visão Computacional Aplicada à Saúde.",
+            "projeto": "Sistemas e tecnologias assistivas com foco em reabilitação",
+            "foto": "https://avatars.githubusercontent.com/u/14335424?v=4",
+            "github": "https://github.com/cadumartins",
+            "lattes": "http://lattes.cnpq.br/14335424",
+            "email": "carlos.martins@itec.ufpa.br"
+        },
+        {
+            "id": "disc-matheus-couto",
+            "nome": "Matheus Couto",
+            "categoria": "mestrado",
+            "programa": "PPGEE / UFPA",
+            "orientador": "Francisco Carlos Bentes Frey Müller",
+            "linhasPesquisa": "Sistemas de Comunicação, Redes de Sensores e Sistemas Embarcados.",
+            "projeto": "Modelos matemáticos de transmissão e sensoriamento",
+            "foto": "https://avatars.githubusercontent.com/u/24771660?v=4",
+            "github": "https://github.com/cmscoutinho",
+            "email": "matheus.couto@itec.ufpa.br"
+        }
+    ],
+    "graduandos": [
+        {
+            "id": "disc-alana-miranda",
+            "nome": "Alana Miranda",
+            "categoria": "graduacao",
+            "programa": "Engenharia da Computação / UFPA",
+            "orientador": "Ronaldo de Freitas Zampolo",
+            "linhasPesquisa": "Iniciação Científica em Processamento de Vídeo e Interfaces Inteligentes.",
+            "projeto": "DMóvel: ferramenta móvel para avaliação de qualidade visual",
+            "foto": "https://avatars.githubusercontent.com/u/74725375?v=4",
+            "github": "https://github.com/AlanaMiranda",
+            "email": "alana.miranda@itec.ufpa.br"
+        },
+        {
+            "id": "disc-diego-lorenzo",
+            "nome": "Diego Lorenzo",
+            "categoria": "graduacao",
+            "programa": "Engenharia da Computação / UFPA",
+            "orientador": "Ronaldo de Freitas Zampolo",
+            "linhasPesquisa": "Desenvolvimento Multiplataforma (Flutter), Visão Computacional e Dashboards de Dados.",
+            "projeto": "DMóvel: ecossistema móvel e dashboards analíticos",
+            "foto": "https://avatars.githubusercontent.com/u/93411566?v=4",
+            "github": "https://github.com/diegolorenzo1212",
+            "email": "diego.lorenzo@itec.ufpa.br"
+        },
+        {
+            "id": "disc-gabriele-araujo",
+            "nome": "Gabriele Araújo",
+            "categoria": "graduacao",
+            "programa": "Engenharia Biomédica / UFPA",
+            "orientador": "Antônio Pereira Júnior",
+            "linhasPesquisa": "Processamento de Sinais Fisiológicos e Protocolos de Biofeedback.",
+            "projeto": "Neurociências da leitura e ansiedade social na universidade",
+            "foto": "https://avatars.githubusercontent.com/u/69174689?v=4",
+            "github": "https://github.com/GabrieleAraujo",
+            "email": "gabriele.araujo@itec.ufpa.br"
+        }
+    ],
+    "egressos": [
+        {
+            "id": "egr-fernando-castro",
+            "nome": "Dr. Fernando Castro",
+            "categoria": "egresso",
+            "titulacao": "Doutor em Engenharia Elétrica",
+            "orientador": "Ronaldo de Freitas Zampolo",
+            "linhasPesquisa": "Forense de Imagens Digitais e Modelos Estatísticos de Visão.",
+            "projeto": "Detecção de falsificação em mídias digitais",
+            "foto": "https://avatars.githubusercontent.com/u/57629887?v=4",
+            "github": "https://github.com/fernandoadc",
+            "lattes": "http://lattes.cnpq.br/57629887"
+        },
+        {
+            "id": "egr-renato-conkist",
+            "nome": "Renato Conkist",
+            "categoria": "egresso",
+            "titulacao": "Mestre em Engenharia Elétrica",
+            "orientador": "Ana Carolina Q. Siravenha",
+            "linhasPesquisa": "Processamento de Sinais de EEG e Redes Neurais Convolucionais.",
+            "projeto": "Redes neuronais em pacientes com afasia",
+            "foto": "https://avatars.githubusercontent.com/u/140028678?v=4",
+            "github": "https://github.com/renatoconkist"
+        }
+    ],
+    "alunos": [
+        {
+            "id": "disc-charles-silveira",
+            "nome": "Charles Silveira",
+            "categoria": "doutorado",
+            "programa": "PPGEE / UFPA",
+            "orientador": "Ronaldo de Freitas Zampolo",
+            "linhasPesquisa": "Visão Computacional, Processamento Digital de Sinais e Deep Learning.",
+            "projeto": "Visão computacional baseada em aprendizado profundo",
+            "foto": "https://avatars.githubusercontent.com/u/142239215?v=4",
+            "github": "https://github.com/GS-Kusanagi95",
+            "email": "charles.silveira@itec.ufpa.br"
+        },
+        {
+            "id": "disc-alice-lobo",
+            "nome": "Alice Lobo",
+            "categoria": "doutorado",
+            "programa": "PPGEE / UFPA",
+            "orientador": "Antônio Pereira Júnior",
+            "linhasPesquisa": "Análise de Sinais Bioelétricos, Neurofeedback e Eletroencefalografia.",
+            "projeto": "Sistemas de biofeedback para tratamento de transtornos neurológicos",
+            "foto": "https://avatars.githubusercontent.com/u/3321953?v=4",
+            "github": "https://github.com/alice-lobo",
+            "email": "alice.lobo@itec.ufpa.br"
+        },
+        {
+            "id": "disc-joao-natividade",
+            "nome": "João Natividade Silva Neto",
+            "categoria": "mestrado",
+            "programa": "PPGEE / UFPA",
+            "orientador": "Ronaldo de Freitas Zampolo",
+            "linhasPesquisa": "Processamento de Imagens, Tecnologias Móveis Assistivas e Qualidade Visual.",
+            "projeto": "DMóvel: ferramenta móvel para avaliação de qualidade visual e rastreamento ocular",
+            "foto": "https://avatars.githubusercontent.com/u/87316339?v=4",
+            "github": "https://github.com/joaosnet",
+            "email": "joao.silva.neto@itec.ufpa.br"
+        },
+        {
+            "id": "disc-carlos-martins",
+            "nome": "Carlos Eduardo Martins",
+            "categoria": "mestrado",
+            "programa": "PPGEE / UFPA",
+            "orientador": "Ana Carolina Q. Siravenha",
+            "linhasPesquisa": "Reconhecimento de Padrões e Visão Computacional Aplicada à Saúde.",
+            "projeto": "Sistemas e tecnologias assistivas com foco em reabilitação",
+            "foto": "https://avatars.githubusercontent.com/u/14335424?v=4",
+            "github": "https://github.com/cadumartins",
+            "email": "carlos.martins@itec.ufpa.br"
+        },
+        {
+            "id": "disc-matheus-couto",
+            "nome": "Matheus Couto",
+            "categoria": "mestrado",
+            "programa": "PPGEE / UFPA",
+            "orientador": "Francisco Carlos Bentes Frey Müller",
+            "linhasPesquisa": "Sistemas de Comunicação, Redes de Sensores e Sistemas Embarcados.",
+            "projeto": "Modelos matemáticos de transmissão e sensoriamento",
+            "foto": "https://avatars.githubusercontent.com/u/24771660?v=4",
+            "github": "https://github.com/cmscoutinho",
+            "email": "matheus.couto@itec.ufpa.br"
+        },
+        {
+            "id": "disc-alana-miranda",
+            "nome": "Alana Miranda",
+            "categoria": "graduacao",
+            "programa": "Engenharia da Computação / UFPA",
+            "orientador": "Ronaldo de Freitas Zampolo",
+            "linhasPesquisa": "Iniciação Científica em Processamento de Vídeo e Interfaces Inteligentes.",
+            "projeto": "DMóvel: ferramenta móvel para avaliação de qualidade visual",
+            "foto": "https://avatars.githubusercontent.com/u/74725375?v=4",
+            "github": "https://github.com/AlanaMiranda",
+            "email": "alana.miranda@itec.ufpa.br"
+        },
+        {
+            "id": "disc-diego-lorenzo",
+            "nome": "Diego Lorenzo",
+            "categoria": "graduacao",
+            "programa": "Engenharia da Computação / UFPA",
+            "orientador": "Ronaldo de Freitas Zampolo",
+            "linhasPesquisa": "Desenvolvimento Multiplataforma (Flutter), Visão Computacional e Dashboards de Dados.",
+            "projeto": "DMóvel: ecossistema móvel e dashboards analíticos",
+            "foto": "https://avatars.githubusercontent.com/u/93411566?v=4",
+            "github": "https://github.com/diegolorenzo1212",
+            "email": "diego.lorenzo@itec.ufpa.br"
+        },
+        {
+            "id": "disc-gabriele-araujo",
+            "nome": "Gabriele Araújo",
+            "categoria": "graduacao",
+            "programa": "Engenharia Biomédica / UFPA",
+            "orientador": "Antônio Pereira Júnior",
+            "linhasPesquisa": "Processamento de Sinais Fisiológicos e Protocolos de Biofeedback.",
+            "projeto": "Neurociências da leitura e ansiedade social na universidade",
+            "foto": "https://avatars.githubusercontent.com/u/69174689?v=4",
+            "github": "https://github.com/GabrieleAraujo",
+            "email": "gabriele.araujo@itec.ufpa.br"
+        }
+    ]
 }

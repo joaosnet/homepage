@@ -67,11 +67,11 @@ function startServer(port = 8089) {
 
 function runFfmpeg(videoPath, gifPath) {
   return new Promise((res, rej) => {
-    // 600x338, 8 fps, 80 cores com dithering para GIF leve e fluido (< 2.5 MB)
+    // 640x360, 8 fps, 80 cores com dithering para GIF leve e fluido (< 3.2 MB)
     const args = [
       "-y",
       "-i", videoPath,
-      "-vf", "fps=8,scale=600:-1:flags=lanczos,split[s0][s1];[s0]palettegen=max_colors=80[p];[s1][p]paletteuse=dither=bayer:bayer_scale=3",
+      "-vf", "fps=8,scale=640:-1:flags=lanczos,split[s0][s1];[s0]palettegen=max_colors=80[p];[s1][p]paletteuse=dither=bayer:bayer_scale=3",
       gifPath
     ];
 
@@ -85,7 +85,7 @@ function runFfmpeg(videoPath, gifPath) {
 }
 
 export async function recordDemo() {
-  console.log("Iniciando gravação do GIF de demonstração do novo site LaPS (AAA)...");
+  console.log("Iniciando gravação do GIF de demonstração do novo site LaPS (v3.0 LASSE)...");
   const PORT = 8092;
   const server = await startServer(PORT);
   console.log(`Servidor local ativo na porta ${PORT}`);
@@ -116,49 +116,65 @@ export async function recordDemo() {
   // 2. Alternar idioma para EN e DE
   console.log("2. Alternando Idiomas (EN / DE)...");
   await page.click('[data-lang-btn="en"]');
-  await page.waitForTimeout(700);
-  await page.click('[data-lang-btn="de"]');
-  await page.waitForTimeout(700);
-  await page.click('[data-lang-btn="pt"]');
   await page.waitForTimeout(600);
+  await page.click('[data-lang-btn="pt"]');
+  await page.waitForTimeout(500);
 
   // 3. Alternar para Modo Escuro
   console.log("3. Alternando Tema Escuro (Dark Mode)...");
   await page.click("#theme-toggle-btn");
+  await page.waitForTimeout(700);
+
+  // 4. Rolar para a Equipe e mostrar Grafo Interativo e Filtros
+  console.log("4. Rolando para Equipe (Grade, Lista e Grafo)...");
+  await page.evaluate(() => {
+    const el = document.getElementById("integrantes");
+    if (el) el.scrollIntoView({ behavior: "smooth" });
+  });
+  await page.waitForTimeout(800);
+
+  // Clicar em Doutorandos
+  await page.click('[data-category="doutorandos"]');
+  await page.waitForTimeout(500);
+  await page.click('[data-category="all"]');
+  await page.waitForTimeout(400);
+
+  // Alternar para Grafo Interativo
+  await page.click('[data-view="graph"]');
   await page.waitForTimeout(900);
 
-  // 4. Rolar para o Laboratório Interativo de DSP
-  console.log("4. Rolando para o Laboratório Interativo de DSP...");
+  // Alternar de volta para Grade
+  await page.click('[data-view="grid"]');
+  await page.waitForTimeout(500);
+
+  // 5. Rolar para o Laboratório Interativo de DSP
+  console.log("5. Rolando para o Laboratório Interativo de DSP...");
   await page.evaluate(() => {
     const el = document.getElementById("dsp-showcase");
     if (el) el.scrollIntoView({ behavior: "smooth" });
   });
-  await page.waitForTimeout(900);
-
-  // Interagir com filtros de convolução
-  await page.click('[data-dsp-filter="gaussian"]');
-  await page.waitForTimeout(600);
-  await page.click('[data-dsp-filter="sobel"]');
-  await page.waitForTimeout(800);
-
-  // 5. Rolar para o Hub de Publicações
-  console.log("5. Rolando para Hub de Publicações...");
-  await page.evaluate(() => {
-    const el = document.getElementById("producao");
-    if (el) el.scrollIntoView({ behavior: "smooth" });
-  });
-  await page.waitForTimeout(900);
-
-  // Filtrar publicações por autor
-  await page.fill(".pub-search-input", "Zampolo");
   await page.waitForTimeout(700);
 
-  // Copiar BibTeX
-  const bibBtn = await page.$(".pub-bibtex-btn");
-  if (bibBtn) {
-    await bibBtn.click();
-    await page.waitForTimeout(800);
-  }
+  await page.click('[data-dsp-filter="sobel"]');
+  await page.waitForTimeout(600);
+
+  // 6. Rolar para Datasets e Open Source
+  console.log("6. Rolando para Datasets e Softwares...");
+  await page.evaluate(() => {
+    const el = document.getElementById("datasets");
+    if (el) el.scrollIntoView({ behavior: "smooth" });
+  });
+  await page.waitForTimeout(700);
+
+  await page.evaluate(() => {
+    const el = document.getElementById("open-source");
+    if (el) el.scrollIntoView({ behavior: "smooth" });
+  });
+  await page.waitForTimeout(700);
+
+  // Clicar na aba Patentes
+  await page.click('[role="tab"]:has-text("Patentes")');
+  await page.waitForTimeout(700);
 
   // Voltar para Light mode
   await page.click("#theme-toggle-btn");

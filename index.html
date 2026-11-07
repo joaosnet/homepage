@@ -58,6 +58,11 @@
         "logo": "https://laps.ufpa.br/assets/img/laps_logo.png",
         "image": "https://laps.ufpa.br/assets/img/og-preview.png",
         "description": "Laboratório de pesquisa acadêmica e inovação tecnológica vinculado à Universidade Federal do Pará, atuando em Inteligência Artificial, Processamento de Sinais e Imagens, Visão Computacional e Neuroengenharia.",
+        "sameAs": [
+          "https://www.instagram.com/laps_ufpa/",
+          "https://github.com/LAPSHub",
+          "https://www.facebook.com/lapsufpa/"
+        ],
         "parentOrganization": {
           "@type": "EducationalOrganization",
           "name": "Universidade Federal do Pará",
@@ -135,6 +140,16 @@
 </head>
 
 <body>
+  <!-- SKIP LINKS PARA TECLADO / ACESSIBILIDADE (WCAG AAA) -->
+  <div class="skip-links">
+    <a href="#hero" class="skip-link">Pular para o conteúdo principal</a>
+    <a href="#integrantes" class="skip-link">Pular para a equipe</a>
+    <a href="#projetos" class="skip-link">Pular para os projetos</a>
+    <a href="#contato" class="skip-link">Pular para o contato</a>
+  </div>
+
+  <!-- REGISTRO DINÂMICO PARA LEITORES DE TELA -->
+  <div id="a11y-announcer" class="sr-only" aria-live="polite" aria-atomic="true"></div>
   <!-- ======= CABEÇALHO ======= -->
   <header id="header" class="fixed-top">
     <div class="container-fluid header-inner-container">
@@ -151,13 +166,27 @@
           <nav class="nav-menu">
             <ul>
               <li class="active"><a href="#hero" data-translate="nav.inicio">Início</a></li>
-              <li><a href="#sobre" data-translate="nav.sobre">Sobre</a></li>
-              <li><a href="#parceiros" data-translate="nav.parceiros">Parceiros</a></li>
-              <li><a href="#linhasdepesquisas" data-translate="nav.linhas">Linhas de Pesquisa</a></li>
-              <li><a href="#dsp-showcase" data-translate="nav.dspLab">Laboratório DSP</a></li>
-              <li><a href="#integrantes" data-translate="nav.integrantes">Integrantes</a></li>
-              <li><a href="#projetos" data-translate="nav.projetos">Projetos</a></li>
-              <li><a href="#producao" data-translate="nav.producao">Produção</a></li>
+              <li class="nav-dropdown">
+                <a href="#sobre"><span data-translate="nav.sobre">Sobre</span> <i class="bx bx-chevron-down"></i></a>
+                <ul>
+                  <li><a href="#sobre" data-translate="nav.sobre">Sobre o LaPS</a></li>
+                  <li><a href="#parceiros" data-translate="nav.parceiros">Parceiros</a></li>
+                  <li><a href="#linhasdepesquisas" data-translate="nav.linhas">Linhas de Pesquisa</a></li>
+                  <li><a href="#dsp-showcase" data-translate="nav.dspLab">Laboratório DSP</a></li>
+                </ul>
+              </li>
+              <li><a href="#integrantes" data-translate="nav.integrantes">Equipe</a></li>
+              <li class="nav-dropdown">
+                <a href="#projetos"><span data-translate="nav.pesquisaInovacao">Pesquisa & Inovação</span> <i class="bx bx-chevron-down"></i></a>
+                <ul>
+                  <li><a href="#projetos" data-translate="nav.projetos">Projetos de P&D</a></li>
+                  <li><a href="#producao" data-translate="nav.producao">Produção Científica</a></li>
+                  <li><a href="#datasets" data-translate="nav.datasets">Datasets Abertos</a></li>
+                  <li><a href="#open-source" data-translate="nav.softwares">Softwares & Patentes</a></li>
+                </ul>
+              </li>
+              <li><a href="#noticias" data-translate="nav.noticias">Notícias</a></li>
+              <li><a href="#cursos" data-translate="nav.cursos">Cursos</a></li>
               <li><a href="#contato" data-translate="nav.contato">Contato</a></li>
             </ul>
           </nav>
@@ -179,8 +208,14 @@
           </button>
 
           <!-- Acessibilidade: Escala de Fonte e Alto Contraste -->
+          <!-- Botão Instagram Oficial -->
+          <a href="https://www.instagram.com/laps_ufpa/" target="_blank" rel="noopener noreferrer" class="utility-icon-btn instagram-header-btn" aria-label="Instagram do LaPS" title="Instagram @laps_ufpa">
+            <i class="bx bxl-instagram"></i>
+          </a>
+
           <div class="a11y-controls" role="group" aria-label="Controles de Acessibilidade">
             <button type="button" id="a11y-font-minus" class="a11y-btn" aria-label="Diminuir tamanho da fonte" title="Diminuir fonte">A-</button>
+            <button type="button" id="a11y-font-reset" class="a11y-btn" aria-label="Redefinir tamanho da fonte" title="Redefinir fonte">A0</button>
             <button type="button" id="a11y-font-plus" class="a11y-btn" aria-label="Aumentar tamanho da fonte" title="Aumentar fonte">A+</button>
             <button type="button" id="a11y-contrast-btn" class="utility-icon-btn" aria-label="Alternar alto contraste" title="Alto contraste">
               <i class="bx bx-adjust"></i>
@@ -536,6 +571,82 @@
     </section>
     <!-- FIM PRODUÇÃO -->
 
+    <!-- ======= DATASETS CIENTÍFICOS ======= -->
+    <section id="datasets" class="datasets-section">
+      <div class="container" data-aos="fade-up">
+        <div class="section-title">
+          <h2 data-translate="datasets.title">Datasets & Bancos de Sinais Abertos</h2>
+          <p data-translate="datasets.subtitle">Repositórios de dados brutos e curados para fomento à ciência aberta e benchmarking internacional:</p>
+        </div>
+
+        <div id="datasets-container">
+          <div class="text-center py-5">
+            <div class="spinner-border text-primary" role="status">
+              <span class="sr-only">Carregando datasets...</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- FIM DATASETS -->
+
+    <!-- ======= SOFTWARES OPEN SOURCE & PATENTES ======= -->
+    <section id="open-source" class="open-source-section">
+      <div class="container" data-aos="fade-up">
+        <div class="section-title">
+          <h2 data-translate="softwares.title">Inovação Aberta & Propriedade Intelectual</h2>
+          <p data-translate="softwares.subtitle">Softwares livres desenvolvidos pela comunidade LAPSHub e patentes/registros de programas no INPI:</p>
+        </div>
+
+        <div id="open-source-container">
+          <div class="text-center py-5">
+            <div class="spinner-border text-primary" role="status">
+              <span class="sr-only">Carregando softwares e patentes...</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- FIM SOFTWARES OPEN SOURCE & PATENTES -->
+
+    <!-- ======= NOTÍCIAS & COMUNICADOS ======= -->
+    <section id="noticias" class="noticias-section">
+      <div class="container" data-aos="fade-up">
+        <div class="section-title">
+          <h2 data-translate="noticias.title">Notícias & Acontecimentos</h2>
+          <p data-translate="noticias.subtitle">Fique por dentro das últimas pesquisas, premiações, editais e conquistas do LaPS:</p>
+        </div>
+
+        <div id="noticias-container">
+          <div class="text-center py-5">
+            <div class="spinner-border text-primary" role="status">
+              <span class="sr-only">Carregando notícias...</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- FIM NOTÍCIAS -->
+
+    <!-- ======= CURSOS & WORKSHOPS ======= -->
+    <section id="cursos" class="cursos-section">
+      <div class="container" data-aos="fade-up">
+        <div class="section-title">
+          <h2 data-translate="cursos.title">Cursos, Treinamentos & Oficinas</h2>
+          <p data-translate="cursos.subtitle">Capacitação técnica em processamento de sinais, aprendizado de máquina e desenvolvimento aberto:</p>
+        </div>
+
+        <div id="cursos-container">
+          <div class="text-center py-5">
+            <div class="spinner-border text-primary" role="status">
+              <span class="sr-only">Carregando cursos...</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- FIM CURSOS -->
+
     <!-- ======= CONTATO ======= -->
     <section id="contato" class="contact-section">
       <div class="container" data-aos="fade-up">
@@ -544,7 +655,7 @@
         </div>
 
         <div class="row">
-          <div class="col-lg-6 mb-4">
+          <div class="col-lg-3 col-md-6 mb-4">
             <div class="contact-info-card">
               <i class="bx bx-map"></i>
               <h3 data-translate="contact.addressTitle">Localização</h3>
@@ -569,6 +680,15 @@
               <i class="bx bx-phone-call"></i>
               <h3 data-translate="contact.phoneTitle">Telefone Institucional</h3>
               <p><a href="tel:+559132017674">+55 (91) 3201-7674</a></p>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6 mb-4">
+            <div class="contact-info-card instagram-community-card">
+              <i class="bx bxl-instagram"></i>
+              <h3 data-translate="instagram.cardTitle">Instagram Oficial</h3>
+              <p><a href="https://www.instagram.com/laps_ufpa/" target="_blank" rel="noopener noreferrer">@laps_ufpa</a></p>
+              <span class="instagram-subtext" data-translate="instagram.cardSubtitle">Acompanhe bastidores, eventos e pesquisas</span>
             </div>
           </div>
         </div>
@@ -607,18 +727,19 @@
             <ul>
               <li><i class="bx bx-chevron-right"></i> <a href="#hero" data-translate="nav.inicio">Início</a></li>
               <li><i class="bx bx-chevron-right"></i> <a href="#sobre" data-translate="nav.sobre">Sobre</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#parceiros" data-translate="nav.parceiros">Parceiros</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#integrantes" data-translate="nav.integrantes">Integrantes</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#integrantes" data-translate="nav.integrantes">Equipe</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#noticias" data-translate="nav.noticias">Notícias</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#cursos" data-translate="nav.cursos">Cursos</a></li>
             </ul>
           </div>
 
           <div class="col-lg-3 col-md-6 mb-4 footer-links">
-            <h4 data-translate="footer.researchLinks">Eixos de Atuação</h4>
+            <h4 data-translate="footer.researchLinks">Pesquisa & Inovação</h4>
             <ul>
-              <li><i class="bx bx-chevron-right"></i> <a href="#linhasdepesquisas" data-translate="nav.linhas">Linhas de pesquisa</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#dsp-showcase" data-translate="nav.dspLab">Laboratório DSP</a></li>
               <li><i class="bx bx-chevron-right"></i> <a href="#projetos" data-translate="nav.projetos">Projetos</a></li>
               <li><i class="bx bx-chevron-right"></i> <a href="#producao" data-translate="nav.producao">Produção</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#datasets" data-translate="nav.datasets">Datasets</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#open-source" data-translate="nav.softwares">Softwares & Patentes</a></li>
             </ul>
           </div>
 
@@ -645,6 +766,7 @@
         </div>
         <div class="col-md-4 text-center text-md-right">
           <div class="social-links-footer">
+            <a href="https://www.instagram.com/laps_ufpa/" target="_blank" rel="noopener noreferrer" aria-label="Instagram do LaPS"><i class="bx bxl-instagram"></i></a>
             <a href="https://github.com/LAPSHub" target="_blank" rel="noopener noreferrer" aria-label="GitHub do LaPS"><i class="bx bxl-github"></i></a>
             <a href="https://www.facebook.com/lapsufpa/" target="_blank" rel="noopener noreferrer" aria-label="Facebook do LaPS"><i class="bx bxl-facebook"></i></a>
             <a href="mailto:laps@ufpa.br" aria-label="E-mail institucional"><i class="bx bx-envelope"></i></a>

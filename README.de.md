@@ -6,28 +6,27 @@
 
 [![CI](https://github.com/LAPSHub/homepage/actions/workflows/ci.yml/badge.svg)](https://github.com/LAPSHub/homepage/actions/workflows/ci.yml)
 [![Deploy](https://github.com/LAPSHub/homepage/actions/workflows/deploy.yml/badge.svg)](https://github.com/LAPSHub/homepage/actions/workflows/deploy.yml)
-[![Offizielle Webseite](https://img.shields.io/badge/Webseite-laps.ufpa.br-blue.svg)](https://laps.ufpa.br/)
+[![Offizielle Website](https://img.shields.io/badge/Website-laps.ufpa.br-blue.svg)](https://laps.ufpa.br/)
+[![Instagram](https://img.shields.io/badge/Instagram-%40laps__ufpa-E1306C.svg?logo=instagram)](https://www.instagram.com/laps_ufpa/)
 [![Python: 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
 [![Sprachen: PT | EN | DE | FR](https://img.shields.io/badge/sprachen-PT%20%7C%20EN%20%7C%20DE%20%7C%20FR-green.svg)](#)
 [![Lizenz: MIT](https://img.shields.io/badge/lizenz-MIT-green.svg)](LICENSE)
 
-Offizielle Webpräsenz des **Labors für Signalverarbeitung (LaPS)** am Technologie-Institut (ITEC) der **Bundesuniversität von Pará (UFPA)** in Belém, Brasilien. Forschungsschwerpunkte umfassen künstliche Intelligenz, digitale Signal- und Bildverarbeitung, Computer Vision, Neuroengineering, biomedizinische Systeme und Telekommunikation.
+Offizielles institutionelles Portal des **Labors für Signalverarbeitung (LaPS)** der **Bundesuniversität von Pará (UFPA)**. Das Labor forscht in den Bereichen Künstliche Intelligenz, digitale Signal- und Bildverarbeitung, Computer Vision, Biomedizintechnik und Telekommunikation.
 
-Offiziell erreichbar unter [laps.ufpa.br](https://laps.ufpa.br/).
-
----
-
-## 🎬 Webseiten-Demonstration
-
-![Interaktive Demonstration der LaPS-Webseite](assets/img/demo.gif)
-
-Die Webseite lädt Dozenten, Forschungsprojekte und wissenschaftliche Publikationen dynamisch aus strukturierten JSON-Dateien im Verzeichnis `data/`. Sie bietet ein interaktives Karussell, moderne Projektkarten und eine erweiterbare Publikations-Timeline.
+Offiziell veröffentlicht unter [laps.ufpa.br](https://laps.ufpa.br/).
 
 ---
 
-## ⚡ Schnelleinstieg (Lokale Entwicklung)
+## 🎬 Plattform-Demonstration (v3.0 LASSE-Standard)
 
-Starten Sie einen lokalen HTTP-Server zur Vorschau der asynchronen Datenabfrage (`fetch`):
+![Interaktive Demonstration der LaPS-Website](assets/img/demo.gif)
+
+Die Plattform orientiert sich an den Best Practices des **LASSE** für offene Wissenschaft und bietet eine dreifache Teamansicht (**Gitter**, **Liste** und ein **interaktiver 2D-Kollaborationsgraph auf HTML5 Canvas**), Module für **offene Datensätze**, **Open-Source-Software**, **INPI-Patente**, **Nachrichten mit modalem Dialog** und **Fachkurse**.
+
+---
+
+## ⚡ Schnellstart (Lokale Ausführung)
 
 ```bash
 # Option 1: Python 3
@@ -44,84 +43,36 @@ uv run python -m http.server 8000
 
 ---
 
-## 🏛️ Architektur und dynamische Daten
+## 🏛️ Architektur & Dynamische Daten
 
-Alle Labordaten sind in eigenständigen JSON-Dateien vom HTML-Code getrennt:
+Alle Daten sind in 8 modularen JSON-Dateien im Verzeichnis `data/` strukturiert:
 
-| Datei | Beschreibung | Aktualisierung |
-| :--- | :--- | :--- |
-| `data/integrantes.json` | Dozenten, Studierende und akademische Profile (ORCID, Lattes, Scholar) | Direkte Bearbeitung der JSON-Datei. Siehe [docs/data.md](docs/data.md) |
-| `data/projetos.json` | Projekttitel, Zeiträume, Partner, Förderer und Projektbilder | Direkte Bearbeitung der JSON-Datei. Siehe [docs/data.md](docs/data.md) |
-| `data/producao.json` | Wissenschaftliche Artikel und Publikationen geordnet nach Jahr | Manuell oder automatisch über `scripts/sync-data.py` |
-
----
-
-## ⚙️ Zweistufige Automatisierungs-Pipeline
-
-Das Repository nutzt eine entkoppelte zweistufige Automatisierung für Datenaktualisierung und Serverbereitstellung:
-
-```
-[ORCID v3.0 / Crossref] ---> [Stufe 1: sync-data.py] ---> [data/*.json]
-                                                                |
-[laps.ufpa.br (CTIC)]   <--- [Stufe 2: deploy.py]    <--- [GitHub master]
-```
-
-### Stufe 1: Akademische Datensynchronisation (`sync-data.py` / `sync-data.yml`)
-- Fragt die öffentliche ORCID-API v3.0 anhand der Dozenten-IDs ab.
-- Ermittelt DOIs und bibliografische Metadaten über die Crossref-API.
-- Führt neue Veröffentlichungen in `data/producao.json` zusammen, ohne bestehende Einträge zu überschreiben.
-- Läuft wöchentlich über GitHub Actions oder manuell auf Abruf:
-  ```bash
-  python scripts/sync-data.py
-  ```
-
-### Stufe 2: Bereitstellung auf dem Universitätsserver (`deploy.py` / `deploy.yml`)
-- Verbindet sich per FTPS/FTP mit dem Server `laps.ufpa.br` (`200.239.109.18`).
-- Nutzt MD5-Caching (`.ftp_sync_cache.json`), um nur geänderte Dateien zu übertragen.
-- Unterstützt den institutionellen CTIC-VPN-Tunnel (`vpn.dmz.ufpa.br`).
-- Führt Netzwerkdiagnosen durch:
-  ```bash
-  python deploy.py --test-network
-  ```
-- Überträgt Daten und prüft den Online-Status:
-  ```bash
-  python deploy.py --step ftp --verify-live
-  ```
+| Datei | Beschreibung |
+| :--- | :--- |
+| `data/integrantes.json` | Professoren, Doktoranden, Masterstudenten, Bachelor-Forscher und Alumni |
+| `data/projetos.json` | F&E-Projekte, Partner und Förderorganisationen |
+| `data/producao.json` | Wissenschaftliche Publikationen mit DOIs und BibTeX-Zitaten |
+| `data/softwares.json` | Open-Source-Tools der Organisation LAPSHub |
+| `data/patentes.json` | Erfindungspatente und INPI-Softwareregistrierungen |
+| `data/datasets.json` | Offene wissenschaftliche Datensätze für reproduzierbare Forschung |
+| `data/noticias.json` | Institutsnachrichten mit barrierefreiem Lesemodal |
+| `data/cursos.json` | Technische Kurse und Workshops |
 
 ---
 
-## 🧪 Automatisierte Tests und Sicherheit
+## 🌐 Barrierefreiheit & Benutzereinstellungen (WCAG AAA)
 
-Führen Sie die Validierungssuite vor dem Einreichen von Änderungen aus:
+- **Automatische Spracherkennung**: Erkennt die Browsersprache über `navigator.languages` (PT, EN, DE, FR).
+- **3-Zustands-Farbthema**: Zyklus `System (Auto)` ➔ `Dunkel` ➔ `Hell` mit Echtzeit-Listener auf OS-Designänderungen.
+- **Tastatur- und Lesehilfen**: Skip-Links, Schriftgrößenanpassung (`A-`, `A0` Reset, `A+`), Hochkontrastmodus und `#a11y-announcer`.
+- **Offizielles Instagram**: [@laps_ufpa](https://www.instagram.com/laps_ufpa/) nahtlos integriert.
+
+---
+
+## 🧪 Automatisierte Tests
 
 ```bash
-# Testsuite (prüft JSON-Schemas, Bilddateien und technisches SEO):
 node scripts/test-suite.mjs
-
-# Strenge Prüfung auf versehentlich versionierte Zugangsdaten:
+node scripts/verify-playwright.mjs
 node scripts/scan-secrets.mjs
-
-# Sicherheitsüberprüfung der GitHub-Actions-Workflows:
-node scripts/audit-workflows.mjs
-
-# Syntaxprüfung:
-node --check assets/js/data-loader.js
-python -m py_compile deploy.py scripts/sync-data.py
 ```
-
----
-
-## 📚 Modulare Dokumentation
-
-Detaillierte technische Anleitungen im Verzeichnis `docs/`:
-
-- 🏛️ **[Systemarchitektur](docs/architecture.md)**: Asynchrones Laden, taktile Mikrointeraktionen und Barrierefreiheit.
-- 🚀 **[Bereitstellungshandbuch](docs/deploy.md)**: CTIC/UFPA-Netzwerkdetails, VPN und Umgebungsvariablen.
-- 📊 **[Datenverwaltung](docs/data.md)**: JSON-Schemas und ORCID-Synchronisation.
-
----
-
-## 📜 Lizenz und Danksagung
-
-Betreut vom **Labor für Signalverarbeitung (LaPS)** — Bundesuniversität von Pará (UFPA).  
-Benutzeroberfläche basiert auf dem Template Techie (Bootstrap 4.5) mit Designverbesserungen, taktilen Interaktionen und Infrastruktur-Automatisierung.
