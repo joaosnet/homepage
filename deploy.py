@@ -173,6 +173,14 @@ class DeployLock:
 # ==============================================================================
 # GERENCIAMENTO DE TÚNEL FORTINET IPSEC (STRONGSWAN / XAUTH NO LINUX)
 # ==============================================================================
+def get_ipsec_bin() -> str:
+    """Localiza o binário ipsec em diretórios de sistema Linux."""
+    candidates = [shutil.which("ipsec"), "/usr/sbin/ipsec", "/sbin/ipsec", "/usr/local/sbin/ipsec"]
+    for c in candidates:
+        if c and Path(c).exists():
+            return c
+    return "ipsec"
+
 class IPsecFortinetManager:
     """Gerencia a configuração e ciclo de vida do túnel Fortinet IPsec via strongSwan no Linux."""
     def __init__(self, config: dict):
@@ -299,15 +307,22 @@ class IPsecFortinetManager:
             log_error(f"Falha ao gravar arquivos de configuração IPsec em /etc: {e}")
             return False
 
-        log_info("Iniciando daemon do strongSwan via systemctl...")
-        subprocess.run(["systemctl", "restart", "strongswan-starter"])
+        ipsec_bin = get_ipsec_bin()
+        log_info(f"Iniciando daemon do strongSwan ({ipsec_bin})...")
+        for start_cmd in [["systemctl", "restart", "strongswan-starter"], ["systemctl", "restart", "strongswan"], [ipsec_bin, "restart"], [ipsec_bin, "start"]]:
+            try:
+                res = subprocess.run(start_cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+                if res.returncode == 0:
+                    break
+            except Exception:
+                pass
         time.sleep(3)
 
         log_info(f"Estabelecendo conexão IPsec com o FortiGate da UFPA ({len(conn_names)} conexões)...")
         for c_name in conn_names:
             log_info(f"Disparando associação IPsec para {c_name}...")
             for attempt in range(3):
-                up_res = subprocess.run(["ipsec", "up", c_name], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+                up_res = subprocess.run([ipsec_bin, "up", c_name], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
                 if up_res.stdout:
                     print(f"[{c_name} up]\n{up_res.stdout.strip()}")
                 if up_res.stderr:
@@ -315,7 +330,7 @@ class IPsecFortinetManager:
                 out_all = (up_res.stdout or "") + (up_res.stderr or "")
                 if "no config named" in out_all:
                     log_warn(f"Configuração '{c_name}' ainda não sincronizada no charon. Atualizando...")
-                    subprocess.run(["ipsec", "update"])
+                    subprocess.run([ipsec_bin, "update"])
                     time.sleep(2)
                     continue
                 break
@@ -325,7 +340,7 @@ class IPsecFortinetManager:
         status_output = ""
         for attempt in range(15):
             time.sleep(1)
-            stat = subprocess.run(["ipsec", "status"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+            stat = subprocess.run([ipsec_bin, "status"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
             status_output = stat.stdout or stat.stderr
             if "INSTALLED" in status_output or ("ESTABLISHED" in status_output and "TUNNEL" in status_output):
                 connected = True
@@ -338,12 +353,12 @@ class IPsecFortinetManager:
 
         self.is_running = True
         log_success("Túnel Fortinet IPsec conectado com sucesso à rede institucional da UFPA!")
-        subprocess.run(["ipsec", "statusall"])
+        subprocess.run([ipsec_bin, "statusall"])
         subprocess.run(["ip", "route", "show", "table", "220"])
 
         # Detectar Virtual IP atribuído pela UFPA (faixa institucional 172.16.0.0/12)
         virtual_ip = None
-        stat_full = subprocess.run(["ipsec", "statusall", "fortinet"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        stat_full = subprocess.run([ipsec_bin, "statusall", "fortinet"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
         combined_logs = (stat_full.stdout or "") + "\n" + (status_output or "")
 
         m_ts = re.search(r"TS\s+(172\.(?:1[6-9]|2[0-9]|3[01])\.\d+\.\d+)/\d+\s*===", combined_logs)
@@ -477,9 +492,10 @@ class IPsecFortinetManager:
         if os.name != "posix":
             return
         log_info("Encerrando túnel IPsec e limpando credenciais...")
+        ipsec_bin = get_ipsec_bin()
         for c in ["fortinet-0", "fortinet-1", "fortinet-2", "fortinet"]:
-            subprocess.run(["ipsec", "down", c], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-        subprocess.run(["ipsec", "stop"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            subprocess.run([ipsec_bin, "down", c], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        subprocess.run([ipsec_bin, "stop"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         for p in [Path("/etc/ipsec.secrets"), Path("/etc/ipsec.conf"), Path("/etc/strongswan.d/charon-logging.conf"), Path("/tmp/vpn_virtual_ip"), Path("/tmp/internal_ftp_ip")]:
             try:
                 if p.exists():

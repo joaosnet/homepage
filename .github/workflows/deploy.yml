@@ -83,12 +83,12 @@ jobs:
         if: steps.check_credentials.outputs.use_vpn_deploy == 'true'
         shell: bash
         run: |
-          echo "Instalando strongSwan e plugins de autenticação XAuth..."
+          echo "Instalando strongSwan e pacotes de suporte XAuth..."
           sudo apt-get update >/dev/null
-          sudo apt-get install --yes --no-install-recommends strongswan libcharon-extra-plugins libcharon-extauth-plugins libstrongswan-extra-plugins dnsutils >/dev/null
+          sudo apt-get install --yes --no-install-recommends strongswan strongswan-starter libcharon-extra-plugins libcharon-extauth-plugins libstrongswan-extra-plugins dnsutils >/dev/null
 
           echo "Estabelecendo túnel IPsec com o gateway vpn.dmz.ufpa.br..."
-          sudo env "PATH=$PATH" \
+          sudo env "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:$PATH" \
             VPN_USER="$VPN_USER" \
             VPN_PASS="$VPN_PASS" \
             VPN_PSK="$VPN_PSK" \
@@ -119,7 +119,7 @@ jobs:
         shell: bash
         run: |
           if [ "$USE_IPSEC" = "true" ]; then
-            sudo python3 deploy.py --step ipsec-down || true
+            sudo env "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:$PATH" python3 deploy.py --step ipsec-down || true
           fi
 
       - name: Verificar integridade do site público
