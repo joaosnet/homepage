@@ -202,6 +202,14 @@ class IPsecFortinetManager:
             return False
 
         gateway = self.config.get("VPN_GATEWAY", "vpn.dmz.ufpa.br")
+        gateway_ip = None
+        try:
+            gateway_ip = socket.gethostbyname(gateway)
+            log_info(f"Gateway VPN resolvido via DNS: {gateway} -> {gateway_ip}")
+        except Exception as e:
+            log_warn(f"Falha ao resolver gateway {gateway}: {e}")
+            gateway_ip = "200.239.67.173"
+
         psk = self.config.get("VPN_PSK", "caecPQgjP1pD26DgWCHr")
         user = self.config.get("VPN_USER", "")
         passwd = self.config.get("VPN_PASS", "")
@@ -256,7 +264,7 @@ class IPsecFortinetManager:
             "  rightid=%any",
             "  leftauth2=xauth",
             f"  xauth_identity=\"{user}\"",
-            f"  right={gateway}",
+            f"  right={gateway_ip}",
             "  ike=aes256-sha256-modp2048,aes256-sha256-modp1536,aes256-sha256-modp1024,aes256-sha1-modp2048,aes256-sha1-modp1536,aes256-sha1-modp1024,aes128-sha256-modp2048,aes128-sha1-modp1536,aes256-sha256-modp1536,3des-sha1-modp1024",
             "  esp=aes256-sha256-modp2048,aes256-sha256-modp1536,aes256-sha256-modp1024,aes256-sha256,aes256-sha1-modp2048,aes256-sha1-modp1536,aes256-sha1-modp1024,aes256-sha1,aes128-sha256-modp2048,aes128-sha256-modp1536,aes128-sha256-modp1024,aes128-sha256,aes128-sha1-modp2048,aes128-sha1-modp1536,aes128-sha1-modp1024,aes128-sha1,3des-sha1-modp1024,3des-sha1-modp1536,3des-sha1,3des-md5",
             "  dpdaction=clear",
@@ -290,7 +298,9 @@ class IPsecFortinetManager:
             f"@{local_id} : PSK \"{psk}\"\n"
             f"{local_id} : PSK \"{psk}\"\n"
             f"\"{gateway}\" : PSK \"{psk}\"\n"
+            f"\"{gateway_ip}\" : PSK \"{psk}\"\n"
             f"{gateway} : PSK \"{psk}\"\n"
+            f"{gateway_ip} : PSK \"{psk}\"\n"
             f"%any : PSK \"{psk}\"\n"
             f": XAUTH \"{passwd}\"\n"
             f"\"{user}\" : XAUTH \"{passwd}\"\n"
