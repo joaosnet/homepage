@@ -7,8 +7,8 @@ on:
     inputs:
       dry_run:
         description: 'Executar em modo simulação (--dry-run)'
-        required: false
-        default: false
+        required: true
+        default: true
         type: boolean
 
 permissions:
@@ -20,6 +20,8 @@ concurrency:
 
 jobs:
   deploy:
+    # Apenas executa em push se for no repositório oficial da organização LAPSHub, ou se for disparo manual (workflow_dispatch)
+    if: github.repository == 'LAPSHub/homepage' || github.event_name == 'workflow_dispatch'
     environment: production
     runs-on: ubuntu-latest
     timeout-minutes: 20
@@ -36,7 +38,7 @@ jobs:
       VPN_LOCAL_IP: ${{ secrets.VPN_LOCAL_IP || '%config' }}
       VPN_RIGHT_SUBNET: ${{ secrets.VPN_RIGHT_SUBNET || '200.239.109.18/32,200.239.109.17/32,172.16.0.0/16' }}
       VPN_AGGRESSIVE: ${{ secrets.VPN_AGGRESSIVE || 'yes' }}
-      DRY_RUN: ${{ inputs.dry_run || false }}
+      DRY_RUN: ${{ inputs.dry_run != false }}
     steps:
       - name: Baixar código do repositório
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
@@ -113,6 +115,6 @@ jobs:
           fi
 
       - name: Verificar integridade do site público
-        if: steps.check_credentials.outputs.use_vpn_deploy == 'true' && inputs.dry_run != true
+        if: steps.check_credentials.outputs.use_vpn_deploy == 'true' && env.DRY_RUN != 'true'
         run: |
           python deploy.py --step verify
