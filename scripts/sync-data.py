@@ -12,9 +12,19 @@ import argparse
 import json
 import re
 import sys
+import unicodedata
 import urllib.request
 import urllib.error
+import urllib.parse
 from pathlib import Path
+
+# Garantir saída UTF-8 sem falhas de charmap no console Windows
+if hasattr(sys.stdout, "reconfigure"):
+    try:
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+        sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+    except Exception:
+        pass
 
 ROOT_DIR = Path(__file__).resolve().parent.parent
 DATA_DIR = ROOT_DIR / "data"
@@ -26,6 +36,13 @@ PRODUCAO_PATH = DATA_DIR / "producao.json"
 USER_AGENT = "LaPS-DataSync/1.0 (https://laps.ufpa.br; mailto:laps@ufpa.br)"
 
 
+def safe_str(text: str) -> str:
+    """Normaliza strings unicode para exibição segura no terminal."""
+    if not text:
+        return ""
+    return unicodedata.normalize("NFKD", str(text)).encode("ascii", "ignore").decode("ascii")
+
+
 def extract_orcid_id(orcid_str: str) -> str:
     """Extrai o identificador puro (0000-0000-0000-0000) de uma URL ou string."""
     if not orcid_str:
@@ -34,7 +51,7 @@ def extract_orcid_id(orcid_str: str) -> str:
     return match.group(1) if match else ""
 
 
-def fetch_orcid_works(orcid_id: str, timeout: int = 10) -> list:
+def fetch_orcid_works(orcid_id: str, timeout: int = 12) -> list:
     """Busca a lista de trabalhos públicos de um pesquisador no ORCID v3.0."""
     if not orcid_id:
         return []
@@ -77,14 +94,15 @@ def fetch_orcid_works(orcid_id: str, timeout: int = 10) -> list:
                             })
                 return works
     except Exception as e:
-        print(f"  [AVISO] Falha ao consultar ORCID {orcid_id}: {e}", file=sys.stderr)
+        print(f"  [AVISO] Falha ao consultar ORCID {orcid_id}: {safe_str(str(e))}", file=sys.stderr)
         return []
 
 
 def format_crossref_citation(doi: str, fallback_title: str, year: int) -> str:
     """Consulta Crossref para gerar citação estruturada em texto plano."""
+    clean_title = fallback_title.strip()
     if not doi:
-        return f"{fallback_title}. ({year})."
+        return f"{clean_title}. ({year})."
     
     clean_doi = doi.replace("https://doi.org/", "").replace("http://doi.org/", "").strip()
     url = f"https://api.crossref.org/works/{urllib.parse.quote(clean_doi)}"
@@ -105,7 +123,7 @@ def format_crossref_citation(doi: str, fallback_title: str, year: int) -> str:
                         author_names.append(family)
                 
                 authors_str = " ; ".join(author_names) if author_names else "LAPS RESEARCHERS"
-                title = (item.get("title", [""])[0] or fallback_title).strip()
+                title = (item.get("title", [""])[0] or clean_title).strip()
                 container = item.get("container-title", [""])[0] if item.get("container-title") else ""
                 volume = item.get("volume", "")
                 page = item.get("page", "")
@@ -125,7 +143,7 @@ def format_crossref_citation(doi: str, fallback_title: str, year: int) -> str:
     except Exception:
         pass
     
-    return f"{fallback_title}. ({year}). DOI: {clean_doi}" if clean_doi else f"{fallback_title}. ({year})."
+    return f"{clean_title}. ({year}). DOI: {clean_doi}" if clean_doi else f"{clean_title}. ({year})."
 
 
 def validate_json_schema(data: dict, schema_type: str) -> tuple[bool, str]:
@@ -165,7 +183,6 @@ def sync_academic_data(dry_run: bool = False, check_only: bool = False) -> int:
     print("LaPS — Camada 1: Sincronização & Validação de Dados JSON")
     print("=" * 65)
 
-    # 1. Carregar e validar integrantes.json
     if not INTEGRANTES_PATH.exists():
         print(f"[ERRO] Arquivo não encontrado: {INTEGRANTES_PATH}")
         return 1
@@ -183,7 +200,6 @@ def sync_academic_data(dry_run: bool = False, check_only: bool = False) -> int:
         return 1
     print(f"[OK] integrantes.json: {len(integrantes_data['professores'])} docentes cadastrados.")
 
-    # 2. Carregar e validar projetos.json
     if not PROJETOS_PATH.exists():
         print(f"[ERRO] Arquivo não encontrado: {PROJETOS_PATH}")
         return 1
@@ -201,7 +217,6 @@ def sync_academic_data(dry_run: bool = False, check_only: bool = False) -> int:
         return 1
     print(f"[OK] projetos.json: {len(projetos_data['projetos'])} projetos cadastrados.")
 
-    # 3. Carregar e validar producao.json
     if not PRODUCAO_PATH.exists():
         print(f"[ERRO] Arquivo não encontrado: {PRODUCAO_PATH}")
         return 1
@@ -225,17 +240,15 @@ def sync_academic_data(dry_run: bool = False, check_only: bool = False) -> int:
         print("\nModo --check-only concluído com sucesso. Todos os esquemas JSON são válidos!")
         return 0
 
-    # 4. Sincronização via ORCID dos docentes
     print("\nIniciando checagem de publicações recentes via ORCID API v3.0...")
     existing_citations = set()
     for prod in producao_data["producoes"]:
         for t in prod.get("trabalhos", []):
-            # Normalizar para evitar duplicidade
             clean = re.sub(r"[^\w\s]", "", t.lower())
             existing_citations.add(" ".join(clean.split()[:8]))
 
     novos_adicionados = 0
-    producoes_por_ano = {p["ano"]: p["trabalhos"] for p in producao_data["producoes"]}
+    producoes_por_ano = {p["ano"]: list(p["trabalhos"]) for p in producao_data["producoes"]}
 
     for prof in integrantes_data["professores"]:
         orcid_url = prof.get("orcid", "")
@@ -253,14 +266,12 @@ def sync_academic_data(dry_run: bool = False, check_only: bool = False) -> int:
             if not year or not title:
                 continue
 
-            # Verificar se já existe
             clean_title = re.sub(r"[^\w\s]", "", title.lower())
             title_key = " ".join(clean_title.split()[:8])
             
             if title_key in existing_citations:
                 continue
 
-            # Formatar citação
             citation = format_crossref_citation(doi, title, year)
             if year not in producoes_por_ano:
                 producoes_por_ano[year] = []
@@ -268,11 +279,10 @@ def sync_academic_data(dry_run: bool = False, check_only: bool = False) -> int:
             producoes_por_ano[year].insert(0, citation)
             existing_citations.add(title_key)
             novos_adicionados += 1
-            print(f"   [NOVA PRODUÇÃO] ({year}) {title[:75]}...")
+            print(f"   [NOVA PRODUÇÃO] ({year}) {safe_str(title[:70])}...")
 
     if novos_adicionados > 0:
         print(f"\n[SUCESSO] {novos_adicionados} novas publicações identificadas!")
-        # Reconstruir lista ordenada decrescente por ano
         sorted_years = sorted(producoes_por_ano.keys(), reverse=True)
         new_producoes_list = [
             {"ano": yr, "trabalhos": producoes_por_ano[yr]}
