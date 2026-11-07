@@ -20,7 +20,6 @@ concurrency:
 
 jobs:
   deploy:
-    # Apenas executa em push se for no repositório oficial da organização LAPSHub, ou se for disparo manual (workflow_dispatch)
     if: github.repository == 'LAPSHub/homepage' || github.event_name == 'workflow_dispatch'
     environment: production
     runs-on: ubuntu-latest
@@ -89,7 +88,16 @@ jobs:
           sudo apt-get install --yes --no-install-recommends strongswan libcharon-extra-plugins libcharon-extauth-plugins libstrongswan-extra-plugins dnsutils >/dev/null
 
           echo "Estabelecendo túnel IPsec com o gateway vpn.dmz.ufpa.br..."
-          sudo -E python deploy.py --step ipsec-up
+          sudo env "PATH=$PATH" \
+            VPN_USER="$VPN_USER" \
+            VPN_PASS="$VPN_PASS" \
+            VPN_PSK="$VPN_PSK" \
+            VPN_GATEWAY="$VPN_GATEWAY" \
+            VPN_LOCAL_ID="$VPN_LOCAL_ID" \
+            VPN_LOCAL_IP="$VPN_LOCAL_IP" \
+            VPN_RIGHT_SUBNET="$VPN_RIGHT_SUBNET" \
+            VPN_AGGRESSIVE="$VPN_AGGRESSIVE" \
+            python3 deploy.py --step ipsec-up
           sudo chown -R "$(id -u):$(id -g)" logs/ 2>/dev/null || true
 
       - name: Sincronizar arquivos com servidor laps.ufpa.br via FTP/TLS
@@ -99,11 +107,11 @@ jobs:
           if [ "$DRY_RUN" = "true" ]; then
             echo "Executando em modo simulação (--dry-run)..."
             FTP_HOST="$FTP_HOST" FTP_USER="$FTP_USERNAME" FTP_PASS="$FTP_PASSWORD" FTP_DIR="$FTP_REMOTE_DIR" \
-              python deploy.py --step ftp --dry-run
+              python3 deploy.py --step ftp --dry-run
           else
             echo "Executando publicação em produção..."
             FTP_HOST="$FTP_HOST" FTP_USER="$FTP_USERNAME" FTP_PASS="$FTP_PASSWORD" FTP_DIR="$FTP_REMOTE_DIR" \
-              python deploy.py --step ftp --force --verify-live
+              python3 deploy.py --step ftp --force --verify-live
           fi
 
       - name: Encerrar túnel IPsec e limpar credenciais
@@ -111,10 +119,10 @@ jobs:
         shell: bash
         run: |
           if [ "$USE_IPSEC" = "true" ]; then
-            sudo python deploy.py --step ipsec-down || true
+            sudo python3 deploy.py --step ipsec-down || true
           fi
 
       - name: Verificar integridade do site público
         if: steps.check_credentials.outputs.use_vpn_deploy == 'true' && env.DRY_RUN != 'true'
         run: |
-          python deploy.py --step verify
+          python3 deploy.py --step verify
