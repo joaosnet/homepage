@@ -264,7 +264,7 @@ class IPsecFortinetManager:
             "  rightid=%any",
             "  leftauth2=xauth",
             f"  xauth_identity=\"{user}\"",
-            f"  right={gateway_ip}",
+            f"  right={gateway}",
             "  ike=aes256-sha256-modp2048,aes256-sha256-modp1536,aes256-sha256-modp1024,aes256-sha1-modp2048,aes256-sha1-modp1536,aes256-sha1-modp1024,aes128-sha256-modp2048,aes128-sha1-modp1536,aes256-sha256-modp1536,3des-sha1-modp1024",
             "  esp=aes256-sha256-modp2048,aes256-sha256-modp1536,aes256-sha256-modp1024,aes256-sha256,aes256-sha1-modp2048,aes256-sha1-modp1536,aes256-sha1-modp1024,aes256-sha1,aes128-sha256-modp2048,aes128-sha256-modp1536,aes128-sha256-modp1024,aes128-sha256,aes128-sha1-modp2048,aes128-sha1-modp1536,aes128-sha1-modp1024,aes128-sha1,3des-sha1-modp1024,3des-sha1-modp1536,3des-sha1,3des-md5",
             "  dpdaction=clear",
@@ -359,6 +359,22 @@ class IPsecFortinetManager:
         if not connected:
             log_error("Falha: Associação de Segurança (SA) não foi estabelecida com a UFPA.")
             log_info(f"Status atual do strongSwan:\n{status_output}")
+            log_info("--- LOGS DETALHADOS DO DAEMON CHARON ---")
+            for log_candidate in [Path("/var/log/syslog"), Path("/var/log/messages")]:
+                if log_candidate.exists():
+                    try:
+                        content = log_candidate.read_text(encoding="utf-8", errors="replace")
+                        relevant = [line for line in content.splitlines() if any(k in line.lower() for k in ["charon", "ike", "fortinet", "ipsec", "hash", "packet", "peer", "xauth", "proposal"])]
+                        if relevant:
+                            print(f"[{log_candidate.name} - últimas 120 linhas relevantes]\n" + "\n".join(relevant[-120:]))
+                    except Exception as e:
+                        print(f"Erro ao ler {log_candidate}: {e}")
+            try:
+                jnl = subprocess.run(["journalctl", "-u", "strongswan-starter", "-n", "100", "--no-pager"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+                if jnl.stdout and jnl.stdout.strip():
+                    print(f"[journalctl strongswan-starter]\n{jnl.stdout.strip()}")
+            except Exception as e:
+                log_warn(f"Erro ao capturar journalctl: {e}")
             return False
 
         self.is_running = True
