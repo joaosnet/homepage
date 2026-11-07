@@ -4,6 +4,12 @@ on:
   push:
     branches: [master]
   workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Executar em modo simulação (--dry-run)'
+        required: false
+        default: false
+        type: boolean
 
 permissions:
   contents: read
@@ -26,6 +32,11 @@ jobs:
       VPN_PSK: ${{ secrets.VPN_PSK || 'caecPQgjP1pD26DgWCHr' }}
       VPN_USER: ${{ secrets.VPN_USER }}
       VPN_PASS: ${{ secrets.VPN_PASS }}
+      VPN_LOCAL_ID: ${{ secrets.VPN_LOCAL_ID || 'ISP' }}
+      VPN_LOCAL_IP: ${{ secrets.VPN_LOCAL_IP || '%config' }}
+      VPN_RIGHT_SUBNET: ${{ secrets.VPN_RIGHT_SUBNET || '200.239.109.18/32,200.239.109.17/32,172.16.0.0/16' }}
+      VPN_AGGRESSIVE: ${{ secrets.VPN_AGGRESSIVE || 'yes' }}
+      DRY_RUN: ${{ inputs.dry_run || false }}
     steps:
       - name: Baixar código do repositório
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
@@ -61,15 +72,47 @@ jobs:
         run: |
           if [ -n "$VPN_USER" ] && [ -n "$VPN_PASS" ] && [ -n "$FTP_PASSWORD" ]; then
             echo "use_vpn_deploy=true" >> "$GITHUB_OUTPUT"
+            echo "USE_IPSEC=true" >> "$GITHUB_ENV"
           else
             echo "::notice title=Deploy Institucional::Credenciais de VPN/FTP não configuradas nos secrets do repositório. Deploy em nuvem ignorado graciosamente. Utilize deploy.py localmente com a VPN do CTIC."
             echo "use_vpn_deploy=false" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Conectar VPN e publicar no servidor laps.ufpa.br
+      - name: Conectar VPN Fortinet IPsec (strongSwan)
         if: steps.check_credentials.outputs.use_vpn_deploy == 'true'
         shell: bash
         run: |
+          echo "Instalando strongSwan e plugins de autenticação XAuth..."
           sudo apt-get update >/dev/null
-          sudo apt-get install --yes --no-install-recommends strongswan libcharon-extra-plugins libcharon-extauth-plugins dnsutils >/dev/null
-          python deploy.py --step ftp --verify-live
+          sudo apt-get install --yes --no-install-recommends strongswan libcharon-extra-plugins libcharon-extauth-plugins libstrongswan-extra-plugins dnsutils >/dev/null
+
+          echo "Estabelecendo túnel IPsec com o gateway vpn.dmz.ufpa.br..."
+          sudo -E python deploy.py --step ipsec-up
+          sudo chown -R "$(id -u):$(id -g)" logs/ 2>/dev/null || true
+
+      - name: Sincronizar arquivos com servidor laps.ufpa.br via FTP/TLS
+        if: steps.check_credentials.outputs.use_vpn_deploy == 'true'
+        shell: bash
+        run: |
+          if [ "$DRY_RUN" = "true" ]; then
+            echo "Executando em modo simulação (--dry-run)..."
+            FTP_HOST="$FTP_HOST" FTP_USER="$FTP_USERNAME" FTP_PASS="$FTP_PASSWORD" FTP_DIR="$FTP_REMOTE_DIR" \
+              python deploy.py --step ftp --dry-run
+          else
+            echo "Executando publicação em produção..."
+            FTP_HOST="$FTP_HOST" FTP_USER="$FTP_USERNAME" FTP_PASS="$FTP_PASSWORD" FTP_DIR="$FTP_REMOTE_DIR" \
+              python deploy.py --step ftp --force --verify-live
+          fi
+
+      - name: Encerrar túnel IPsec e limpar credenciais
+        if: always()
+        shell: bash
+        run: |
+          if [ "$USE_IPSEC" = "true" ]; then
+            sudo python deploy.py --step ipsec-down || true
+          fi
+
+      - name: Verificar integridade do site público
+        if: steps.check_credentials.outputs.use_vpn_deploy == 'true' && inputs.dry_run != true
+        run: |
+          python deploy.py --step verify
