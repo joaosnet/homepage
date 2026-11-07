@@ -201,7 +201,7 @@ class IPsecFortinetManager:
             log_error("Credenciais de VPN incompletas (VPN_USER e VPN_PASS são obrigatórios para Fortinet IPsec).")
             return False
 
-        gateway = self.config.get("VPN_GATEWAY", "vpn.dmz.ufpa.br")
+        gateway = str(self.config.get("VPN_GATEWAY") or "vpn.dmz.ufpa.br").strip()
         gateway_ip = None
         try:
             gateway_ip = socket.gethostbyname(gateway)
@@ -210,13 +210,13 @@ class IPsecFortinetManager:
             log_warn(f"Falha ao resolver gateway {gateway}: {e}")
             gateway_ip = "200.239.67.173"
 
-        psk = self.config.get("VPN_PSK", "caecPQgjP1pD26DgWCHr")
-        user = self.config.get("VPN_USER", "")
-        passwd = self.config.get("VPN_PASS", "")
-        local_id = self.config.get("VPN_LOCAL_ID", "ISP")
-        local_ip = self.config.get("VPN_LOCAL_IP", "%config")
-        right_subnet = self.config.get("VPN_RIGHT_SUBNET", "200.239.109.18/32,200.239.109.17/32,172.16.0.0/16")
-        aggressive = self.config.get("VPN_AGGRESSIVE", "yes")
+        psk = str(self.config.get("VPN_PSK") or "caecPQgjP1pD26DgWCHr").strip()
+        user = str(self.config.get("VPN_USER") or "").strip()
+        passwd = str(self.config.get("VPN_PASS") or "").strip()
+        local_id = str(self.config.get("VPN_LOCAL_ID") or "ISP").strip()
+        local_ip = str(self.config.get("VPN_LOCAL_IP") or "%config").strip()
+        right_subnet = str(self.config.get("VPN_RIGHT_SUBNET") or "200.239.109.18/32,200.239.109.17/32,172.16.0.0/16").strip()
+        aggressive = str(self.config.get("VPN_AGGRESSIVE") or "yes").strip()
 
         # 0. Limpar qualquer resquício inválido em strongswan.d
         charon_logging_file = Path("/etc/strongswan.d/charon-logging.conf")
@@ -809,22 +809,22 @@ def main():
     env = load_env(env_path)
 
     # Obter credenciais do ambiente ou .env
-    ftp_host = os.environ.get("FTP_HOST") or env.get("FTP_HOST") or "laps.ufpa.br"
-    ftp_user = os.environ.get("FTP_USERNAME") or os.environ.get("FTP_USER") or env.get("FTP_USER") or "laps"
-    ftp_pass = os.environ.get("FTP_PASSWORD") or os.environ.get("FTP_PASS") or env.get("FTP_PASS") or ""
-    ftp_dir = os.environ.get("FTP_REMOTE_DIR") or os.environ.get("FTP_DIR") or env.get("FTP_DIR") or "/"
+    ftp_host = str(os.environ.get("FTP_HOST") or env.get("FTP_HOST") or "laps.ufpa.br").strip()
+    ftp_user = str(os.environ.get("FTP_USERNAME") or os.environ.get("FTP_USER") or env.get("FTP_USER") or "laps").strip()
+    ftp_pass = str(os.environ.get("FTP_PASSWORD") or os.environ.get("FTP_PASS") or env.get("FTP_PASS") or "").strip()
+    ftp_dir = str(os.environ.get("FTP_REMOTE_DIR") or os.environ.get("FTP_DIR") or env.get("FTP_DIR") or "/").strip()
     ftp_port = int(os.environ.get("FTP_PORT") or env.get("FTP_PORT") or 21)
     use_ssl = (os.environ.get("FTP_SSL") or env.get("FTP_SSL") or "true").lower() in ("true", "1", "yes")
 
     vpn_config = {
-        "VPN_GATEWAY": os.environ.get("VPN_GATEWAY") or env.get("VPN_GATEWAY") or "vpn.dmz.ufpa.br",
-        "VPN_PSK": os.environ.get("VPN_PSK") or env.get("VPN_PSK") or "caecPQgjP1pD26DgWCHr",
-        "VPN_USER": os.environ.get("VPN_USER") or env.get("VPN_USER") or "",
-        "VPN_PASS": os.environ.get("VPN_PASS") or env.get("VPN_PASS") or "",
-        "VPN_LOCAL_ID": os.environ.get("VPN_LOCAL_ID") or env.get("VPN_LOCAL_ID") or "ISP",
-        "VPN_LOCAL_IP": os.environ.get("VPN_LOCAL_IP") or env.get("VPN_LOCAL_IP") or "%config",
-        "VPN_RIGHT_SUBNET": os.environ.get("VPN_RIGHT_SUBNET") or env.get("VPN_RIGHT_SUBNET") or "200.239.109.18/32,200.239.109.17/32,172.16.0.0/16",
-        "VPN_AGGRESSIVE": os.environ.get("VPN_AGGRESSIVE") or env.get("VPN_AGGRESSIVE") or "yes",
+        "VPN_GATEWAY": str(os.environ.get("VPN_GATEWAY") or env.get("VPN_GATEWAY") or "vpn.dmz.ufpa.br").strip(),
+        "VPN_PSK": str(os.environ.get("VPN_PSK") or env.get("VPN_PSK") or "caecPQgjP1pD26DgWCHr").strip(),
+        "VPN_USER": str(os.environ.get("VPN_USER") or env.get("VPN_USER") or "").strip(),
+        "VPN_PASS": str(os.environ.get("VPN_PASS") or env.get("VPN_PASS") or "").strip(),
+        "VPN_LOCAL_ID": str(os.environ.get("VPN_LOCAL_ID") or env.get("VPN_LOCAL_ID") or "ISP").strip(),
+        "VPN_LOCAL_IP": str(os.environ.get("VPN_LOCAL_IP") or env.get("VPN_LOCAL_IP") or "%config").strip(),
+        "VPN_RIGHT_SUBNET": str(os.environ.get("VPN_RIGHT_SUBNET") or env.get("VPN_RIGHT_SUBNET") or "200.239.109.18/32,200.239.109.17/32,172.16.0.0/16").strip(),
+        "VPN_AGGRESSIVE": str(os.environ.get("VPN_AGGRESSIVE") or env.get("VPN_AGGRESSIVE") or "yes").strip(),
         "FTP_HOST": ftp_host,
     }
 
