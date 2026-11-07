@@ -1,0 +1,75 @@
+name: Camada 2 - Deploy Institucional UFPA
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: laps-production-deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment: production
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      FTP_HOST: ${{ secrets.FTP_HOST || 'laps.ufpa.br' }}
+      FTP_USERNAME: ${{ secrets.FTP_USERNAME || 'laps' }}
+      FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+      FTP_REMOTE_DIR: ${{ secrets.FTP_REMOTE_DIR || '/' }}
+      VPN_GATEWAY: ${{ secrets.VPN_GATEWAY || 'vpn.dmz.ufpa.br' }}
+      VPN_PSK: ${{ secrets.VPN_PSK || 'caecPQgjP1pD26DgWCHr' }}
+      VPN_USER: ${{ secrets.VPN_USER }}
+      VPN_PASS: ${{ secrets.VPN_PASS }}
+    steps:
+      - name: Baixar código do repositório
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@1d0ff469b7ec7b3cb9d8673fde0c81c44821de2a
+        with:
+          node-version: '20'
+
+      - name: Configurar Python
+        uses: actions/setup-python@42375524e23c412d93fb67b49958b491fce71c38
+        with:
+          python-version: '3.12'
+
+      - name: Proteger segredos nos logs
+        shell: bash
+        run: |
+          [ -n "$VPN_PSK" ] && printf '::add-mask::%s\n' "$VPN_PSK"
+          [ -n "$VPN_USER" ] && printf '::add-mask::%s\n' "$VPN_USER"
+          [ -n "$VPN_PASS" ] && printf '::add-mask::%s\n' "$VPN_PASS"
+          [ -n "$FTP_PASSWORD" ] && printf '::add-mask::%s\n' "$FTP_PASSWORD"
+          true
+
+      - name: Executar suíte de validação antes do deploy
+        run: |
+          node scripts/test-suite.mjs
+          node scripts/scan-secrets.mjs
+          node scripts/audit-workflows.mjs
+
+      - name: Verificar credenciais de produção
+        id: check_credentials
+        shell: bash
+        run: |
+          if [ -n "$VPN_USER" ] && [ -n "$VPN_PASS" ] && [ -n "$FTP_PASSWORD" ]; then
+            echo "use_vpn_deploy=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "::notice title=Deploy Institucional::Credenciais de VPN/FTP não configuradas nos secrets do repositório. Deploy em nuvem ignorado graciosamente. Utilize deploy.py localmente com a VPN do CTIC."
+            echo "use_vpn_deploy=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Conectar VPN e publicar no servidor laps.ufpa.br
+        if: steps.check_credentials.outputs.use_vpn_deploy == 'true'
+        shell: bash
+        run: |
+          sudo apt-get update >/dev/null
+          sudo apt-get install --yes --no-install-recommends strongswan libcharon-extra-plugins libcharon-extauth-plugins dnsutils >/dev/null
+          python deploy.py --step ftp --verify-live

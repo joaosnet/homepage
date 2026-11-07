@@ -1,0 +1,54 @@
+name: CI - Validação & Integridade
+
+on:
+  pull_request:
+  push:
+    branches: [master, develop, update2025]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Baixar código
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@1d0ff469b7ec7b3cb9d8673fde0c81c44821de2a
+        with:
+          node-version: '20'
+
+      - name: Configurar Python
+        uses: actions/setup-python@42375524e23c412d93fb67b49958b491fce71c38
+        with:
+          python-version: '3.12'
+
+      - name: Validar sintaxe JavaScript e Python
+        run: |
+          node --check assets/js/main.js
+          node --check assets/js/data-loader.js
+          node --check scripts/test-suite.mjs
+          node --check scripts/scan-secrets.mjs
+          node --check scripts/audit-workflows.mjs
+          node --check scripts/generate-og-preview.mjs
+          node --check scripts/record-demo.mjs
+          python -m py_compile deploy.py scripts/sync-data.py
+
+      - name: Validar schemas e integridade dos JSONs
+        run: python scripts/sync-data.py --check-only
+
+      - name: Executar suíte de testes de integridade e SEO
+        run: node scripts/test-suite.mjs
+
+      - name: Varredura de credenciais e segredos
+        run: node scripts/scan-secrets.mjs
+
+      - name: Auditoria de segurança dos workflows
+        run: node scripts/audit-workflows.mjs

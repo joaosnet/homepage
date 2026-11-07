@@ -2267,3 +2267,66 @@ section {
     right: 10px;
   }
 }
+
+/*--------------------------------------------------------------
+# Micro-Interactions Táteis & Profundidade (Emil Kowalski + Taste)
+--------------------------------------------------------------*/
+.btn-ver-mais {
+  transition: transform 120ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 150ms ease, background 150ms ease !important;
+  will-change: transform;
+}
+
+.btn-ver-mais:active {
+  transform: scale(0.972) translateY(1px) !important;
+  box-shadow: 0 2px 8px rgba(88, 70, 249, 0.35) !important;
+  transition-duration: 40ms !important;
+}
+
+.project-card {
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.04),
+    0 4px 16px -2px rgba(0, 0, 0, 0.06),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(88, 70, 249, 0.12);
+  transition: transform 150ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 180ms ease, border-color 180ms ease !important;
+  will-change: transform;
+}
+
+.project-card:hover {
+  transform: translateY(-6px) !important;
+  box-shadow:
+    0 2px 4px rgba(88, 70, 249, 0.06),
+    0 14px 30px -4px rgba(88, 70, 249, 0.16),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.9) !important;
+  border-color: rgba(88, 70, 249, 0.28) !important;
+}
+
+.project-card:active {
+  transform: translateY(-2px) scale(0.988) !important;
+  transition-duration: 40ms !important;
+}
+
+.timeline-card {
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.04),
+    0 4px 14px -2px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  transition: transform 140ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 160ms ease, border-color 160ms ease !important;
+}
+
+.timeline-point:hover .timeline-card {
+  box-shadow:
+    0 2px 4px rgba(88, 70, 249, 0.05),
+    0 10px 22px -2px rgba(88, 70, 249, 0.14) !important;
+  transform: translateY(-3px) !important;
+  border-color: rgba(88, 70, 249, 0.22) !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

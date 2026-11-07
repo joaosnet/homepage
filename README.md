@@ -1,165 +1,127 @@
-# LaPS - Laboratório de Processamento de Sinais
+# LaPS — Laboratório de Processamento de Sinais
 
-Site institucional do LaPS (Laboratório de Processamento de Sinais) da Universidade Federal do Pará.
+🌐 **[Português](README.md)** • **[English](README.en.md)** • **[Deutsch](README.de.md)** • **[Français](README.fr.md)**
 
-## 🚀 Como Funciona o Site
+---
 
-O site é uma página estática que utiliza:
-- **HTML5** para estrutura
-- **CSS3** (Bootstrap 4.5 + CSS customizado) para estilos
-- **JavaScript** (jQuery) para interatividade
-- **Sistema de dados JSON** para atualização dinâmica de conteúdo
+[![CI](https://github.com/LAPSHub/homepage/actions/workflows/ci.yml/badge.svg)](https://github.com/LAPSHub/homepage/actions/workflows/ci.yml)
+[![Deploy](https://github.com/LAPSHub/homepage/actions/workflows/deploy.yml/badge.svg)](https://github.com/LAPSHub/homepage/actions/workflows/deploy.yml)
+[![Site Oficial](https://img.shields.io/badge/Site-laps.ufpa.br-blue.svg)](https://laps.ufpa.br/)
+[![Python: 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
+[![Idiomas: PT | EN | DE | FR](https://img.shields.io/badge/idiomas-PT%20%7C%20EN%20%7C%20DE%20%7C%20FR-green.svg)](#)
+[![Licença: MIT](https://img.shields.io/badge/licen%C3%A7a-MIT-green.svg)](LICENSE)
 
-### Estrutura de Arquivos
+Portal institucional oficial do **Laboratório de Processamento de Sinais (LaPS)**, vinculado ao Instituto de Tecnologia (ITEC) e à Faculdade de Engenharia da Computação e Telecomunicações da **Universidade Federal do Pará (UFPA)**. O laboratório atua em inteligência artificial, processamento digital de sinais e imagens, visão computacional, bioengenharia e sistemas de comunicação.
 
-```
-homepage/
-├── index.html              # Página principal
-├── data/                   # Dados atualizáveis
-│   ├── integrantes.json    # Professores e alunos
-│   ├── projetos.json       # Projetos do laboratório
-│   └── producao.json       # Publicações científicas
-├── assets/
-│   ├── css/
-│   │   └── style.css       # Estilos customizados
-│   ├── js/
-│   │   ├── main.js         # Script principal
-│   │   └── data-loader.js  # Carrega dados dos JSONs
-│   ├── img/                # Imagens do site
-│   └── vendor/             # Bibliotecas externas
-└── README.md               # Este arquivo
-```
+Publicado oficialmente em [laps.ufpa.br](https://laps.ufpa.br/).
 
-## 📝 Como Atualizar o Conteúdo
+---
 
-### Atualizando Integrantes
+## 🎬 Demonstração do Site
 
-Edite o arquivo `data/integrantes.json`:
+![Demonstração interativa do site do LaPS](assets/img/demo.gif)
 
-```json
-{
-  "professores": [
-    {
-      "nome": "Nome Completo",
-      "foto": "assets/img/foto.jpg",
-      "lattes": "http://lattes.cnpq.br/...",
-      "email": "email@ufpa.br",
-      "orcid": "https://orcid.org/...",
-      "scholar": "https://scholar.google.com/...",
-      "bio": "Biografia do professor...",
-      "linhasPesquisa": "Áreas de pesquisa."
-    }
-  ],
-  "alunos": [
-    {
-      "nome": "Nome do Aluno",
-      "foto": "assets/img/aluno.jpg",
-      "tipo": "Mestrado|Doutorado|IC",
-      "orientador": "Nome do Orientador"
-    }
-  ]
-}
-```
+O site carrega integrantes, projetos e produções científicas dinamicamente a partir de arquivos JSON em `data/`, oferecendo visualização interativa em carrossel, cards modernos e linha do tempo expansível.
 
-### Atualizando Projetos
+---
 
-Edite o arquivo `data/projetos.json`:
+## ⚡ Início Rápido (Execução Local)
 
-```json
-{
-  "projetos": [
-    {
-      "titulo": "Nome do Projeto",
-      "periodo": "2020 - atual",
-      "parceiro": "Nome do Parceiro",
-      "financiador": "CNPq (Bolsas)",
-      "imagem": "assets/img/projeto.jpg"
-    }
-  ]
-}
-```
-
-### Atualizando Produção Científica
-
-Edite o arquivo `data/producao.json`:
-
-```json
-{
-  "producoes": [
-    {
-      "ano": 2024,
-      "trabalhos": [
-        "Referência bibliográfica completa...",
-        "Outra publicação..."
-      ]
-    }
-  ]
-}
-```
-
-## 🌐 Como Subir para o Servidor
-
-### Opção 1: GitHub Pages (Recomendado)
-
-1. Faça commit e push das alterações:
-   ```bash
-   git add .
-   git commit -m "Atualização do site"
-   git push origin main
-   ```
-
-2. No GitHub, vá em **Settings > Pages**
-3. Selecione **Source: Deploy from a branch**
-4. Escolha **Branch: main** e pasta **/ (root)**
-5. Clique em **Save**
-
-O site estará disponível em: `https://LAPSHub.github.io/homepage/`
-
-### Opção 2: Servidor Web Tradicional (Apache/Nginx)
-
-1. Copie todos os arquivos para a pasta do servidor web:
-   ```bash
-   # Exemplo no Linux/Mac
-   scp -r * usuario@servidor:/var/www/html/laps/
-   
-   # Ou usando FTP
-   ```
-
-2. Certifique-se que o servidor está configurado para servir arquivos estáticos
-
-3. Acesse pelo endereço configurado no servidor
-
-### Opção 3: Netlify/Vercel
-
-1. Conecte seu repositório GitHub
-2. A ferramenta detectará automaticamente que é um site estático
-3. O deploy será feito automaticamente a cada push
-
-## 🎨 Funcionalidades do Site
-
-- **Botão Voltar ao Topo**: Aparece ao rolar a página para baixo
-- **Carousel de Imagens**: Navegação manual e automática nas imagens do hero
-- **Timeline Alternante**: Visualização moderna das publicações por ano
-- **Responsivo**: Adaptado para desktop, tablet e mobile
-- **Logos Transparentes**: Parceiros exibidos sem fundo
-
-## 🔧 Desenvolvimento Local
-
-Para testar localmente, você pode usar um servidor simples:
+Execute um servidor local para testar a renderização assíncrona (`fetch`) dos dados JSON:
 
 ```bash
-# Com Python 3
+# Opção 1: Python 3
 python -m http.server 8000
 
-# Com Node.js (npx)
-npx serve
+# Opção 2: Node.js (npx serve)
+npx serve -l 8000
 
-# Com PHP
-php -S localhost:8000
+# Opção 3: uv
+uv run python -m http.server 8000
 ```
 
-Depois acesse: `http://localhost:8000`
+Abra `http://localhost:8000` no seu navegador.
 
-## 📄 Licença
+---
 
-Template baseado em [BootstrapMade](https://bootstrapmade.com/) - Techie v2.1.0
+## 🏛️ Arquitetura e Dados Dinâmicos
+
+Os dados do laboratório estão centralizados em arquivos JSON independentes do código HTML:
+
+| Arquivo | Descrição | Como Atualizar |
+| :--- | :--- | :--- |
+| `data/integrantes.json` | Professores, alunos e links acadêmicos (ORCID, Lattes, Scholar) | Edição direta do JSON. Ver [docs/data.md](docs/data.md) |
+| `data/projetos.json` | Título, período, parceiros, financiadores e imagens de projetos | Edição direta do JSON. Ver [docs/data.md](docs/data.md) |
+| `data/producao.json` | Artigos científicos e publicações organizados por ano | Edição manual ou automática via `scripts/sync-data.py` |
+
+---
+
+## ⚙️ Automação em Duas Camadas
+
+O repositório adota um fluxo desacoplado em duas camadas para manter o site e os dados sempre sincronizados:
+
+```
+[ORCID v3.0 / Crossref] ---> [Camada 1: sync-data.py] ---> [data/*.json]
+                                                                 |
+[laps.ufpa.br (CTIC)]   <--- [Camada 2: deploy.py]    <--- [GitHub master]
+```
+
+### Camada 1: Sincronização Acadêmica (`sync-data.py` / `sync-data.yml`)
+- Consulta a API pública do ORCID v3.0 a partir dos identificadores dos docentes.
+- Enriquece os metadados dos artigos novos via Crossref API gerando citações padronizadas.
+- Mescla novos artigos em `data/producao.json` sem sobrescrever dados existentes.
+- Executada semanalmente via GitHub Actions ou manualmente:
+  ```bash
+  python scripts/sync-data.py
+  ```
+
+### Camada 2: Publicação Institucional UFPA (`deploy.py` / `deploy.yml`)
+- Conecta com o servidor `laps.ufpa.br` (`200.239.109.18`) via FTPS/FTP.
+- Utiliza cache MD5 (`.ftp_sync_cache.json`) para transmitir apenas arquivos modificados.
+- Suporta túnel VPN institucional CTIC (`vpn.dmz.ufpa.br`).
+- Executa diagnóstico completo de conectividade:
+  ```bash
+  python deploy.py --test-network
+  ```
+- Publica atualizações com verificação pós-deploy:
+  ```bash
+  python deploy.py --step ftp --verify-live
+  ```
+
+---
+
+## 🧪 Testes Automatizados e Segurança
+
+Execute a suíte de integridade antes de enviar alterações:
+
+```bash
+# Suíte de testes (valida schemas JSON, imagens e SEO técnico):
+node scripts/test-suite.mjs
+
+# Varredura estrita de credenciais:
+node scripts/scan-secrets.mjs
+
+# Auditoria de segurança dos workflows do GitHub Actions:
+node scripts/audit-workflows.mjs
+
+# Validação rápida de sintaxe:
+node --check assets/js/data-loader.js
+python -m py_compile deploy.py scripts/sync-data.py
+```
+
+---
+
+## 📚 Documentação Modular
+
+Consulte os guias especializados na pasta `docs/`:
+
+- 🏛️ **[Arquitetura do Sistema](docs/architecture.md)**: Detalhes do carregamento assíncrono, micro-interações táteis e acessibilidade.
+- 🚀 **[Manual de Deploy e Conectividade](docs/deploy.md)**: Instruções de rede CTIC/UFPA, VPN e configuração de variáveis de ambiente.
+- 📊 **[Guia de Dados Dinâmicos](docs/data.md)**: Schemas JSON e uso do script de sincronização com o ORCID.
+
+---
+
+## 📜 Licença e Créditos
+
+Desenvolvido pelo **Laboratório de Processamento de Sinais (LaPS)** — Universidade Federal do Pará (UFPA).  
+Base de interface adaptada do template Techie (Bootstrap 4.5) com melhorias de UI/UX, micro-interações táteis e automações de infraestrutura.

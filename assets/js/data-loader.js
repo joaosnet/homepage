@@ -49,10 +49,10 @@
           <img src="${prof.foto}" class="testimonial-img" alt="${prof.nome}" />
           <h3>${prof.nome}</h3>
           <h5>
-            ${prof.lattes ? `<a title="CURRÍCULO LATTES" href="${prof.lattes}" target="_blank"><i style="margin-left: 5px;"><img style="width: 20px;" src="assets/img/icons/icon_lattes.png"></i></a>` : ''}
-            ${prof.email ? `<a title="E-MAIL" href="mailto:${prof.email}?Subject=Contato%20via%20site" target="_blank"><i style="margin-left: 5px;"><img src="assets/img/icons/email.png"></i></a>` : ''}
-            ${prof.orcid ? `<a title="ORCID" href="${prof.orcid}" target="_blank"><i style="margin-left: 5px;"><img style="width: 20px;" src="assets/img/icons/icon_orcid.png"></i></a>` : ''}
-            ${prof.scholar ? `<a title="Google Scholar" href="${prof.scholar}" target="_blank"><i style="margin-left: 5px;"><img style="width: 20px;" src="assets/img/icons/Google_Scholar_logo.png"></i></a>` : ''}
+            ${prof.lattes ? `<a title="CURRÍCULO LATTES" href="${prof.lattes}" target="_blank"><i style="margin-left: 5px;"><img style="width: 20px;" src="assets/img/icons/icon_lattes.png" alt="Lattes"></i></a>` : ''}
+            ${prof.email ? `<a title="E-MAIL" href="mailto:${prof.email}?Subject=Contato%20via%20site" target="_blank"><i style="margin-left: 5px;"><img src="assets/img/icons/email.png" alt="Email"></i></a>` : ''}
+            ${prof.orcid ? `<a title="ORCID" href="${prof.orcid}" target="_blank"><i style="margin-left: 5px;"><img style="width: 20px;" src="assets/img/icons/icon_orcid.png" alt="ORCID"></i></a>` : ''}
+            ${prof.scholar ? `<a title="Google Scholar" href="${prof.scholar}" target="_blank"><i style="margin-left: 5px;"><img style="width: 20px;" src="assets/img/icons/Google_Scholar_logo.png" alt="Google Scholar"></i></a>` : ''}
           </h5>
           <p style="text-align: justify;">
             ${prof.bio}
@@ -137,56 +137,55 @@
    */
   function renderProducao(data) {
     const container = document.getElementById('producao-container');
-    if (!container || !data) return;
+    if (!container || !data || !Array.isArray(data.producoes)) return;
 
     const ITEMS_PER_PAGE = 6;
-    let allItems = [];
+    let visibleTrabalhosCount = 0;
     let itemIndex = 0;
-
-    data.producoes.forEach((producao) => {
-      allItems.push({ type: 'year', ano: producao.ano });
-      producao.trabalhos.forEach((trabalho) => {
-        allItems.push({ type: 'trabalho', trabalho, index: itemIndex });
-        itemIndex++;
-      });
-    });
+    const totalTrabalhos = data.producoes.reduce((acc, p) => acc + (p.trabalhos ? p.trabalhos.length : 0), 0);
 
     let html = '<div class="timeline-production">';
-    let visibleCount = 0;
 
-    allItems.forEach((item) => {
-      const isHidden = visibleCount >= ITEMS_PER_PAGE && item.type === 'trabalho';
-      const hiddenClass = isHidden ? 'timeline-hidden' : '';
+    data.producoes.forEach((producao) => {
+      const remainingSlots = Math.max(ITEMS_PER_PAGE - visibleTrabalhosCount, 0);
+      const visibleCountThisYear = Math.min(producao.trabalhos ? producao.trabalhos.length : 0, remainingSlots);
+      const isYearHidden = visibleCountThisYear === 0;
+      const yearHiddenClass = isYearHidden ? 'timeline-hidden' : '';
 
-      if (item.type === 'year') {
-        html += `
-          <div class="timeline-year-badge ${hiddenClass}" data-aos="zoom-in">
-            <span>${item.ano}</span>
-          </div>
-        `;
-      } else {
-        const isLeft = item.index % 2 === 0;
-        const position = isLeft ? 'left' : 'right';
+      html += `
+        <div class="timeline-year-badge ${yearHiddenClass}" data-aos="zoom-in">
+          <span>${producao.ano}</span>
+        </div>
+      `;
 
-        html += `
-          <div class="timeline-point ${position} ${hiddenClass}" data-aos="fade-${isLeft ? 'right' : 'left'}">
-            <div class="timeline-dot"></div>
-            <div class="timeline-card">
-              <p>${item.trabalho}</p>
+      if (Array.isArray(producao.trabalhos)) {
+        producao.trabalhos.forEach((trabalho) => {
+          const isHidden = visibleTrabalhosCount >= ITEMS_PER_PAGE;
+          const hiddenClass = isHidden ? 'timeline-hidden' : '';
+          const isLeft = itemIndex % 2 === 0;
+          const position = isLeft ? 'left' : 'right';
+
+          html += `
+            <div class="timeline-point ${position} ${hiddenClass}" data-aos="fade-${isLeft ? 'right' : 'left'}">
+              <div class="timeline-dot"></div>
+              <div class="timeline-card">
+                <p>${trabalho}</p>
+              </div>
             </div>
-          </div>
-        `;
-        visibleCount++;
+          `;
+          itemIndex++;
+          visibleTrabalhosCount++;
+        });
       }
     });
 
     html += '</div>';
 
-    if (allItems.filter(i => i.type === 'trabalho').length > ITEMS_PER_PAGE) {
+    if (totalTrabalhos > ITEMS_PER_PAGE) {
       html += `
         <div class="text-center mt-4">
-          <button class="btn-ver-mais" id="btn-ver-mais-producao">
-            <i class="bx bx-chevron-down"></i> Ver mais produções
+          <button class="btn-ver-mais" id="btn-ver-mais-producao" aria-expanded="false">
+            <i class="bx bx-chevron-down"></i> <span class="btn-text">Ver mais produções (${totalTrabalhos - ITEMS_PER_PAGE} restantes)</span>
           </button>
         </div>
       `;
@@ -196,15 +195,37 @@
 
     const btn = document.getElementById('btn-ver-mais-producao');
     if (btn) {
+      let expanded = false;
       btn.addEventListener('click', function () {
-        document.querySelectorAll('.timeline-hidden').forEach(item => item.classList.remove('timeline-hidden'));
-        this.style.display = 'none';
+        expanded = !expanded;
+        const hiddenItems = container.querySelectorAll('.timeline-hidden, .timeline-expanded-item');
+        hiddenItems.forEach((item) => {
+          if (expanded) {
+            item.classList.remove('timeline-hidden');
+            item.classList.add('timeline-expanded-item');
+          } else {
+            item.classList.add('timeline-hidden');
+            item.classList.remove('timeline-expanded-item');
+          }
+        });
+
+        this.setAttribute('aria-expanded', String(expanded));
+        const icon = this.querySelector('i');
+        const text = this.querySelector('.btn-text');
+
+        if (expanded) {
+          if (icon) icon.className = 'bx bx-chevron-up';
+          if (text) text.textContent = 'Ver menos produções';
+        } else {
+          if (icon) icon.className = 'bx bx-chevron-down';
+          if (text) text.textContent = `Ver mais produções (${totalTrabalhos - ITEMS_PER_PAGE} restantes)`;
+          container.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
         if (typeof AOS !== 'undefined') AOS.refresh();
       });
     }
   }
-
-
 
   /**
    * Inicializa o carregamento de dados

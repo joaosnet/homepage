@@ -1,0 +1,30 @@
+# Ambientes locais e credenciais (NUNCA comitar)
+.env
+.env.local
+.env.*.local
+
+# Logs e arquivos de execução temporária
+logs/
+*.log
+.deploy.lock
+.ftp_sync_cache.json
+tmp_record/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+
+# Node
+node_modules/
+
+# OS e IDEs
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Graphify cache
+graphify-out/cache/
