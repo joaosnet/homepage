@@ -67,11 +67,11 @@ function startServer(port = 8089) {
 
 function runFfmpeg(videoPath, gifPath) {
   return new Promise((res, rej) => {
-    // 800x450, 10 fps, 128 cores com dithering para GIF leve e fluido
+    // 600x338, 8 fps, 80 cores com dithering para GIF leve e fluido (< 2.5 MB)
     const args = [
       "-y",
       "-i", videoPath,
-      "-vf", "fps=10,scale=800:-1:flags=lanczos,split[s0][s1];[s0]palettegen=max_colors=128[p];[s1][p]paletteuse=dither=bayer:bayer_scale=3",
+      "-vf", "fps=8,scale=600:-1:flags=lanczos,split[s0][s1];[s0]palettegen=max_colors=80[p];[s1][p]paletteuse=dither=bayer:bayer_scale=3",
       gifPath
     ];
 
@@ -85,7 +85,7 @@ function runFfmpeg(videoPath, gifPath) {
 }
 
 export async function recordDemo() {
-  console.log("Iniciando gravação do GIF de demonstração do site LaPS...");
+  console.log("Iniciando gravação do GIF de demonstração do novo site LaPS (AAA)...");
   const PORT = 8092;
   const server = await startServer(PORT);
   console.log(`Servidor local ativo na porta ${PORT}`);
@@ -95,9 +95,10 @@ export async function recordDemo() {
   mkdirSync(tmpDir, { recursive: true });
 
   const { chromium } = await getPlaywright();
-  const browser = await chromium.launch({ channel: "msedge" });
+  const browser = await chromium.launch();
   const context = await browser.newContext({
     viewport: { width: 800, height: 450 },
+    permissions: ["clipboard-read", "clipboard-write"],
     recordVideo: {
       dir: tmpDir,
       size: { width: 800, height: 450 }
@@ -108,38 +109,60 @@ export async function recordDemo() {
   await page.goto(`http://localhost:${PORT}/index.html`, { waitUntil: "networkidle" });
   await page.waitForTimeout(1000);
 
-  // 1. Mostrar o Hero e interagir suavemente com o carrossel
-  console.log("1. Gravando Hero Carousel...");
-  await page.waitForTimeout(1500);
-  const nextBtn = page.locator("#heroCarousel .carousel-control-next");
-  if (await nextBtn.isVisible()) {
-    await nextBtn.click();
-    await page.waitForTimeout(1500);
-  }
+  // 1. Mostrar o novo Hero técnico com canvas e KPIs
+  console.log("1. Gravando Hero com Canvas de Sinais...");
+  await page.waitForTimeout(800);
 
-  // 2. Rolar suavemente para a seção de Projetos
-  console.log("2. Rolando para Projetos...");
+  // 2. Alternar idioma para EN e DE
+  console.log("2. Alternando Idiomas (EN / DE)...");
+  await page.click('[data-lang-btn="en"]');
+  await page.waitForTimeout(700);
+  await page.click('[data-lang-btn="de"]');
+  await page.waitForTimeout(700);
+  await page.click('[data-lang-btn="pt"]');
+  await page.waitForTimeout(600);
+
+  // 3. Alternar para Modo Escuro
+  console.log("3. Alternando Tema Escuro (Dark Mode)...");
+  await page.click("#theme-toggle-btn");
+  await page.waitForTimeout(900);
+
+  // 4. Rolar para o Laboratório Interativo de DSP
+  console.log("4. Rolando para o Laboratório Interativo de DSP...");
   await page.evaluate(() => {
-    const el = document.getElementById("projetos");
+    const el = document.getElementById("dsp-showcase");
     if (el) el.scrollIntoView({ behavior: "smooth" });
   });
-  await page.waitForTimeout(2000);
+  await page.waitForTimeout(900);
 
-  // 3. Rolar suavemente para a seção de Produções
-  console.log("3. Rolando para Produções...");
+  // Interagir com filtros de convolução
+  await page.click('[data-dsp-filter="gaussian"]');
+  await page.waitForTimeout(600);
+  await page.click('[data-dsp-filter="sobel"]');
+  await page.waitForTimeout(800);
+
+  // 5. Rolar para o Hub de Publicações
+  console.log("5. Rolando para Hub de Publicações...");
   await page.evaluate(() => {
-    const el = document.getElementById("producoes");
+    const el = document.getElementById("producao");
     if (el) el.scrollIntoView({ behavior: "smooth" });
   });
-  await page.waitForTimeout(1500);
+  await page.waitForTimeout(900);
 
-  // 4. Interagir com o botão 'Ver mais produções'
-  console.log("4. Expandindo timeline de produções...");
-  const btnVerMais = page.locator("#btn-ver-mais-producao");
-  if (await btnVerMais.isVisible()) {
-    await btnVerMais.click();
-    await page.waitForTimeout(2000);
+  // Filtrar publicações por autor
+  await page.fill(".pub-search-input", "Zampolo");
+  await page.waitForTimeout(700);
+
+  // Copiar BibTeX
+  const bibBtn = await page.$(".pub-bibtex-btn");
+  if (bibBtn) {
+    await bibBtn.click();
+    await page.waitForTimeout(800);
   }
+
+  // Voltar para Light mode
+  await page.click("#theme-toggle-btn");
+  await page.waitForTimeout(500);
 
   // Finalizar sessão do navegador
   await page.close();

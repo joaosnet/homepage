@@ -1,0 +1,610 @@
+{
+  "pt": {
+    "nav": {
+      "inicio": "Início",
+      "sobre": "Sobre",
+      "parceiros": "Parceiros",
+      "linhas": "Linhas de Pesquisa",
+      "dspLab": "Laboratório DSP",
+      "integrantes": "Integrantes",
+      "projetos": "Projetos",
+      "producao": "Produção",
+      "contato": "Contato",
+      "idioma": "Idioma",
+      "tema": "Alternar Tema",
+      "fonteAumentar": "Aumentar fonte",
+      "fonteDiminuir": "Diminuir fonte",
+      "altoContraste": "Alto contraste"
+    },
+    "hero": {
+      "badge": "ITEC • UFPA • CNPq",
+      "title": "Laboratório de Processamento de Sinais",
+      "subtitle": "Excelência em pesquisa e inovação científica: Inteligência Artificial, Visão Computacional, Sinais Biomédicos e Telecomunicações 5G na Amazônia.",
+      "ctaPesquisa": "Explorar Pesquisa",
+      "ctaProducao": "Produção Científica",
+      "kpiDocentes": "Docentes Doutores",
+      "kpiProjetos": "Projetos de P&D",
+      "kpiPublicacoes": "Artigos Indexados",
+      "kpiEixos": "Eixos Científicos",
+      "signalMonitor": "Monitor Espectral de Fourier & Topologia Neural",
+      "samplingRate": "Taxa de Amostragem",
+      "activeChannels": "Canais Ativos",
+      "snrRatio": "Relação Sinal-Ruído"
+    },
+    "about": {
+      "title": "Sobre o LaPS",
+      "lead": "O Laboratório de Processamento de Sinais (LaPS) integra pesquisadores e estudantes vinculados ao Programa de Pós-Graduação em Engenharia Elétrica (PPGEE), à Faculdade de Engenharia da Computação e Telecomunicações (FCT) e à Faculdade de Engenharia Elétrica e Biomédica (FEEB) da Universidade Federal do Pará (UFPA).",
+      "bullet1": "Análise avançada de sinais bioelétricos, EEG e interfaces cérebro-computador (BCI)",
+      "bullet2": "Sistemas de comunicações 5G/6G, MIMO massivo e propagação em ondas milimétricas",
+      "bullet3": "Processamento de imagens, visão computacional e inteligência artificial profunda",
+      "mission": "Nossa missão é desenvolver ciência de fronteira e tecnologia aplicada com impacto global a partir da Região Amazônica."
+    },
+    "partners": {
+      "title": "Parceiros e Fomento"
+    },
+    "areas": {
+      "title": "Linhas de Pesquisa",
+      "subtitle": "Eixos científicos orientados à teoria fundamental e aplicações tecnológicas de alto impacto:",
+      "area5g": {
+        "title": "Sistemas de Comunicação 5G / 6G",
+        "item1": "Arquiteturas híbridas de beamforming para separação espacial de usuários em MIMO massivo",
+        "item2": "Modelagem determinística de canal de propagação em ondas milimétricas (ray-tracing)",
+        "item3": "Otimização espectral e eficiência energética em redes sem fio celulares"
+      },
+      "areaBio": {
+        "title": "Sinais Bioelétricos e Neuroengenharia",
+        "item1": "Investigação eletrofisiológica em estados patológicos (epilepsia, autismo, TDAH)",
+        "item2": "Processamento de sinais EEG, EMG e ECG com decomposição tempo-frequência",
+        "item3": "Sistemas adaptativos de neurofeedback para reabilitação cognitiva e motora"
+      },
+      "areaVision": {
+        "title": "Visão Computacional e Processamento de Imagens",
+        "item1": "Modelos de avaliação de qualidade visual percebida (VQA)",
+        "item2": "Reconhecimento de atividades humanas e postura por aprendizado profundo",
+        "item3": "Sistemas de rastreamento ocular (eye-tracking) e modelos de atenção visual"
+      }
+    },
+    "dspLab": {
+      "badge": "Experimentação Interativa",
+      "title": "Laboratório Interativo de Visão Computacional & DSP",
+      "subtitle": "Experimente em tempo real os operadores matemáticos clássicos de convolução bidimensional e análise espectral aplicados sobre matrizes de luminância:",
+      "filterOriginal": "Original (RGB)",
+      "filterSobel": "Bordas Sobel (Gx/Gy)",
+      "filterLaplace": "Laplaciano (Nitidez)",
+      "filterGaussian": "Gaussiano (Passa-Baixas)",
+      "filterThreshold": "Limiarização de Otsu",
+      "matrixTitle": "Matriz de Convolução 3×3 (Kernel Ativo):",
+      "histogramTitle": "Histograma de Luminância em Tempo Real",
+      "sliderHint": "Arraste o divisor para comparar o sinal antes e depois do filtro",
+      "originalLabel": "Entrada",
+      "processedLabel": "Filtrado"
+    },
+    "members": {
+      "title": "Corpo Docente e Pesquisadores",
+      "subtitle": "Pesquisadores líderes e suas respectivas especialidades científicas:",
+      "researchLinesLabel": "Linhas de Pesquisa:",
+      "lattesTitle": "Currículo Lattes",
+      "orcidTitle": "Identificador ORCID",
+      "scholarTitle": "Perfil no Google Scholar",
+      "emailTitle": "Contato por E-mail",
+      "bios": {
+        "ana": "Graduada em Engenharia da Computação (UFPA, 2008), Mestre e Doutora em Engenharia Elétrica (UFPA, 2010 e 2017). Atua em reconhecimento de padrões, processamento de imagens e aprendizado de máquina, com foco em identificação de padrões neurais via EEG. É professora adjunta na FEEB/UFPA.",
+        "antonio": "Mestre (1994) e Doutor em Biofísica pela UFRJ (1997), com pós-doutorado em Neurobiologia pela Duke University (2003-2005). Professor associado na FEEB/UFPA, com pesquisa focada em sinais bioelétricos e sistemas de neuroengenharia.",
+        "francisco": "Graduado (2002), Mestre (2005) e Doutor em Engenharia Elétrica pela UFPA (2010), com estágio doutoral na Virginia Tech (EUA). Especialista em comunicações digitais, classificação de modulação e sistemas DSL. É professor na FCT/UFPA.",
+        "ronaldo": "Graduado em Engenharia Elétrica (UFPA, 1995), Mestre e Doutor pela UFSC (1998 e 2003), com pós-doutorado na Polytech Nantes (França, 2016). Professor associado na FCT/UFPA, pesquisa avaliação de qualidade visual, modelos de atenção e eye-tracking."
+      },
+      "lines": {
+        "ana": "Processamento de imagens, visão computacional e EEG.",
+        "antonio": "Análise de sinais bioelétricos, neurofeedback e neuroengenharia.",
+        "francisco": "Sistemas de comunicação digital e telecomunicações.",
+        "ronaldo": "Processamento de imagens, visão computacional e análise de vídeo."
+      }
+    },
+    "projects": {
+      "title": "Projetos de Pesquisa e Desenvolvimento",
+      "subtitle": "Iniciativas inovadoras integrando academia, hospitais e fomento à inovação:",
+      "period": "Período:",
+      "partner": "Parceiro:",
+      "funder": "Financiador:",
+      "status": "Em andamento",
+      "titles": {
+        "p1": "DMóvel: ferramenta móvel para fomento à autonomia de pessoas com deficiência",
+        "p2": "Visão computacional baseada em aprendizagem profunda para reconhecimento de atividades humanas",
+        "p3": "Modelos matemáticos de transmissão de doenças infecciosas",
+        "p4": "Sistemas de biofeedback para tratamento de transtornos neuropsicológicos",
+        "p5": "Sistemas e tecnologias assistivas de apoio à reabilitação e análise de marcha",
+        "p6": "Neurociências da leitura e cognição",
+        "p7": "Ansiedade social no ambiente universitário",
+        "p8": "Treinamento neurocognitivo com neurofeedback baseado em EEG",
+        "p9": "Análise de redes neuronais em pacientes com epilepsia"
+      }
+    },
+    "publications": {
+      "title": "Produção Científica",
+      "subtitle": "Artigos em periódicos de alto fator de impacto e conferências internacionais indexadas:",
+      "searchPlaceholder": "Buscar por título, autor, periódico ou DOI...",
+      "filterAll": "Todas",
+      "filter2024": "2024–2027",
+      "filter2020": "2020–2023",
+      "filter2015": "2015–2019",
+      "filterOlder": "Até 2014",
+      "showingCount": "Exibindo {visible} de {total} produções científicas",
+      "copyBibtex": "Copiar BibTeX",
+      "copiedBibtex": "BibTeX Copiado!",
+      "viewDoi": "Acessar DOI",
+      "verMais": "Ver mais produções",
+      "verMenos": "Recolher produções",
+      "noResults": "Nenhuma publicação encontrada para o filtro informado."
+    },
+    "contact": {
+      "title": "Contato Institucional",
+      "addressTitle": "Localização",
+      "addressText": "Universidade Federal do Pará — Campus Guamá<br>Av. Augusto Corrêa, 1 — Altos do anexo do LEEC, Sala 31<br>CEP 66075-110, Belém — Pará — Brasil",
+      "emailTitle": "E-mail de Contato",
+      "phoneTitle": "Telefone Institucional"
+    },
+    "footer": {
+      "desc": "Laboratório de Processamento de Sinais da Universidade Federal do Pará. Pesquisa científica, inovação tecnológica e formação de recursos humanos de alto nível.",
+      "quickLinks": "Navegação Rápida",
+      "researchLinks": "Eixos de Atuação",
+      "copyright": "Todos os direitos reservados.",
+      "developedBy": "Desenvolvido com excelência técnica pelo LaPS/UFPA."
+    }
+  },
+  "en": {
+    "nav": {
+      "inicio": "Home",
+      "sobre": "About",
+      "parceiros": "Partners",
+      "linhas": "Research Areas",
+      "dspLab": "DSP Lab",
+      "integrantes": "Faculty & Staff",
+      "projetos": "Projects",
+      "producao": "Publications",
+      "contato": "Contact",
+      "idioma": "Language",
+      "tema": "Toggle Theme",
+      "fonteAumentar": "Increase font",
+      "fonteDiminuir": "Decrease font",
+      "altoContraste": "High contrast"
+    },
+    "hero": {
+      "badge": "ITEC • UFPA • CNPq",
+      "title": "Signal Processing Laboratory",
+      "subtitle": "Scientific excellence and innovation: Artificial Intelligence, Computer Vision, Biomedical Signals and 5G Telecommunications in the Amazon.",
+      "ctaPesquisa": "Explore Research",
+      "ctaProducao": "Scientific Publications",
+      "kpiDocentes": "PhD Faculty Members",
+      "kpiProjetos": "R&D Projects",
+      "kpiPublicacoes": "Indexed Publications",
+      "kpiEixos": "Scientific Pillars",
+      "signalMonitor": "Fourier Spectral Monitor & Neural Topology",
+      "samplingRate": "Sampling Rate",
+      "activeChannels": "Active Channels",
+      "snrRatio": "Signal-to-Noise Ratio"
+    },
+    "about": {
+      "title": "About LaPS",
+      "lead": "The Signal Processing Laboratory (LaPS) brings together faculty and graduate students associated with the Graduate Program in Electrical Engineering (PPGEE), the Faculty of Computer and Telecommunications Engineering (FCT), and the Faculty of Electrical and Biomedical Engineering (FEEB) at the Federal University of Pará (UFPA).",
+      "bullet1": "Advanced bioelectric signal analysis, EEG, and brain-computer interfaces (BCI)",
+      "bullet2": "5G/6G communication systems, massive MIMO, and millimeter-wave propagation",
+      "bullet3": "Image processing, computer vision, and deep artificial intelligence",
+      "mission": "Our mission is to foster cutting-edge science and applied technologies with global impact originating from the Amazon Region."
+    },
+    "partners": {
+      "title": "Partners & Funding Bodies"
+    },
+    "areas": {
+      "title": "Research Areas",
+      "subtitle": "Scientific pillars oriented toward foundational theory and high-impact technological applications:",
+      "area5g": {
+        "title": "5G / 6G Communication Systems",
+        "item1": "Hybrid beamforming architectures for spatial user multiplexing in massive MIMO",
+        "item2": "Deterministic millimeter-wave propagation channel modeling via ray-tracing",
+        "item3": "Spectral optimization and energy efficiency in cellular wireless networks"
+      },
+      "areaBio": {
+        "title": "Bioelectric Signals & Neuroengineering",
+        "item1": "Electrophysiological investigation in neural conditions (epilepsy, autism, ADHD)",
+        "item2": "EEG, EMG, and ECG signal processing using time-frequency decomposition",
+        "item3": "Adaptive neurofeedback systems for cognitive and motor rehabilitation"
+      },
+      "areaVision": {
+        "title": "Computer Vision & Image Processing",
+        "item1": "Perceptual Visual Quality Assessment (VQA) models",
+        "item2": "Human action recognition and pose estimation via deep learning",
+        "item3": "Eye-tracking systems and visual attention computational models"
+      }
+    },
+    "dspLab": {
+      "badge": "Interactive Sandbox",
+      "title": "Interactive Computer Vision & DSP Lab",
+      "subtitle": "Experiment in real time with classical 2D convolution operators and spectral analysis applied directly to luminance matrices:",
+      "filterOriginal": "Original (RGB)",
+      "filterSobel": "Sobel Edges (Gx/Gy)",
+      "filterLaplace": "Laplacian (Sharpness)",
+      "filterGaussian": "Gaussian (Low-Pass)",
+      "filterThreshold": "Otsu Threshold",
+      "matrixTitle": "3×3 Convolution Kernel (Active Operator):",
+      "histogramTitle": "Real-Time Luminance Histogram",
+      "sliderHint": "Drag the slider to compare signals before and after filtering",
+      "originalLabel": "Input",
+      "processedLabel": "Filtered"
+    },
+    "members": {
+      "title": "Faculty & Researchers",
+      "subtitle": "Principal investigators and their core scientific competencies:",
+      "researchLinesLabel": "Research Lines:",
+      "lattesTitle": "Lattes Curriculum",
+      "orcidTitle": "ORCID Record",
+      "scholarTitle": "Google Scholar Profile",
+      "emailTitle": "Contact via Email",
+      "bios": {
+        "ana": "B.Sc. in Computer Engineering (UFPA, 2008), M.Sc. and Ph.D. in Electrical Engineering (UFPA, 2010 and 2017). Expert in pattern recognition, image processing, and machine learning, with emphasis on neural pattern decoding from EEG. Associate Professor at FEEB/UFPA.",
+        "antonio": "M.Sc. (1994) and Ph.D. in Biophysics from UFRJ (1997), postdoctoral fellowship in Neurobiology at Duke University (2003-2005). Associate Professor at FEEB/UFPA, focusing on bioelectric signal analysis and neuroengineering.",
+        "francisco": "B.Sc. (2002), M.Sc. (2005), and Ph.D. in Electrical Engineering from UFPA (2010), with doctoral research exchange at Virginia Tech (USA). Specializes in digital communications, modulation classification, and DSL systems. Professor at FCT/UFPA.",
+        "ronaldo": "B.Sc. in Electrical Engineering (UFPA, 1995), M.Sc. and Ph.D. from UFSC (1998 and 2003), postdoctoral fellowship at Polytech Nantes (France, 2016). Associate Professor at FCT/UFPA, researching visual quality assessment, visual attention models, and eye-tracking."
+      },
+      "lines": {
+        "ana": "Image processing, computer vision, and EEG.",
+        "antonio": "Bioelectric signal analysis, neurofeedback, and neuroengineering.",
+        "francisco": "Digital communications and telecommunication systems.",
+        "ronaldo": "Image processing, computer vision, and video analytics."
+      }
+    },
+    "projects": {
+      "title": "Research & Development Projects",
+      "subtitle": "Collaborative research initiatives spanning academia, hospitals, and industry innovation:",
+      "period": "Period:",
+      "partner": "Partner:",
+      "funder": "Sponsor:",
+      "status": "Active",
+      "titles": {
+        "p1": "DMóvel: mobile assistive technology fostering autonomy for people with disabilities",
+        "p2": "Deep learning-based computer vision for human action recognition",
+        "p3": "Mathematical modeling of infectious disease transmission dynamics",
+        "p4": "Biofeedback systems for the rehabilitation of neuropsychological disorders",
+        "p5": "Assistive technologies and gait analysis systems for motor rehabilitation",
+        "p6": "Neuroscience of reading and human cognition",
+        "p7": "Social anxiety in higher education university environments",
+        "p8": "Neurocognitive training via EEG-based neurofeedback protocols",
+        "p9": "Neuronal network connectivity analysis in epilepsy patients"
+      }
+    },
+    "publications": {
+      "title": "Scientific Publications",
+      "subtitle": "Journal papers in high-impact venues and indexed international conference proceedings:",
+      "searchPlaceholder": "Search by title, author, journal, or DOI...",
+      "filterAll": "All",
+      "filter2024": "2024–2027",
+      "filter2020": "2020–2023",
+      "filter2015": "2015–2019",
+      "filterOlder": "Up to 2014",
+      "showingCount": "Showing {visible} of {total} scientific publications",
+      "copyBibtex": "Copy BibTeX",
+      "copiedBibtex": "BibTeX Copied!",
+      "viewDoi": "Open DOI",
+      "verMais": "Load more publications",
+      "verMenos": "Collapse publications",
+      "noResults": "No publications match your filter criteria."
+    },
+    "contact": {
+      "title": "Institutional Contact",
+      "addressTitle": "Location",
+      "addressText": "Federal University of Pará — Guamá Campus<br>Av. Augusto Corrêa, 1 — LEEC Annex, Room 31<br>ZIP 66075-110, Belém — Pará — Brazil",
+      "emailTitle": "Contact Email",
+      "phoneTitle": "Institutional Phone"
+    },
+    "footer": {
+      "desc": "Signal Processing Laboratory at the Federal University of Pará. Academic research, technology transfer, and advanced human resource training.",
+      "quickLinks": "Quick Navigation",
+      "researchLinks": "Core Disciplines",
+      "copyright": "All rights reserved.",
+      "developedBy": "Engineered with technical rigor by LaPS/UFPA."
+    }
+  },
+  "de": {
+    "nav": {
+      "inicio": "Startseite",
+      "sobre": "Über uns",
+      "parceiros": "Partner",
+      "linhas": "Forschungsbereiche",
+      "dspLab": "DSP-Labor",
+      "integrantes": "Team & Fakultät",
+      "projetos": "Projekte",
+      "producao": "Publikationen",
+      "contato": "Kontakt",
+      "idioma": "Sprache",
+      "tema": "Design umschalten",
+      "fonteAumentar": "Schrift vergrößern",
+      "fonteDiminuir": "Schrift verkleinern",
+      "altoContraste": "Hoher Kontrast"
+    },
+    "hero": {
+      "badge": "ITEC • UFPA • CNPq",
+      "title": "Labor für Signalverarbeitung",
+      "subtitle": "Wissenschaftliche Spitzenforschung und Innovation: Künstliche Intelligenz, Computer Vision, biomedizinische Signale und 5G-Telekommunikation im Amazonasgebiet.",
+      "ctaPesquisa": "Forschung entdecken",
+      "ctaProducao": "Publikationen ansehen",
+      "kpiDocentes": "Promovierte Dozenten",
+      "kpiProjetos": "F&E-Projekte",
+      "kpiPublicacoes": "Indexierte Artikel",
+      "kpiEixos": "Forschungssäulen",
+      "signalMonitor": "Fourier-Spektralmonitor & Neuronale Topologie",
+      "samplingRate": "Abtastrate",
+      "activeChannels": "Aktive Kanäle",
+      "snrRatio": "Signal-Rausch-Verhältnis"
+    },
+    "about": {
+      "title": "Über das LaPS",
+      "lead": "Das Labor für Signalverarbeitung (LaPS) vereint Professoren und Studierende des Graduiertenkollegs für Elektrotechnik (PPGEE), der Fakultät für Informatik und Telekommunikation (FCT) sowie der Fakultät für Elektro- und Biomedizintechnik (FEEB) der Universidade Federal do Pará (UFPA).",
+      "bullet1": "Erweiterte Analyse bioelektrischer Signale, EEG und Gehirn-Computer-Schnittstellen (BCI)",
+      "bullet2": "5G/6G-Kommunikationssysteme, Massive MIMO und Millimeterwellen-Ausbreitung",
+      "bullet3": "Bildverarbeitung, Computer Vision und Deep Learning",
+      "mission": "Unsere Mission ist es, wegweisende Wissenschaft und angewandte Technologien mit globaler Wirkung aus dem Amazonasgebiet voranzutreiben."
+    },
+    "partners": {
+      "title": "Partner & Förderinstitutionen"
+    },
+    "areas": {
+      "title": "Forschungsbereiche",
+      "subtitle": "Wissenschaftliche Schwerpunkte ausgerichtet auf Grundlagenforschung und Schlüsseltechnologien:",
+      "area5g": {
+        "title": "5G / 6G-Kommunikationssysteme",
+        "item1": "Hybride Beamforming-Architekturen zur räumlichen Nutzertrennung in Massive-MIMO",
+        "item2": "Deterministische Millimeterwellen-Kanalmodellierung mittels Ray-Tracing",
+        "item3": "Spektrale Optimierung und Energieeffizienz in zellularen Funknetzen"
+      },
+      "areaBio": {
+        "title": "Bioelektrische Signale & Neurotechnik",
+        "item1": "Elektrophysiologische Erforschung neurologischer Störungsbilder (Epilepsie, Autismus, ADHS)",
+        "item2": "Verarbeitung von EEG-, EMG- und EKG-Signalen mittels Zeit-Frequenz-Zerlegung",
+        "item3": "Adaptive Neurofeedback-Systeme zur kognitiven und motorischen Rehabilitation"
+      },
+      "areaVision": {
+        "title": "Computer Vision & Bildverarbeitung",
+        "item1": "Modelle zur Beurteilung visueller Wahrnehmungsqualität (VQA)",
+        "item2": "Menschliche Handlungserkennung und Posenschätzung durch Deep Learning",
+        "item3": "Blickerfassungssysteme (Eye-Tracking) und visuelle Aufmerksamkeitsmodelle"
+      }
+    },
+    "dspLab": {
+      "badge": "Interaktive Erprobung",
+      "title": "Interaktives Computer Vision & DSP-Labor",
+      "subtitle": "Erproben Sie klassische zweidimensionale Faltungsoperatoren und Spektralanalysen direkt auf Leuchtdichtematrizen in Echtzeit:",
+      "filterOriginal": "Original (RGB)",
+      "filterSobel": "Sobel-Kanten (Gx/Gy)",
+      "filterLaplace": "Laplace (Schärfe)",
+      "filterGaussian": "Gauß-Filter (Tiefpass)",
+      "filterThreshold": "Otsu-Schwellenwert",
+      "matrixTitle": "3×3-Faltungsmatrix (Aktiver Filterkern):",
+      "histogramTitle": "Echtzeit-Luminanzhistogramm",
+      "sliderHint": "Verschieben Sie den Regler, um das Signal vor und nach der Filterung zu vergleichen",
+      "originalLabel": "Eingang",
+      "processedLabel": "Gefiltert"
+    },
+    "members": {
+      "title": "Fakultät & Forschende",
+      "subtitle": "Leitende Wissenschaftler und ihre Forschungsschwerpunkte:",
+      "researchLinesLabel": "Forschungsschwerpunkte:",
+      "lattesTitle": "Lattes-Lebenslauf",
+      "orcidTitle": "ORCID-Profil",
+      "scholarTitle": "Google Scholar-Profil",
+      "emailTitle": "E-Mail-Kontakt",
+      "bios": {
+        "ana": "Absolventin der Technischen Informatik (UFPA, 2008), Master und Promotion in Elektrotechnik (UFPA, 2010 und 2017). Expertin für Mustererkennung, Bildverarbeitung und maschinelles Lernen mit Fokus auf EEG-Signalmuster. Außerordentliche Professorin an der FEEB/UFPA.",
+        "antonio": "Master (1994) und Promotion in Biophysik an der UFRJ (1997), Postdoktorat in Neurobiologie an der Duke University (2003-2005). Außerordentlicher Professor an der FEEB/UFPA mit Schwerpunkt auf bioelektrische Signalanalyse und Neuroengineering.",
+        "francisco": "Diplom (2002), Master (2005) und Promotion in Elektrotechnik an der UFPA (2010), einschließlich Forschungsaufenthalt an der Virginia Tech (USA). Spezialist für digitale Kommunikation, Modulationsklassifikation und DSL-Systeme. Professor an der FCT/UFPA.",
+        "ronaldo": "Diplom in Elektrotechnik (UFPA, 1995), Master und Promotion an der UFSC (1998 und 2003), Postdoktorat an der Polytech Nantes (Frankreich, 2016). Außerordentlicher Professor an der FCT/UFPA, forscht an visueller Qualitätsbewertung, Aufmerksamkeitsmodellen und Eye-Tracking."
+      },
+      "lines": {
+        "ana": "Bildverarbeitung, Computer Vision und EEG.",
+        "antonio": "Analyse bioelektrischer Signale, Neurofeedback und Neuroengineering.",
+        "francisco": "Digitale Kommunikationssysteme und Telekommunikation.",
+        "ronaldo": "Bildverarbeitung, Computer Vision und Videoanalyse."
+      }
+    },
+    "projects": {
+      "title": "Forschungs- und Entwicklungsprojekte",
+      "subtitle": "Kooperative wissenschaftliche Initiativen zwischen Universitäten, Kliniken und Technologieförderung:",
+      "period": "Laufzeit:",
+      "partner": "Partner:",
+      "funder": "Förderer:",
+      "status": "Laufend",
+      "titles": {
+        "p1": "DMóvel: mobile Assistenztechnologie zur Förderung der Selbstständigkeit von Menschen mit Behinderung",
+        "p2": "Deep-Learning-basierte Computer Vision zur automatischen Erkennung menschlicher Aktivitäten",
+        "p3": "Mathematische Modelle zur Übertragungsdynamik von Infektionskrankheiten",
+        "p4": "Biofeedback-Systeme zur Behandlung neuropsychologischer Störungen",
+        "p5": "Assistive Systeme und Gangphasenanalyse zur motorischen Rehabilitation",
+        "p6": "Neurowissenschaften des Lesens und der menschlichen Kognition",
+        "p7": "Soziale Angststörungen im universitären Hochschulumfeld",
+        "p8": "Kognitives Training mittels EEG-basiertem Neurofeedback",
+        "p9": "Analyse neuronaler Netzwerkkonnektivität bei Epilepsiepatienten"
+      }
+    },
+    "publications": {
+      "title": "Wissenschaftliche Publikationen",
+      "subtitle": "Fachzeitschriftenartikel in renommierten Journalen und begutachtete internationale Konferenzbeiträge:",
+      "searchPlaceholder": "Nach Titel, Autor, Journal oder DOI suchen...",
+      "filterAll": "Alle",
+      "filter2024": "2024–2027",
+      "filter2020": "2020–2023",
+      "filter2015": "2015–2019",
+      "filterOlder": "Bis 2014",
+      "showingCount": "Zeige {visible} von {total} wissenschaftlichen Arbeiten",
+      "copyBibtex": "BibTeX kopieren",
+      "copiedBibtex": "BibTeX kopiert!",
+      "viewDoi": "DOI aufrufen",
+      "verMais": "Mehr Publikationen anzeigen",
+      "verMenos": "Publikationen reduzieren",
+      "noResults": "Keine Publikationen für die angegebenen Filterkriterien gefunden."
+    },
+    "contact": {
+      "title": "Institutioneller Kontakt",
+      "addressTitle": "Standort",
+      "addressText": "Universidade Federal do Pará — Campus Guamá<br>Av. Augusto Corrêa, 1 — LEEC-Anbau, Raum 31<br>PLZ 66075-110, Belém — Pará — Brasilien",
+      "emailTitle": "Kontakt-E-Mail",
+      "phoneTitle": "Dienstliches Telefon"
+    },
+    "footer": {
+      "desc": "Labor für Signalverarbeitung an der Universidade Federal do Pará. Grundlagenforschung, Technologietransfer und akademische Spitzenförderung.",
+      "quickLinks": "Schnellzugriff",
+      "researchLinks": "Fachbereiche",
+      "copyright": "Alle Rechte vorbehalten.",
+      "developedBy": "Mit höchster ingenieurwissenschaftlicher Präzision entwickelt vom LaPS/UFPA."
+    }
+  },
+  "fr": {
+    "nav": {
+      "inicio": "Accueil",
+      "sobre": "À propos",
+      "parceiros": "Partenaires",
+      "linhas": "Axes de Recherche",
+      "dspLab": "Laboratoire DSP",
+      "integrantes": "Équipe & Faculté",
+      "projetos": "Projets",
+      "producao": "Publications",
+      "contato": "Contact",
+      "idioma": "Langue",
+      "tema": "Changer le Thème",
+      "fonteAumentar": "Agrandir le texte",
+      "fonteDiminuir": "Réduire le texte",
+      "altoContraste": "Contraste élevé"
+    },
+    "hero": {
+      "badge": "ITEC • UFPA • CNPq",
+      "title": "Laboratoire de Traitement du Signal",
+      "subtitle": "Excellence scientifique et innovation : Intelligence Artificielle, Vision par Ordinateur, Signaux Biomédicaux et Télécommunications 5G en Amazonie.",
+      "ctaPesquisa": "Découvrir la Recherche",
+      "ctaProducao": "Publications Scientifiques",
+      "kpiDocentes": "Enseignants-Chercheurs Ph.D.",
+      "kpiProjetos": "Projets de R&D",
+      "kpiPublicacoes": "Articles Indexés",
+      "kpiEixos": "Piliers Scientifiques",
+      "signalMonitor": "Moniteur Spectral de Fourier & Topologie Neuronale",
+      "samplingRate": "Taux d'Échantillonnage",
+      "activeChannels": "Canaux Actifs",
+      "snrRatio": "Rapport Signal-sur-Bruit"
+    },
+    "about": {
+      "title": "À Propos du LaPS",
+      "lead": "Le Laboratoire de Traitement du Signal (LaPS) réunit des enseignants-chercheurs et étudiants rattachés au Programme de Troisième Cycle en Génie Électrique (PPGEE), à la Faculté d'Ingénierie Informatique et Télécommunications (FCT) et à la Faculté de Génie Électrique et Biomédical (FEEB) de l'Université Fédérale du Pará (UFPA).",
+      "bullet1": "Analyse avancée de signaux bioélectriques, EEG et interfaces cerveau-machine (BCI)",
+      "bullet2": "Systèmes de communication 5G/6G, MIMO massif et propagation en ondes millimétriques",
+      "bullet3": "Traitement d'images, vision par ordinateur et apprentissage profond",
+      "mission": "Notre mission est de faire progresser la science fondamentale et les technologies appliquées à portée mondiale depuis la région amazonienne."
+    },
+    "partners": {
+      "title": "Partenaires & Organismes de Financement"
+    },
+    "areas": {
+      "title": "Axes de Recherche",
+      "subtitle": "Axes scientifiques articulés autour des principes théoriques et des applications technologiques avancées :",
+      "area5g": {
+        "title": "Systèmes de Communication 5G / 6G",
+        "item1": "Architectures de formation de faisceaux hybrides pour le multiplexage spatial en MIMO massif",
+        "item2": "Modélisation déterministe du canal de propagation en ondes millimétriques par lancer de rayons",
+        "item3": "Optimisation spectrale et efficacité énergétique dans les réseaux sans fil cellulaires"
+      },
+      "areaBio": {
+        "title": "Signaux Bioélectriques & Neuro-ingénierie",
+        "item1": "Investigation électrophysiologique des troubles neurologiques (épilepsie, autisme, TDAH)",
+        "item2": "Traitement des signaux EEG, EMG et ECG avec décomposition temps-fréquence",
+        "item3": "Systèmes adaptatifs de neurofeedback pour la réhabilitation cognitive et motrice"
+      },
+      "areaVision": {
+        "title": "Vision par Ordinateur & Traitement d'Images",
+        "item1": "Modèles d'évaluation de la qualité visuelle perçue (VQA)",
+        "item2": "Reconnaissance d'activités humaines et estimation de pose par apprentissage profond",
+        "item3": "Systèmes d'oculométrie (eye-tracking) et modèles computationnels d'attention visuelle"
+      }
+    },
+    "dspLab": {
+      "badge": "Expérimentation Interactive",
+      "title": "Laboratoire Interactif de Vision & DSP",
+      "subtitle": "Expérimentez en temps réel les opérateurs matriciels de convolution 2D et l'analyse spectrale appliqués aux signaux d'image :",
+      "filterOriginal": "Original (RGB)",
+      "filterSobel": "Bords de Sobel (Gx/Gy)",
+      "filterLaplace": "Laplacien (Netteté)",
+      "filterGaussian": "Gaussien (Passe-Bas)",
+      "filterThreshold": "Seuillage d'Otsu",
+      "matrixTitle": "Matrice de Convolution 3×3 (Noyau Actif) :",
+      "histogramTitle": "Histogramme de Luminance en Temps Réel",
+      "sliderHint": "Faites glisser le curseur pour comparer le signal avant et après filtrage",
+      "originalLabel": "Entrée",
+      "processedLabel": "Filtré"
+    },
+    "members": {
+      "title": "Corps Enseignant & Chercheurs",
+      "subtitle": "Chercheurs principaux et domaines d'expertise scientifique :",
+      "researchLinesLabel": "Axes de Recherche :",
+      "lattesTitle": "Curriculum Lattes",
+      "orcidTitle": "Identifiant ORCID",
+      "scholarTitle": "Profil Google Scholar",
+      "emailTitle": "Contact par E-mail",
+      "bios": {
+        "ana": "Diplômée en génie informatique (UFPA, 2008), titulaire d'un master et d'un doctorat en génie électrique (UFPA, 2010 et 2017). Spécialiste en reconnaissance des formes, traitement d'images et apprentissage automatique appliqué aux signaux EEG. Professeure adjointe à la FEEB/UFPA.",
+        "antonio": "Master (1994) et doctorat en biophysique à l'UFRJ (1997), stage postdoctoral en neurobiologie à l'Université Duke (2003-2005). Professeur associé à la FEEB/UFPA, ses recherches portent sur les signaux bioélectriques et la neuro-ingénierie.",
+        "francisco": "Diplômé (2002), titulaire d'un master (2005) et d'un doctorat en génie électrique à l'UFPA (2010), avec séjour doctoral à Virginia Tech (États-Unis). Spécialiste des communications numériques, de la classification de modulation et des systèmes DSL. Professeur à la FCT/UFPA.",
+        "ronaldo": "Diplômé en génie électrique (UFPA, 1995), master et doctorat à l'UFSC (1998 et 2003), stage postdoctoral à Polytech Nantes (France, 2016). Professeur associé à la FCT/UFPA, expert en évaluation de qualité visuelle, attention visuelle et oculométrie."
+      },
+      "lines": {
+        "ana": "Traitement d'images, vision par ordinateur et EEG.",
+        "antonio": "Analyse de signaux bioélectriques, neurofeedback et neuro-ingénierie.",
+        "francisco": "Systèmes de communication numérique et télécommunications.",
+        "ronaldo": "Traitement d'images, vision par ordinateur et analyse vidéo."
+      }
+    },
+    "projects": {
+      "title": "Projets de Recherche & Développement",
+      "subtitle": "Initiatives novatrices alliant milieu académique, santé et transfert technologique :",
+      "period": "Période :",
+      "partner": "Partenaire :",
+      "funder": "Financement :",
+      "status": "En cours",
+      "titles": {
+        "p1": "DMóvel : technologie mobile d'assistance renforçant l'autonomie des personnes en situation de handicap",
+        "p2": "Vision par ordinateur par apprentissage profond pour la reconnaissance d'activités humaines",
+        "p3": "Modélisation mathématique de la dynamique de propagation des maladies infectieuses",
+        "p4": "Systèmes de biofeedback pour la prise en charge des troubles neuropsychologiques",
+        "p5": "Technologies d'assistance et systèmes d'analyse de la marche pour la réhabilitation motrice",
+        "p6": "Neurosciences de la lecture et de la cognition humaine",
+        "p7": "Anxiété sociale en milieu universitaire",
+        "p8": "Entraînement neurocognitif par protocoles de neurofeedback EEG",
+        "p9": "Analyse de la connectivité des réseaux neuronaux chez les patients épileptiques"
+      }
+    },
+    "publications": {
+      "title": "Production Scientifique",
+      "subtitle": "Articles parus dans des revues de premier plan et actes de conférences internationales répertoriées :",
+      "searchPlaceholder": "Rechercher par titre, auteur, revue ou DOI...",
+      "filterAll": "Toutes",
+      "filter2024": "2024–2027",
+      "filter2020": "2020–2023",
+      "filter2015": "2015–2019",
+      "filterOlder": "Jusqu'à 2014",
+      "showingCount": "Affichage de {visible} sur {total} publications scientifiques",
+      "copyBibtex": "Copier BibTeX",
+      "copiedBibtex": "BibTeX Copié !",
+      "viewDoi": "Consulter le DOI",
+      "verMais": "Voir plus de publications",
+      "verMenos": "Réduire les publications",
+      "noResults": "Aucune publication ne correspond à vos critères de recherche."
+    },
+    "contact": {
+      "title": "Contact Institutionnel",
+      "addressTitle": "Localisation",
+      "addressText": "Université Fédérale du Pará — Campus Guamá<br>Av. Augusto Corrêa, 1 — Annexe LEEC, Bureau 31<br>Code Postal 66075-110, Belém — Pará — Brésil",
+      "emailTitle": "E-mail de Contact",
+      "phoneTitle": "Téléphone Institutionnel"
+    },
+    "footer": {
+      "desc": "Laboratoire de Traitement du Signal de l'Université Fédérale du Pará. Recherche académique, innovation technologique et formation de talents d'excellence.",
+      "quickLinks": "Navigation Rapide",
+      "researchLinks": "Domaines d'Expertise",
+      "copyright": "Tous droits réservés.",
+      "developedBy": "Conçu avec une rigueur technique exemplaire par le LaPS/UFPA."
+    }
+  }
+}

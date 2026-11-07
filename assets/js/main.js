@@ -1,13 +1,198 @@
 /**
- * Template Name: Techie - v2.1.0
- * Template URL: https://bootstrapmade.com/techie-free-skin-bootstrap-3/
- * Author: BootstrapMade.com
- * License: https://bootstrapmade.com/license/
+ * LaPS — Main Application Controller (v2.0)
+ * - Sistema Nativo de Internacionalização (i18n em 4 Idiomas: PT, EN, DE, FR)
+ * - Alternador de Tema Escuro / Claro (Dark & Light Mode)
+ * - Controles de Acessibilidade WCAG AAA (Escala de Fonte e Alto Contraste)
+ * - Navegação Fluida e Drawer Mobile Acessível
  */
+
 !(function ($) {
   'use strict';
 
-  // Preloader
+  /* ==============================================================
+     1. SISTEMA NATIVO DE INTERNACIONALIZAÇÃO (i18n)
+     ============================================================== */
+  let langDict = null;
+
+  async function loadTranslations() {
+    try {
+      const res = await fetch('assets/js/lang.json');
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      langDict = await res.json();
+    } catch (err) {
+      console.warn('[LaPS] Não foi possível carregar lang.json:', err);
+    }
+  }
+
+  function getTranslationString(dict, lang, path) {
+    if (!dict || !dict[lang]) return null;
+    const parts = path.split('.');
+    let cur = dict[lang];
+    for (const p of parts) {
+      if (cur && typeof cur === 'object' && p in cur) {
+        cur = cur[p];
+      } else {
+        return null;
+      }
+    }
+    return typeof cur === 'string' ? cur : null;
+  }
+
+  function applyLanguage(lang) {
+    if (!['pt', 'en', 'de', 'fr'].includes(lang)) {
+      lang = 'pt';
+    }
+
+    document.documentElement.lang = lang;
+    localStorage.setItem('laps-language', lang);
+
+    // Atualizar botões de idioma
+    document.querySelectorAll('[data-lang-btn]').forEach((btn) => {
+      const btnLang = btn.getAttribute('data-lang-btn');
+      const isActive = btnLang === lang;
+      btn.classList.toggle('active', isActive);
+      btn.setAttribute('aria-pressed', String(isActive));
+    });
+
+    if (!langDict) return;
+
+    // Traduzir elementos estáticos [data-translate]
+    document.querySelectorAll('[data-translate]').forEach((el) => {
+      const key = el.getAttribute('data-translate');
+      const text = getTranslationString(langDict, lang, key);
+      if (text !== null) {
+        if (text.includes('<') && text.includes('>')) {
+          // Apenas tags seguras de formatação (br, strong)
+          el.innerHTML = text;
+        } else {
+          el.textContent = text;
+        }
+      }
+    });
+
+    // Traduzir placeholders [data-translate-placeholder]
+    document.querySelectorAll('[data-translate-placeholder]').forEach((el) => {
+      const key = el.getAttribute('data-translate-placeholder');
+      const text = getTranslationString(langDict, lang, key);
+      if (text !== null) {
+        el.setAttribute('placeholder', text);
+      }
+    });
+
+    // Traduzir aria-labels [data-translate-aria-label]
+    document.querySelectorAll('[data-translate-aria-label]').forEach((el) => {
+      const key = el.getAttribute('data-translate-aria-label');
+      const text = getTranslationString(langDict, lang, key);
+      if (text !== null) {
+        el.setAttribute('aria-label', text);
+      }
+    });
+
+    // Disparar evento para que data-loader.js e signal-hero.js se atualizem
+    window.dispatchEvent(new CustomEvent('laps:languageChanged', { detail: { lang } }));
+  }
+
+  function initLanguageSystem() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const langParam = urlParams.get('lang');
+    const savedLang = localStorage.getItem('laps-language');
+    const initialLang = langParam || savedLang || 'pt';
+
+    document.querySelectorAll('[data-lang-btn]').forEach((btn) => {
+      btn.addEventListener('click', function () {
+        const selected = this.getAttribute('data-lang-btn');
+        applyLanguage(selected);
+      });
+    });
+
+    loadTranslations().then(() => {
+      applyLanguage(initialLang);
+    });
+  }
+
+  /* ==============================================================
+     2. ALTERNADOR DE TEMA (DARK / LIGHT MODE)
+     ============================================================== */
+  function initThemeToggle() {
+    const themeBtn = document.getElementById('theme-toggle-btn');
+    const root = document.documentElement;
+
+    function setTheme(theme) {
+      root.setAttribute('data-theme', theme);
+      localStorage.setItem('laps-theme', theme);
+
+      if (themeBtn) {
+        const icon = themeBtn.querySelector('i');
+        if (icon) {
+          icon.className = theme === 'dark' ? 'bx bx-sun' : 'bx bx-moon';
+        }
+        themeBtn.setAttribute('aria-label', theme === 'dark' ? 'Mudar para modo claro' : 'Mudar para modo escuro');
+      }
+    }
+
+    const savedTheme = localStorage.getItem('laps-theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const initialTheme = savedTheme || (prefersDark ? 'dark' : 'light');
+
+    setTheme(initialTheme);
+
+    if (themeBtn) {
+      themeBtn.addEventListener('click', () => {
+        const current = root.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+        const next = current === 'dark' ? 'light' : 'dark';
+        setTheme(next);
+      });
+    }
+
+    // Ouvir preferência do sistema operacional
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+      if (!localStorage.getItem('laps-theme')) {
+        setTheme(e.matches ? 'dark' : 'light');
+      }
+    });
+  }
+
+  /* ==============================================================
+     3. CONTROLES DE ACESSIBILIDADE WCAG AAA (FONTE E CONTRASTE)
+     ============================================================== */
+  function initA11yControls() {
+    const root = document.documentElement;
+    const fontPlusBtn = document.getElementById('a11y-font-plus');
+    const fontMinusBtn = document.getElementById('a11y-font-minus');
+    const contrastBtn = document.getElementById('a11y-contrast-btn');
+
+    let fontScale = parseFloat(localStorage.getItem('laps-font-scale') || '1.0');
+
+    function applyFontScale(scale) {
+      fontScale = Math.max(0.9, Math.min(1.25, scale));
+      root.style.setProperty('--laps-font-scale', fontScale.toFixed(2));
+      localStorage.setItem('laps-font-scale', fontScale.toFixed(2));
+    }
+
+    if (fontPlusBtn) {
+      fontPlusBtn.addEventListener('click', () => applyFontScale(fontScale + 0.08));
+    }
+    if (fontMinusBtn) {
+      fontMinusBtn.addEventListener('click', () => applyFontScale(fontScale - 0.08));
+    }
+
+    if (contrastBtn) {
+      const savedContrast = localStorage.getItem('laps-high-contrast') === 'true';
+      if (savedContrast) root.setAttribute('data-high-contrast', 'true');
+
+      contrastBtn.addEventListener('click', () => {
+        const isHigh = root.getAttribute('data-high-contrast') === 'true';
+        root.setAttribute('data-high-contrast', String(!isHigh));
+        localStorage.setItem('laps-high-contrast', String(!isHigh));
+      });
+    }
+
+    applyFontScale(fontScale);
+  }
+
+  /* ==============================================================
+     4. PRELOADER & NAVEGAÇÃO SUAVE
+     ============================================================== */
   $(window).on('load', function () {
     if ($('#preloader').length) {
       $('#preloader')
@@ -18,234 +203,114 @@
     }
   });
 
-  // Smooth scroll for the navigation menu and links with .scrollto classes
-  var scrolltoOffset = $('#header').outerHeight() - 16;
-  if (window.matchMedia('(max-width: 991px)').matches) {
-    scrolltoOffset += 16;
-  }
-  $(document).on(
-    'click',
-    '.nav-menu a, .mobile-nav a, .scrollto',
-    function (e) {
-      if (
-        location.pathname.replace(/^\//, '') ==
-          this.pathname.replace(/^\//, '') &&
-        location.hostname == this.hostname
-      ) {
+  // Scroll suave com compensação dinâmica do header
+  $(document).on('click', '.nav-menu a, .mobile-nav a, .scrollto', function (e) {
+    if (
+      location.pathname.replace(/^\//, '') === this.pathname.replace(/^\//, '') &&
+      location.hostname === this.hostname
+    ) {
+      var target = $(this.hash);
+      if (target.length) {
         e.preventDefault();
-        var target = $(this.hash);
-        if (target.length) {
-          var scrollto = target.offset().top - scrolltoOffset;
+        var headerHeight = $('#header').outerHeight() || 70;
+        var scrollto = target.offset().top - headerHeight + 2;
 
-          if ($(this).attr('href') == '#header') {
-            scrollto = 0;
-          }
-
-          $('html, body').animate(
-            {
-              scrollTop: scrollto,
-            },
-            1500,
-            'easeInOutExpo'
-          );
-
-          if ($(this).parents('.nav-menu, .mobile-nav').length) {
-            $('.nav-menu .active, .mobile-nav .active').removeClass('active');
-            $(this).closest('li').addClass('active');
-          }
-
-          if ($('body').hasClass('mobile-nav-active')) {
-            $('body').removeClass('mobile-nav-active');
-            $('.mobile-nav-toggle i').toggleClass(
-              'icofont-navigation-menu icofont-close'
-            );
-            $('.mobile-nav-overly').fadeOut();
-          }
-          return false;
+        if ($(this).attr('href') === '#header' || $(this).attr('href') === '#hero') {
+          scrollto = 0;
         }
-      }
-    }
-  );
 
-  // Activate smooth scroll on page load with hash links in the url
-  $(document).ready(function () {
-    if (window.location.hash) {
-      var initial_nav = window.location.hash;
-      if ($(initial_nav).length) {
-        var scrollto = $(initial_nav).offset().top - scrolltoOffset;
-        $('html, body').animate(
-          {
-            scrollTop: scrollto,
-          },
-          1500,
-          'easeInOutExpo'
-        );
+        $('html, body').animate({ scrollTop: scrollto }, 900, 'easeInOutExpo');
+
+        if ($(this).parents('.nav-menu, .mobile-nav').length) {
+          $('.nav-menu .active, .mobile-nav .active').removeClass('active');
+          $(this).closest('li').addClass('active');
+        }
+
+        if ($('body').hasClass('mobile-nav-active')) {
+          $('body').removeClass('mobile-nav-active');
+          $('.mobile-nav-toggle i').toggleClass('bx-menu bx-x');
+          $('.mobile-nav-overly').fadeOut();
+        }
+        return false;
       }
     }
   });
 
-  // Mobile Navigation
+  /* ==============================================================
+     5. DRAWER MOBILE ACESSÍVEL
+     ============================================================== */
   if ($('.nav-menu').length) {
     var $mobile_nav = $('.nav-menu').clone().prop({
       class: 'mobile-nav d-lg-none',
+      id: 'mobile-nav'
     });
     $('body').append($mobile_nav);
     $('body').prepend(
-      '<button type="button" class="mobile-nav-toggle d-lg-none"><i class="icofont-navigation-menu"></i></button>'
+      '<button type="button" class="mobile-nav-toggle d-lg-none" aria-label="Abrir menu de navegação" aria-expanded="false"><i class="bx bx-menu"></i></button>'
     );
     $('body').append('<div class="mobile-nav-overly"></div>');
 
-    $(document).on('click', '.mobile-nav-toggle', function (e) {
-      $('body').toggleClass('mobile-nav-active');
-      $('.mobile-nav-toggle i').toggleClass(
-        'icofont-navigation-menu icofont-close'
-      );
+    $(document).on('click', '.mobile-nav-toggle', function () {
+      var isActive = $('body').toggleClass('mobile-nav-active').hasClass('mobile-nav-active');
+      $(this).attr('aria-expanded', String(isActive));
+      $('.mobile-nav-toggle i').toggleClass('bx-menu bx-x');
       $('.mobile-nav-overly').toggle();
     });
 
-    $(document).on('click', '.mobile-nav .drop-down > a', function (e) {
-      e.preventDefault();
-      $(this).next().slideToggle(300);
-      $(this).parent().toggleClass('active');
-    });
-
-    $(document).click(function (e) {
-      var container = $('.mobile-nav, .mobile-nav-toggle');
-      if (!container.is(e.target) && container.has(e.target).length === 0) {
-        if ($('body').hasClass('mobile-nav-active')) {
-          $('body').removeClass('mobile-nav-active');
-          $('.mobile-nav-toggle i').toggleClass(
-            'icofont-navigation-menu icofont-close'
-          );
-          $('.mobile-nav-overly').fadeOut();
-        }
+    $(document).on('click', '.mobile-nav-overly', function () {
+      if ($('body').hasClass('mobile-nav-active')) {
+        $('body').removeClass('mobile-nav-active');
+        $('.mobile-nav-toggle').attr('aria-expanded', 'false');
+        $('.mobile-nav-toggle i').removeClass('bx-x').addClass('bx-menu');
+        $('.mobile-nav-overly').fadeOut();
       }
     });
-  } else if ($('.mobile-nav, .mobile-nav-toggle').length) {
-    $('.mobile-nav, .mobile-nav-toggle').hide();
+
+    $(document).on('keydown', function (e) {
+      if (e.key === 'Escape' && $('body').hasClass('mobile-nav-active')) {
+        $('body').removeClass('mobile-nav-active');
+        $('.mobile-nav-toggle').attr('aria-expanded', 'false');
+        $('.mobile-nav-toggle i').removeClass('bx-x').addClass('bx-menu');
+        $('.mobile-nav-overly').fadeOut();
+      }
+    });
   }
 
-  // Navigation active state on scroll
-  var nav_sections = $('section');
-  var main_nav = $('.nav-menu, #mobile-nav');
-
-  $(window).on('scroll', function () {
-    var cur_pos = $(this).scrollTop() + 200;
-
-    nav_sections.each(function () {
-      var top = $(this).offset().top,
-        bottom = top + $(this).outerHeight();
-
-      if (cur_pos >= top && cur_pos <= bottom) {
-        if (cur_pos <= bottom) {
-          main_nav.find('li').removeClass('active');
-        }
-        main_nav
-          .find('a[href="#' + $(this).attr('id') + '"]')
-          .parent('li')
-          .addClass('active');
-      }
-      if (cur_pos < 300) {
-        $('.nav-menu ul:first li:first').addClass('active');
-      }
-    });
-  });
-
-  // Toggle .header-scrolled class to #header when page is scrolled
+  // Header scrolled state
   $(window).scroll(function () {
-    if ($(this).scrollTop() > 100) {
+    if ($(this).scrollTop() > 80) {
       $('#header').addClass('header-scrolled');
-    } else {
-      $('#header').removeClass('header-scrolled');
-    }
-  });
-
-  if ($(window).scrollTop() > 100) {
-    $('#header').addClass('header-scrolled');
-  }
-
-  // Back to top button
-  $(window).scroll(function () {
-    if ($(this).scrollTop() > 100) {
       $('.back-to-top').fadeIn('slow');
     } else {
+      $('#header').removeClass('header-scrolled');
       $('.back-to-top').fadeOut('slow');
     }
   });
 
   $('.back-to-top').click(function () {
-    $('html, body').animate(
-      {
-        scrollTop: 0,
-      },
-      1500,
-      'easeInOutExpo'
-    );
+    $('html, body').animate({ scrollTop: 0 }, 800, 'easeInOutExpo');
     return false;
   });
 
-  // jQuery counterUp
-  $('[data-toggle="counter-up"]').counterUp({
-    delay: 10,
-    time: 1000,
-  });
-
-  // Testimonials carousel (uses the Owl Carousel library)
-  $('.testimonials-carousel').owlCarousel({
-    autoplay: true,
-    dots: true,
-    loop: true,
-    responsive: {
-      0: {
-        items: 1,
-      },
-      768: {
-        items: 2,
-      },
-      900: {
-        items: 3,
-      },
-    },
-  });
-
-  // Porfolio isotope and filter
-  $(window).on('load', function () {
-    var portfolioIsotope = $('.portfolio-container').isotope({
-      itemSelector: '.portfolio-item',
-    });
-
-    $('#portfolio-flters li').on('click', function () {
-      $('#portfolio-flters li').removeClass('filter-active');
-      $(this).addClass('filter-active');
-
-      portfolioIsotope.isotope({
-        filter: $(this).data('filter'),
-      });
-      aos_init();
-    });
-
-    // Initiate venobox (lightbox feature used in portofilo)
-    $(document).ready(function () {
-      $('.venobox').venobox();
-    });
-  });
-
-  // Portfolio details carousel
-  $('.portfolio-details-carousel').owlCarousel({
-    autoplay: true,
-    dots: true,
-    loop: true,
-    items: 1,
-  });
-
-  // Init AOS
+  // Inicialização de bibliotecas visuais
   function aos_init() {
-    AOS.init({
-      duration: 1000,
-      once: true,
-    });
+    if (typeof AOS !== 'undefined') {
+      AOS.init({
+        duration: 800,
+        once: true
+      });
+    }
   }
+
   $(window).on('load', function () {
     aos_init();
   });
+
+  // Inicializar sistemas no DOM Ready
+  $(document).ready(function () {
+    initLanguageSystem();
+    initThemeToggle();
+    initA11yControls();
+  });
+
 })(jQuery);

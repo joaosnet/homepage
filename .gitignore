@@ -9,6 +9,7 @@ logs/
 .deploy.lock
 .ftp_sync_cache.json
 tmp_record/
+screenshots/
 
 # Python
 __pycache__/
