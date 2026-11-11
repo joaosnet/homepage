@@ -18,7 +18,7 @@ Publicado oficialmente em [laps.ufpa.br](https://laps.ufpa.br/).
 
 ---
 
-## 🎬 Demonstração da Plataforma (v3.0 Padrão LASSE)
+## 🎬 Demonstração da Plataforma
 
 ![Demonstração interativa do site do LaPS](assets/img/demo.gif)
 
